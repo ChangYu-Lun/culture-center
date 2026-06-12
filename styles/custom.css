@@ -1,0 +1,655 @@
+/* =============================================================================
+ * custom.css — 母元件庫客製化樣式層
+ * -----------------------------------------------------------------------------
+ * 此檔以「純 CSS」方式載入（各頁面直接 <link>），不經 Tailwind 編譯。
+ * 放置「元件結構層」的客製化覆蓋 —— 即跨專案共用、不屬於 Token 的調整。
+ *
+ * 第一階段（架構期）：僅放展示頁（Playground）所需的最小樣式，
+ * 元件本身的客製化細節待架構完成後再逐一補上。
+ *
+ * 已標註客製化的元件：button / badge / checkbox / radio
+ * （實際客製規則待第二階段填入下方對應區塊）
+ * ========================================================================== */
+
+/* -----------------------------------------------------------------------------
+ * 展示頁（Playground）共用樣式
+ * -------------------------------------------------------------------------- */
+
+/* 代碼區塊 —— 等寬、可捲動、保留排版 */
+.pg-code {
+  white-space: pre;
+  overflow-x: auto;
+  tab-size: 2;
+}
+
+/* 預覽區棋盤格背景，方便辨識透明與留白 */
+.pg-preview-grid {
+  background-color: var(--color-base-100);
+  background-image:
+    linear-gradient(45deg, color-mix(in oklch, var(--color-base-content) 4%, transparent) 25%, transparent 25%),
+    linear-gradient(-45deg, color-mix(in oklch, var(--color-base-content) 4%, transparent) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, color-mix(in oklch, var(--color-base-content) 4%, transparent) 75%),
+    linear-gradient(-45deg, transparent 75%, color-mix(in oklch, var(--color-base-content) 4%, transparent) 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+/* -----------------------------------------------------------------------------
+ * 元件客製化覆蓋（第二階段填入）
+ * -------------------------------------------------------------------------- */
+
+/* --- button（Customized）-------------------------------------------------
+ * 依 Button Variant Spec 客製 5 個變體：Soft / Outline / Dashed / Ghost / Link。
+ *
+ * 設計重點：
+ *   - 文字與 icon 前景色改用語意色的 -alt token（--color-primary-alt …）。
+ *   - 底色「原色 8%」用 daisyUI 既有的 --btn-bg；base-content 疊加層用
+ *     background-image 漸層當作上層（真正的 source-over 疊色，讓底下 surface 透出）。
+ *   - Hover  = 原色 8% ＋ base-content 6%
+ *     Active = 原色 8% ＋ base-content 16%（border 一律同 Normal）
+ *   - 本檔未包進 @layer，優先序高於 daisyUI 的 @layer utilities，故無需 !important；
+ *     但也因此需自行處理 hover / active / disabled 各狀態。
+ *
+ * 術語：
+ *   原色 = var(--btn-color)（由 .btn-primary 等色彩 class 指定的語意色）
+ *   alt  = var(--btn-alt)（下方對應表新增的 -alt token）
+ * ------------------------------------------------------------------------- */
+
+/* 1) 各語意色 → 對應 -alt token（僅新增 --btn-alt，不更動 daisyUI 既有變數） */
+.btn-primary   { --btn-alt: var(--color-primary-alt); }
+.btn-secondary { --btn-alt: var(--color-secondary-alt); }
+.btn-accent    { --btn-alt: var(--color-accent-alt); }
+.btn-neutral   { --btn-alt: var(--color-neutral-alt); }
+.btn-info      { --btn-alt: var(--color-info-alt); }
+.btn-success   { --btn-alt: var(--color-success-alt); }
+.btn-warning   { --btn-alt: var(--color-warning-alt); }
+.btn-error     { --btn-alt: var(--color-error-alt); }
+
+/* 2) 通用規則：icon 跟隨同層 label 的 color（currentColor）、透明度 70%；
+ *    disabled 不另外變化（仍維持 70%）。此規則適用所有 button。 */
+.btn :where(svg) { opacity: 0.7; }
+
+/* 「原色 8%」tint（給 --btn-bg 用） */
+:is(.btn-soft, .btn-outline, .btn-dash, .btn-ghost, .btn-link) {
+  --cbtn-tint: color-mix(in oklab, var(--btn-color, var(--color-base-content)) 8%, transparent);
+}
+
+/* 共用：5 變體的前景色（-alt）＋ base-content 疊加層基礎（disabled 除外） */
+:is(.btn-soft, .btn-outline, .btn-dash, .btn-ghost, .btn-link):not(:disabled, [disabled], .btn-disabled) {
+  --btn-fg: var(--btn-alt, var(--btn-color, var(--color-base-content)));
+  --cbtn-overlay: transparent; /* base-content 疊加層，預設無 */
+  background-image: linear-gradient(var(--cbtn-overlay) 0 100%);
+}
+
+/* 3a) 各變體邊框 —— 套用於「所有狀態」（含 disabled）。
+ *     原本有邊線的變體（Soft / Outline / Dashed）在 disabled 時仍保留邊框；
+ *     Ghost / Link 本來無框，維持無框。
+ *     ※ 不加 :not(:disabled) 守衛，才能蓋掉 daisyUI disabled 的 --btn-border:transparent。 */
+/* Soft：邊框 base-content 10% */
+.btn-soft {
+  --btn-border: color-mix(in oklab, var(--color-base-content) 10%, transparent);
+}
+/* Outline：實線邊框 base-content 20% */
+.btn-outline {
+  --btn-border: color-mix(in oklab, var(--color-base-content) 20%, transparent);
+  border-style: solid;
+}
+/* Dashed：虛線邊框 base-content 20% */
+.btn-dash {
+  --btn-border: color-mix(in oklab, var(--color-base-content) 20%, transparent);
+  border-style: dashed;
+}
+
+/* 3b) 各變體 Normal 底色 —— 僅「非 disabled」套用（disabled 底色見第 6 段）。 */
+/* Soft：底色 原色 8% */
+.btn-soft:not(:disabled, [disabled], .btn-disabled) {
+  --btn-bg: var(--cbtn-tint);
+}
+/* Outline / Dashed：無底色 */
+:is(.btn-outline, .btn-dash):not(:disabled, [disabled], .btn-disabled) {
+  --btn-bg: transparent;
+}
+/* Ghost / Link：無底、無框 */
+:is(.btn-ghost, .btn-link):not(:disabled, [disabled], .btn-disabled) {
+  --btn-bg: transparent;
+  --btn-border: transparent;
+}
+
+/* 4) Hover / Focus：原色 8% ＋ base-content 6% */
+:is(.btn-soft, .btn-outline, .btn-dash, .btn-ghost, .btn-link):is(:hover, :focus-visible):not(:active, .btn-active, :disabled, [disabled], .btn-disabled) {
+  --btn-bg: var(--cbtn-tint);
+  --cbtn-overlay: color-mix(in oklab, var(--color-base-content) 6%, transparent);
+}
+
+/* 5) Active（含展示頁的 .btn-active）：原色 8% ＋ base-content 16% */
+:is(.btn-soft, .btn-outline, .btn-dash, .btn-ghost, .btn-link):is(:active, .btn-active):not(:disabled, [disabled], .btn-disabled) {
+  --btn-bg: var(--cbtn-tint);
+  --cbtn-overlay: color-mix(in oklab, var(--color-base-content) 16%, transparent);
+}
+
+/* 6) Disabled：文字色沿用 daisyUI 的 --btn-fg；移除疊加層；
+ *    outline / dash 不保留底色（覆蓋 daisyUI 預設的 base-content 10%）。
+ *    soft 則沿用 daisyUI 預設 disabled 底色（base-content 10%）。
+ *    ※ 邊框於第 3a 段已對所有狀態套用，故 disabled 仍保有原本的邊線。 */
+:is(.btn-soft, .btn-outline, .btn-dash, .btn-ghost, .btn-link):is(:disabled, [disabled], .btn-disabled) {
+  background-image: none;
+}
+:is(.btn-outline, .btn-dash):is(:disabled, [disabled], .btn-disabled) {
+  background-color: transparent;
+}
+
+/* --- badge（Customized）--------------------------------------------------
+ * 依 Badge Spec 客製：
+ *   - Soft / Outline / Dashed 三個變體的「label 文字色」統一改用語意色的
+ *     -alt token（--color-*-alt）。其餘（底色、Soft 邊框）沿用 daisyUI 預設。
+ *   - Icon 顏色跟隨 label 的 color（currentColor），不透明度統一 60%。
+ *
+ * 說明：daisyUI 的 badge-outline / badge-dash 邊框預設用 `currentColor`，
+ *       會跟著文字一起變色。本庫刻意把邊框釘回 `--badge-color`（原語意色），
+ *       讓「邊框維持較亮的語意色、只有文字變 -alt」。Soft 的邊框是對
+ *       --badge-color 取色，本就維持原語意色。本檔未包進 @layer，優先序高於 daisyUI。
+ * ------------------------------------------------------------------------- */
+
+/* 1) 各語意色 → 對應 -alt token（僅新增 --badge-alt，不動 daisyUI 既有變數） */
+.badge-primary   { --badge-alt: var(--color-primary-alt); }
+.badge-secondary { --badge-alt: var(--color-secondary-alt); }
+.badge-accent    { --badge-alt: var(--color-accent-alt); }
+.badge-neutral   { --badge-alt: var(--color-neutral-alt); }
+.badge-info      { --badge-alt: var(--color-info-alt); }
+.badge-success   { --badge-alt: var(--color-success-alt); }
+.badge-warning   { --badge-alt: var(--color-warning-alt); }
+.badge-error     { --badge-alt: var(--color-error-alt); }
+
+/* 2) Soft / Outline / Dashed：label 文字色統一改用 -alt */
+:is(.badge-soft, .badge-outline, .badge-dash) {
+  color: var(--badge-alt, var(--badge-color, var(--color-base-content)));
+}
+
+/* 2b) Outline / Dashed：邊框釘回原語意色（覆蓋 daisyUI 的 currentColor），
+ *     使邊框維持較亮的語意色，只有文字變 -alt。 */
+:is(.badge-outline, .badge-dash) {
+  border-color: var(--badge-color, var(--color-base-content));
+}
+
+/* 3) Icon 跟隨 label 色（currentColor），不透明度統一 60% */
+.badge :where(svg) { opacity: 0.6; }
+
+/* --- alert（Customized）--------------------------------------------------
+ * 依規格客製：Solid（實心）以外的樣式（Soft / Outline / Dash）文字色改用
+ * 語意色的 -alt token（--color-*-alt）。Solid 維持 daisyUI 預設（語意色實心
+ * 底 + *-content 文字）。
+ *
+ * 說明：daisyUI 的 alert-soft / outline / dash 文字色預設為 --alert-color（原
+ *       語意色）；本庫改用 -alt（放在 base surface 上的前景色）。另調整：
+ *       - Soft：底色原色占比 8%→15%、邊框 10%→30%（皆與 base-100 混色）。
+ *       - Outline / Dash：邊線改為 50% 原語意色（其餘透明，與背景無關），
+ *         取代 daisyUI 預設的 100% 實色邊框。
+ *       本檔未包進 @layer，優先序高於 daisyUI；以上皆藉覆寫 --alert-border-color
+ *       與 background-color 達成（.alert 的 border-color 會讀取該變數）。
+ * ------------------------------------------------------------------------- */
+
+/* 1) 各語意色 → 對應 -alt token（僅新增 --alert-alt，不動 daisyUI 既有變數） */
+.alert-info    { --alert-alt: var(--color-info-alt); }
+.alert-success { --alert-alt: var(--color-success-alt); }
+.alert-warning { --alert-alt: var(--color-warning-alt); }
+.alert-error   { --alert-alt: var(--color-error-alt); }
+
+/* 2) Soft / Outline / Dash：文字色統一改用 -alt（Solid 不受影響） */
+:is(.alert-soft, .alert-outline, .alert-dash) {
+  color: var(--alert-alt, var(--alert-color, var(--color-base-content)));
+}
+
+/* 3) Soft：提高原語意色占比——底色 15%、邊框 30%（與 base-100 混色） */
+.alert-soft {
+  background-color: color-mix(in oklab, var(--alert-color, var(--color-base-content)) 15%, var(--color-base-100));
+  --alert-border-color: color-mix(in oklab, var(--alert-color, var(--color-base-content)) 30%, var(--color-base-100));
+}
+
+/* 4) Outline / Dash：邊線改為 50% 原語意色（其餘透明） */
+:is(.alert-outline, .alert-dash) {
+  --alert-border-color: color-mix(in oklab, var(--alert-color, var(--color-base-content)) 50%, transparent);
+}
+
+/* --- checkbox（Customized）-----------------------------------------------
+ * Calm / Vibrant 外框策略：
+ *   - Calm（母庫預設）：未勾選時外框一律 base-content 20%（中性灰），
+ *     即使有顏色 class（checkbox-primary…）也一樣。
+ *   - Vibrant（opt-in）：在 checkbox 加上 .checkbox-vibrant，未勾選外框
+ *     回到 daisyUI 預設的「原語意色」外框。
+ *
+ * 範圍：Calm 只影響「未勾選」外框；checked / indeterminate 維持原語意色填滿
+ *       （沿用 daisyUI，--input-color 不動）。
+ *
+ * 原理：daisyUI 的 .checkbox 外框是 solid var(--input-color, base-content 20%)。
+ *       有顏色 class 時 --input-color 被設為語意色 → 外框變色。此處在「未勾選且
+ *       非 vibrant」時把 border-color 蓋成 base-content 20%。本檔未包進 @layer，
+ *       優先序高於 daisyUI。
+ * ------------------------------------------------------------------------- */
+.checkbox:not(:checked):not(:indeterminate):not(.checkbox-vibrant) {
+  border-color: color-mix(in oklab, var(--color-base-content) 20%, transparent);
+}
+
+/* --- radio（Customized）--------------------------------------------------
+ * 與 checkbox 相同的 Calm / Vibrant 外框策略：
+ *   - Calm（母庫預設）：未選取時外框一律 base-content 20%（中性灰），
+ *     即使有顏色 class（radio-primary…）也一樣。
+ *   - Vibrant（opt-in）：在 radio 加上 .radio-vibrant，未選取外框回到
+ *     daisyUI 預設的「原語意色」外框。
+ *
+ * 範圍：只影響「未選取」外框；選取後維持原語意色（沿用 daisyUI，--input-color 不動）。
+ *       radio 無 indeterminate，故不需排除該狀態。本檔未包進 @layer，優先序高於 daisyUI。
+ * ------------------------------------------------------------------------- */
+.radio:not(:checked):not(.radio-vibrant) {
+  border-color: color-mix(in oklab, var(--color-base-content) 20%, transparent);
+}
+
+/* --- menu（Customized）---------------------------------------------------
+ * 選項按鈕分 Subtle（預設）/ Loud 兩種樣式，並有 Base / Brand 兩種配色。
+ * 只有「active 項目」隨樣式×配色變化；其餘（rest）一律：無底色、文字 base-content。
+ * icon 一律為「該項目文字色的 50%」→ 用 opacity:50% 即可（icon 走 currentColor）。
+ *
+ * 作法：daisyUI 的 .menu 已用 --menu-active-bg / --menu-active-fg 控制 active 項目的
+ *       底色與文字色，這裡只覆蓋這兩個變數即可（不必逐一寫 active selector）。
+ *       本檔未包進 @layer，優先序高於 daisyUI。
+ *
+ *   變體 class（加在 <ul class="menu …"> 上）：
+ *     預設       = Subtle Base
+ *     .menu-brand = 改為 Brand 配色（primary）
+ *     .menu-loud  = 改為 Loud 樣式
+ * ------------------------------------------------------------------------- */
+/* Subtle Base（母庫預設）：active = base-content 20% 底 + base-content 文字 */
+.menu {
+  --menu-active-bg: color-mix(in oklab, var(--color-base-content) 20%, transparent);
+  --menu-active-fg: var(--color-base-content);
+}
+/* Subtle Brand：active = primary 20% 底 + primary-alt 文字 */
+.menu-brand {
+  --menu-active-bg: color-mix(in oklab, var(--color-primary) 20%, transparent);
+  --menu-active-fg: var(--color-primary-alt);
+}
+/* Loud Base：active = base-content 實底 + base-100 文字 */
+.menu-loud {
+  --menu-active-bg: var(--color-base-content);
+  --menu-active-fg: var(--color-base-100);
+}
+/* Loud Brand：active = primary 實底 + primary-content 文字 */
+.menu-loud.menu-brand {
+  --menu-active-bg: var(--color-primary);
+  --menu-active-fg: var(--color-primary-content);
+}
+
+/* active 項目維持扁平（移除 daisyUI 預設的提升陰影）*/
+.menu :where(li) > :is(.menu-active, :active) { box-shadow: none; }
+
+/* icon 一律為文字色的 50%（rest 與 active 皆然）*/
+.menu :where(svg) { opacity: 0.5; }
+
+/* --- tile（New・母庫原創）------------------------------------------------
+ * DaisyUI 無此元件。Tile = 卡片外觀的「單一互動表面」：整塊作為一個
+ * 動作 / 導覽 / 選取目標（設計參考 Uber Base Tile）。
+ *
+ *   語意根元素（擇一，皆套 .tile）：
+ *     <button class="tile">           動作觸發
+ *     <a class="tile" href>           導覽
+ *     <label class="tile"><input type="radio|checkbox">…</label>  選取（單/多選）
+ *
+ *   結構（鏡像 card）：
+ *     .tile > figure（可選媒體）
+ *           > .tile-body > .tile-head（.tile-title + .tile-trailing）+ <p>
+ *
+ *   區隔變體：.tile-border（邊線）/ .tile-shadow（陰影），可併用。
+ *   尺寸：.tile-xs … .tile-xl（控 --tile-p / --tiletitle-fs，比照 card 級距）。
+ *   排列：.tile-side（水平）。
+ *   選取/強調色：.tile-{primary…error} → 設 --tile-color / --tile-alt。
+ *
+ * 說明：本檔未包進 @layer，優先序高於 daisyUI，故各狀態需自行處理。
+ *       selected 用 inset box-shadow 做選取環（避免邊框變粗造成 reflow）。
+ * ------------------------------------------------------------------------- */
+
+/* 1) 各語意色 → token（選取環/強調色用原語意色；文字用 -alt） */
+.tile-primary   { --tile-color: var(--color-primary);   --tile-alt: var(--color-primary-alt); }
+.tile-secondary { --tile-color: var(--color-secondary); --tile-alt: var(--color-secondary-alt); }
+.tile-accent    { --tile-color: var(--color-accent);    --tile-alt: var(--color-accent-alt); }
+.tile-neutral   { --tile-color: var(--color-neutral);   --tile-alt: var(--color-neutral-alt); }
+.tile-info      { --tile-color: var(--color-info);      --tile-alt: var(--color-info-alt); }
+.tile-success   { --tile-color: var(--color-success);   --tile-alt: var(--color-success-alt); }
+.tile-warning   { --tile-color: var(--color-warning);   --tile-alt: var(--color-warning-alt); }
+.tile-error     { --tile-color: var(--color-error);     --tile-alt: var(--color-error-alt); }
+
+/* 2) base 結構：卡片外觀的互動表面（button / a / label 共用） */
+.tile {
+  --tile-p: 1.5rem;          /* body padding（md，預設） */
+  --tiletitle-fs: 1.125rem;  /* 標題字級 */
+  /* box-shadow 拆成兩個獨立變數，使「選取環」與「陰影」可並存、互不覆蓋：
+   * hover/active 只改 elevation、selected 只改 ring，故 hover/active 不會拿掉選取環。 */
+  --tile-ring: 0 0 #0000;        /* 預設無選取環 */
+  --tile-elevation: 0 0 #0000;   /* 預設無陰影 */
+  --tile-bg: var(--color-base-100);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 18rem;              /* 預設寬度；可被 demo 的 w-* 覆蓋 */
+  border-radius: var(--radius-box);
+  background-color: var(--tile-bg);
+  color: var(--color-base-content);
+  box-shadow: var(--tile-ring), var(--tile-elevation);
+  overflow: hidden;          /* 讓 figure 圓角吻合 */
+  text-align: start;
+  cursor: pointer;
+  /* 重置 button / a 的瀏覽器預設 */
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  margin: 0;
+  font: inherit;
+  text-decoration: none;
+  transition: box-shadow .15s ease, border-color .15s ease, background-color .15s ease;
+}
+/* 選取型（預設 Check icon 變體）：隱藏原生 input（保留鍵盤/語意），整塊 label
+ * 即點擊目標，狀態以 .tile-check 圖示表示。.tile-control 變體則改為顯示原生
+ * checkbox / radio 控制項（見下方 §5b），不套此隱藏。 */
+.tile:not(.tile-control) input:not(.toggle) { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; margin: 0; }
+
+/* 3) 區隔變體：邊線 / 陰影（可併用）。邊線為實 border，於所有狀態恆在。 */
+.tile-border { border: var(--border) solid var(--color-base-300); }
+.tile-shadow { --tile-elevation: 0 1px 2px -1px rgb(0 0 0 / .12), 0 1px 3px rgb(0 0 0 / .08); }
+
+/* 4) 狀態（守衛排除 disabled）。
+ *    hover / active 僅改背景，且採主題 surface 階（base-200 / base-300），
+ *    不偏離主題色、也不更動 border 與選取環。 */
+.tile:not([disabled], .tile-disabled):hover { --tile-bg: var(--color-base-200); }
+.tile:not([disabled], .tile-disabled):active { --tile-bg: var(--color-base-300); }
+.tile-shadow:not([disabled], .tile-disabled):hover {
+  --tile-elevation: 0 2px 4px -1px rgb(0 0 0 / .14), 0 4px 8px -2px rgb(0 0 0 / .10);
+}
+/* 鍵盤焦點環（不移除 outline；label 型焦點落在內部 input，故用 :has） */
+.tile:focus-visible,
+.tile:has(input:focus-visible) {
+  outline: 2px solid var(--tile-color, var(--color-primary));
+  outline-offset: 2px;
+}
+/* disabled：button[disabled] / .tile-disabled / 內含 input:disabled */
+.tile[disabled],
+.tile.tile-disabled,
+.tile:has(input:disabled) {
+  opacity: .5;
+  cursor: not-allowed;
+  --tile-elevation: 0 0 #0000;
+}
+
+/* 5) selected（選取型勾選後，或 .is-selected）：選取環(ring) + 淡色底。
+ *    ring 與 elevation 各自獨立，故 hover/active 不會拿掉選取環。 */
+.tile:has(input:checked),
+.tile.is-selected {
+  --tile-ring: inset 0 0 0 2px var(--tile-color, var(--color-primary));
+  --tile-bg: color-mix(in oklab, var(--tile-color, var(--color-primary)) 6%, var(--color-base-100));
+}
+/* selected 的 hover / active：以原語意色加深（維持主題色，不退回灰階） */
+.tile:has(input:checked):not([disabled], .tile-disabled):hover,
+.tile.is-selected:not([disabled], .tile-disabled):hover {
+  --tile-bg: color-mix(in oklab, var(--tile-color, var(--color-primary)) 12%, var(--color-base-100));
+}
+.tile:has(input:checked):not([disabled], .tile-disabled):active,
+.tile.is-selected:not([disabled], .tile-disabled):active {
+  --tile-bg: color-mix(in oklab, var(--tile-color, var(--color-primary)) 16%, var(--color-base-100));
+}
+.tile:has(input:checked) .tile-title,
+.tile.is-selected .tile-title {
+  color: var(--tile-alt, var(--color-base-content));
+}
+/* 選取指示圖示（Check icon 變體）：未選隱藏、選取後顯示 */
+.tile .tile-check { display: none; color: var(--tile-color, var(--color-primary)); }
+.tile:not(.tile-control):has(input:checked) .tile-check,
+.tile:not(.tile-control).is-selected .tile-check { display: inline-flex; }
+
+/* 5b) Control 變體（.tile-control）：Check/Radio 尾端改用原生控制項、隱藏 Check icon。
+ *     選取型控制項（含 Switch 的 toggle）一律 pointer-events:none，點擊改由整塊 label
+ *     觸發一次，避免雙重切換；鍵盤聚焦/切換不受影響。 */
+.tile-control .tile-check { display: none; }
+.tile-trailing :where(.checkbox, .radio, .toggle) { pointer-events: none; }
+
+/* 6) 結構件（Uber anatomy：top = leading + trailing；bottom = label + 最多 2 段） */
+.tile-body {
+  padding: var(--tile-p);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1 1 auto;
+}
+/* top：leading 與 trailing 並排；兩者皆無時收合 */
+.tile-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: .75rem;
+}
+.tile-top:empty { display: none; }
+/* leading：artwork（24/36/自訂）或 label */
+.tile-leading { flex: 0 0 auto; display: inline-flex; align-items: center; min-width: 0; }
+.tile-art {
+  display: inline-grid;
+  place-items: center;
+  border-radius: .5rem;
+  overflow: hidden;
+  color: var(--tile-color, var(--color-base-content));
+  background-color: color-mix(in oklab, var(--tile-color, var(--color-base-content)) 12%, var(--color-base-100));
+}
+.tile-art-md { width: 24px; height: 24px; }
+.tile-art-lg { width: 36px; height: 36px; }
+.tile-art > svg { width: 62%; height: 62%; }
+.tile-art > img { width: 100%; height: 100%; object-fit: cover; }
+.tile-leading-label {
+  font-size: .8125rem; font-weight: 500;
+  color: color-mix(in oklab, var(--color-base-content) 60%, transparent);
+}
+/* trailing：控制項 / chevron / badge / label / label+段落 */
+.tile-trailing { flex: 0 0 auto; display: inline-flex; align-items: center; gap: .375rem; margin-inline-start: auto; }
+.tile-trailing-stack { flex-direction: column; align-items: flex-end; gap: 0; text-align: end; }
+.tile-tlabel { font-size: .875rem; font-weight: 600; }
+.tile-arrow { opacity: .6; }
+.tile-trailing :where(svg) { width: 1.25rem; height: 1.25rem; }
+/* bottom：label + 段落 */
+.tile-bottom { display: flex; flex-direction: column; gap: .25rem; }
+.tile-title { font-weight: 600; font-size: var(--tiletitle-fs); line-height: 1.3; }
+.tile-text { font-size: .875rem; line-height: 1.45; color: color-mix(in oklab, var(--color-base-content) 70%, transparent); margin: 0; }
+
+/* 整版 cover 圖（額外選項；非 Uber anatomy，但保留卡片感） */
+.tile-cover { margin: 0; }
+.tile-cover img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* 7) 尺寸（比照 card 級距） */
+.tile-xs { --tile-p: .75rem;  --tiletitle-fs: .95rem; }
+.tile-sm { --tile-p: 1rem;    --tiletitle-fs: 1rem; }
+.tile-md { --tile-p: 1.5rem;  --tiletitle-fs: 1.125rem; }
+.tile-lg { --tile-p: 2rem;    --tiletitle-fs: 1.25rem; }
+.tile-xl { --tile-p: 2.5rem;  --tiletitle-fs: 1.375rem; }
+
+/* 8) 側向排列（cover 在側） */
+.tile-side { flex-direction: row; align-items: stretch; }
+.tile-side > .tile-cover { flex: 0 0 40%; max-width: 40%; }
+.tile-side > .tile-cover img { height: 100%; }
+
+/* 9) 減動效 */
+@media (prefers-reduced-motion: reduce) {
+  .tile { transition: none; }
+}
+
+/* =============================================================================
+ * 使用說明（Docs）tab 樣式
+ * -----------------------------------------------------------------------------
+ * 內容由 scripts/build-docs.mjs 從 daisyUI 官方文件轉出後，載入 #pg-docs。
+ * 不依賴 Tailwind typography plugin，這裡自備最小排版樣式。
+ * ========================================================================== */
+.docs { color: var(--color-base-content); }
+.docs-head { margin-bottom: 1.5rem; }
+.docs-title { font-size: 1.75rem; font-weight: 700; line-height: 1.15; }
+.docs-desc { margin-top: 0.35rem; color: color-mix(in oklab, var(--color-base-content) 70%, transparent); }
+.docs-links { margin-top: 0.6rem; font-size: 0.875rem; }
+.docs-attr { margin-top: 0.85rem; font-size: 0.8125rem; }
+
+.docs-section { margin-top: 2.5rem; }
+.docs-examples { margin-top: 1rem; }
+.docs-h2 { font-size: 1.25rem; font-weight: 700; margin: 1.75rem 0 0.75rem; }
+.docs-h3 { font-size: 1.125rem; font-weight: 600; margin: 0 0 0.5rem; }
+.docs-subtitle {
+  margin: 0 0 0.65rem; font-size: 0.8125rem;
+  color: color-mix(in oklab, var(--color-base-content) 65%, transparent);
+}
+
+/* 範例之間的說明文字（段落 / 清單 / 引用）。Tailwind preflight 會清掉
+ * 清單樣式與邊距，這裡明確補回；custom.css 不經 @layer，優先序足夠。 */
+.docs-p {
+  margin: 0.5rem 0 1rem; line-height: 1.7;
+  color: color-mix(in oklab, var(--color-base-content) 80%, transparent);
+}
+.docs-ol, .docs-ul {
+  margin: 0.5rem 0 1rem; padding-inline-start: 1.5rem; line-height: 1.7;
+  color: color-mix(in oklab, var(--color-base-content) 80%, transparent);
+}
+.docs-ol { list-style: decimal; }
+.docs-ul { list-style: disc; }
+.docs-ol > li, .docs-ul > li { margin: 0.2rem 0; padding-inline-start: 0.25rem; }
+.docs-li-desc {
+  display: block; margin-top: 0.15rem; font-size: 0.9375rem;
+  color: color-mix(in oklab, var(--color-base-content) 62%, transparent);
+}
+.docs-inline-code {
+  font-family: var(--font-mono, monospace); font-size: 0.85em;
+  padding: 0.1em 0.4em; border-radius: 0.3rem;
+  background-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
+}
+.docs-note { margin: 0.75rem 0 1.25rem; font-size: 0.875rem; }
+.docs-note p { margin: 0 0 0.5rem; line-height: 1.6; }
+.docs-note p:last-child { margin-bottom: 0; }
+
+/* 每個範例：Preview / HTML 兩個分頁 */
+.docs-demo { margin: 1.5rem 0 2.5rem; }
+/* 背景放在 .tab-content 本身（與官方 tabs-lift 範例一致），由 daisyUI 自行處理
+ * 「活動分頁與內容連接處」的圓角；內層容器保持透明，避免方角溢出蓋住圓角。 */
+.docs-demo .tab-content { background-color: var(--color-base-100); }
+
+/* 切到 HTML 分頁時，分頁底色與代碼一致（深色 neutral）*/
+.docs-demo .tab.docs-tab-code:checked {
+  --tab-bg: var(--color-neutral);
+  --tab-border-color: var(--color-neutral);
+  color: var(--color-neutral-content);
+}
+.docs-demo .docs-code-panel {
+  padding: 0;
+  border-color: var(--color-neutral);
+  background-color: var(--color-neutral);
+}
+
+/* live 預覽區 */
+.docs-preview {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 0.75rem; min-height: 6rem; padding: 1.5rem;
+  /* 背景在 .tab-content；此層保持透明 */
+}
+
+/* 代碼框（含右上角複製鈕）*/
+.docs-code { position: relative; }
+.docs-code pre {
+  overflow-x: auto; padding: 1.1rem 1.25rem; margin: 0;
+  border-radius: 0; /* 深色底由 .docs-code-panel 提供（連同圓角）*/
+  background-color: transparent; color: var(--color-neutral-content);
+  font-size: 0.8125rem; line-height: 1.6;
+}
+.docs-code code { font-family: var(--font-mono, monospace); white-space: pre; }
+
+/* 代碼語法上色（在深色 neutral 底上）*/
+:is(.docs-code, .pg-code-pre) .tok-tag     { color: oklch(72% 0.14 25); }    /* 標籤名（紅橘）*/
+:is(.docs-code, .pg-code-pre) .tok-attr    { color: oklch(80% 0.12 85); }    /* 屬性名（黃）*/
+:is(.docs-code, .pg-code-pre) .tok-str     { color: oklch(82% 0.13 150); }   /* 字串值（綠）*/
+:is(.docs-code, .pg-code-pre) .tok-punct   { color: color-mix(in oklab, var(--color-neutral-content) 60%, transparent); }
+:is(.docs-code, .pg-code-pre) .tok-comment { color: color-mix(in oklab, var(--color-neutral-content) 45%, transparent); font-style: italic; }
+
+/* 複製鈕（圖示）*/
+.docs-copy {
+  position: absolute; top: 0.5rem; right: 0.5rem; z-index: 1;
+  display: inline-grid; place-content: center;
+  width: 1.85rem; height: 1.85rem; border-radius: 0.45rem; cursor: pointer;
+  color: var(--color-neutral-content);
+  background-color: color-mix(in oklab, var(--color-neutral-content) 14%, transparent);
+  transition: background-color .15s;
+}
+.docs-copy:hover { background-color: color-mix(in oklab, var(--color-neutral-content) 26%, transparent); }
+.docs-copy svg { width: 0.95rem; height: 0.95rem; }
+.docs-copy.is-done { color: var(--color-success); }
+
+/* class 速查表（限高 + 底部漸層淡出）*/
+.docs-cn-wrap { position: relative; margin-top: 0.5rem; }
+.docs-cn-scroll {
+  max-height: 25rem; overflow: auto; border-radius: var(--radius-box);
+  /* 底部留安全距離：捲到底時，漸層覆蓋的是這段留白而非最後一列 */
+  padding-bottom: 3rem;
+}
+.docs-cn-fade {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 3rem;
+  pointer-events: none; border-radius: 0 0 var(--radius-box) var(--radius-box);
+  background: linear-gradient(to top, var(--color-base-100), transparent);
+}
+/* 表頭：起始 / 結尾儲存格各自帶圓角，形成一致的圓角列（不論是否捲動／sticky）*/
+.docs-cn-table thead th { background-color: var(--color-base-200); border-bottom: 0; }
+.docs-cn-table thead th:first-child {
+  border-start-start-radius: var(--radius-box);
+  border-end-start-radius: var(--radius-box);
+}
+.docs-cn-table thead th:last-child {
+  border-start-end-radius: var(--radius-box);
+  border-end-end-radius: var(--radius-box);
+}
+.docs-cn-class { font-family: var(--font-mono, monospace); white-space: nowrap; }
+
+/* =============================================================================
+ * 展示 Playground：component-preview（預覽在上 / 代碼在下，可收合，純 daisyUI）
+ * -----------------------------------------------------------------------------
+ * 版型參考 shadcn 的 component-preview，但僅使用 daisyUI token / 元件。
+ * ========================================================================== */
+.pg-preview-area {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 18rem; padding: 2.5rem;
+}
+.pg-preview { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1rem; }
+.pg-preview-tools { position: absolute; top: 0.5rem; right: 0.5rem; z-index: 1; }
+
+/* Action bar（介於預覽與代碼之間）：左=展開收合、右=複製 */
+.pg-actionbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  border-top: 1px solid var(--color-base-300);
+  background-color: var(--color-base-100);
+}
+.pg-bar-btn {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-size: 0.75rem; font-weight: 500; line-height: 1; cursor: pointer;
+  padding: 0.4rem 0.55rem; border-radius: 0.4rem;
+  color: color-mix(in oklab, var(--color-base-content) 70%, transparent);
+  transition: background-color 0.15s, color 0.15s;
+}
+.pg-bar-btn:hover {
+  background-color: color-mix(in oklab, var(--color-base-content) 8%, transparent);
+  color: var(--color-base-content);
+}
+.pg-bar-btn.is-done { color: var(--color-success); }
+.pg-bar-icon { padding: 0.4rem; }
+.pg-bar-btn svg { width: 0.95rem; height: 0.95rem; }
+.pg-chevron { transition: rotate 0.2s ease; }
+#pg-code-toggle[aria-expanded="false"] .pg-chevron { rotate: -90deg; }
+
+/* 代碼區（深色，accordion；外層容器隨內容高度伸縮）*/
+.pg-code-wrap {
+  overflow: hidden;
+  max-height: 22rem;                 /* 展開時的上限 */
+  transition: max-height 0.28s ease; /* accordion 過渡 */
+  background-color: var(--color-neutral);
+  color: var(--color-neutral-content);
+}
+.pg-code-wrap[data-expanded="true"] { overflow: auto; }
+.pg-code-wrap[data-expanded="false"] { max-height: 0; }
+.pg-code-pre {
+  margin: 0; padding: 1rem 1.25rem;
+  font-size: 0.8125rem; line-height: 1.6;
+}
+.pg-code-pre code { font-family: var(--font-mono, monospace); white-space: pre; }

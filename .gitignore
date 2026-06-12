@@ -1,0 +1,5 @@
+node_modules/
+npm-debug.log*
+.DS_Store
+
+# dist/ 為編譯輸出；雛形展示保留以便直接開啟 index.html，故不忽略。

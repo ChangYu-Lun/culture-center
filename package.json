@@ -1,0 +1,21 @@
+{
+  "name": "culture-center-homepage",
+  "version": "0.1.0",
+  "private": true,
+  "description": "海外文教中心數位服務平台 — 首頁雛形（基於 DaisyUI 母元件庫）",
+  "type": "module",
+  "scripts": {
+    "build": "tailwindcss --input ./tokens/theme.css --output ./dist/styles.css --minify",
+    "build:win": "powershell -ExecutionPolicy Bypass -File scripts/build.ps1",
+    "watch:win": "powershell -ExecutionPolicy Bypass -File scripts/watch.ps1",
+    "dev": "tailwindcss --input ./tokens/theme.css --output ./dist/styles.css --watch",
+    "serve": "npx --yes serve@latest ."
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.0",
+    "tailwindcss": "^4.1.0"
+  },
+  "dependencies": {
+    "daisyui": "5.5.20"
+  }
+}
