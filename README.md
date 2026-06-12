@@ -10,7 +10,7 @@
 - **Tailwind CSS v4（CLI build）** + **daisyUI 5.5.20（鎖版）** — 與母元件庫一致
 - **Swiper v11** — 輪播套件（Hero 與各內容區）
 - 字型：Inter + Noto Sans TC（對應 `theme.css` 的 `--font-sans`）
-- Icon：Material Symbols Outlined
+- Icon：Material Symbols Rounded
 
 ## 設計系統與 Token
 
