@@ -29,6 +29,8 @@ site-header, site-footer, side-panel { display: contents; }
 
 /* 小標色：Extended token --color-neutral-alt（DaisyUI 未產生 text-neutral-alt 工具類，於此補上）*/
 .text-neutral-alt { color: var(--color-neutral-alt); }
+/* 內頁區段大標色：Extended token --color-accent-alt（同上，DaisyUI 未產生對應工具類）*/
+.text-accent-alt { color: var(--color-accent-alt); }
 
 /* 區段大標（英文）*/
 .section-title {
@@ -136,7 +138,10 @@ site-header, site-footer, side-panel { display: contents; }
 }
 
 /* ---- Venue 卡片 ---------------------------------------------------------- */
-.venue-card { display: flex; flex-direction: column; height: 100%; }
+.venue-card { display: flex; flex-direction: column; height: 100%; position: relative; }
+/* 整張卡可點（stretched link）：覆蓋整卡的連結，收藏鈕以較高層級疊在其上 */
+.venue-link { position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+.venue-card .fav-btn, .venue-card .btn { position: relative; z-index: 2; }
 .venue-thumb {
   border: 1px solid color-mix(in oklab, var(--color-base-content) 15%, transparent);
   border-radius: 0.5rem;
@@ -167,6 +172,291 @@ site-header, site-footer, side-panel { display: contents; }
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* ---- 場地詳情頁 ---------------------------------------------------------- */
+/* 圖片藝廊：左大圖（跨兩列）＋ 右兩張堆疊。小尺寸退化為單欄堆疊。 */
+.vd-gallery {
+  display: grid;
+  gap: 13px 15px;
+  grid-template-columns: 1fr;
+}
+.vd-gallery img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.vd-gallery .vd-cell { border-radius: 4px; overflow: hidden; aspect-ratio: 4 / 3; }
+.vd-gallery .vd-cell.vd-main { aspect-ratio: 16 / 10; }
+@media (min-width: 640px) {
+  .vd-gallery { grid-template-columns: 2fr 1fr; grid-auto-rows: 1fr; }
+  .vd-gallery .vd-cell { aspect-ratio: auto; }
+  .vd-gallery .vd-cell.vd-main { grid-row: span 2; aspect-ratio: auto; }
+}
+
+/* 空間介紹：預設收合，點「顯示更多內容」展開 */
+.vd-collapsible { position: relative; max-height: 11.5rem; overflow: hidden; transition: max-height .45s ease; }
+.vd-collapsible.is-open { max-height: 200rem; }
+.vd-collapsible:not(.is-open)::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 3.5rem;
+  background: linear-gradient(to bottom, transparent, var(--color-base-200));
+  pointer-events: none;
+}
+
+/* 預約卡：可預約時段時間軸（14 等分小時格）＋ 邊界刻度 */
+.vd-timeline { display: grid; grid-template-columns: repeat(14, minmax(0, 1fr)); }
+.vd-tick {
+  position: absolute;
+  top: 100%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.75rem;
+  line-height: 1;
+  color: color-mix(in oklab, var(--color-base-content) 60%, transparent);
+}
+.vd-tick::before {
+  content: "";
+  width: 1px;
+  height: 8px;
+  background: color-mix(in oklab, var(--color-base-content) 40%, transparent);
+}
+
+/* ---- 場地搜尋卡：欄位互動 + 客製下拉面板 -------------------------------- */
+.vd-search { transition: background-color .2s ease, border-color .2s ease; }
+/* 任一欄位開啟時：外層容器底色變 base-300、隱藏分隔線 */
+.vd-search.is-open { background-color: var(--color-base-300); border-color: transparent; }
+.vd-search.is-open .vd-div { opacity: 0; }
+
+.vd-field {
+  flex: 1 1 0; min-width: 0;
+  display: flex; align-items: center; gap: .5rem;
+  height: 2.5rem; padding-inline: .75rem;
+  border: 0; background: transparent; cursor: pointer; text-align: left;
+  border-radius: var(--radius-field);
+  transition: background-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+.vd-field .vd-field-text {
+  font-size: .875rem; color: color-mix(in oklab, var(--color-base-content) 50%, transparent);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.vd-field.has-value .vd-field-text { color: var(--color-base-content); }
+/* 點擊中（active）：白底、shadow-md、略放大、無外框 */
+.vd-field.is-active {
+  background-color: var(--color-base-100);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1);
+  transform: scale(1.05);
+  position: relative; z-index: 1;
+}
+
+/* 下拉面板 */
+.vd-panel {
+  position: absolute; top: calc(100% + 12px); left: 0; z-index: 50;
+  background: var(--color-base-100);
+  border: 1px solid color-mix(in oklab, var(--color-base-content) 12%, transparent);
+  border-radius: var(--radius-box);
+  box-shadow: 0 12px 32px -8px rgb(0 0 0 / .25);
+  padding: 1rem;
+}
+.vd-panel[data-panel="location"] { width: min(560px, 86vw); }
+.vd-panel[data-panel="time"]     { width: 340px; }
+.vd-panel[data-panel="people"]   { width: 320px; }
+.vd-panel-title { font-size: .875rem; font-weight: 600; margin-bottom: .75rem; }
+
+/* 地點：洲 tiles */
+.vd-tile-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .5rem; }
+.vd-tile {
+  display: flex; flex-direction: column; align-items: flex-start; gap: .125rem;
+  padding: .75rem; text-align: left; cursor: pointer;
+  border: 1px solid color-mix(in oklab, var(--color-base-content) 15%, transparent);
+  border-radius: var(--radius-field);
+  background: var(--color-base-100);
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.vd-tile:hover { background: var(--color-base-200); border-color: var(--color-primary); }
+.vd-tile .vd-tile-name { font-size: .9375rem; font-weight: 500; }
+.vd-tile .vd-tile-count { font-size: .75rem; color: color-mix(in oklab, var(--color-base-content) 50%, transparent); }
+.vd-tile .material-symbols-rounded { color: var(--color-accent-alt); }
+
+/* 地點：文教中心清單 */
+.vd-back {
+  display: flex; align-items: center; gap: .25rem;
+  font-size: .9375rem; font-weight: 600; cursor: pointer;
+  background: 0; border: 0; padding: .25rem 0; margin-bottom: .25rem;
+}
+.vd-center-list { display: flex; flex-direction: column; max-height: 264px; overflow-y: auto; }
+.vd-center-item {
+  display: block; width: 100%; text-align: left;
+  padding: .5rem .75rem; border-radius: var(--radius-field);
+  font-size: .875rem; cursor: pointer; background: 0; border: 0;
+  transition: background-color .12s ease;
+}
+.vd-center-item:hover { background: var(--color-base-200); }
+
+/* 時間：起訖時間 */
+.vd-search calendar-date.cally { width: 100%; }
+.vd-time-row { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-top: .75rem; }
+.vd-time-cell { display: flex; flex-direction: column; gap: .25rem; }
+.vd-time-label { font-size: .75rem; color: color-mix(in oklab, var(--color-base-content) 60%, transparent); }
+
+/* 人數：雙端點橫條 */
+.vd-people-nums { display: flex; align-items: stretch; gap: .5rem; margin-top: 1rem; }
+.vd-num { display: flex; flex-direction: column; gap: .25rem; flex: 1 1 0; }
+.vd-dualrange { position: relative; height: 24px; }
+.vd-dr-rail, .vd-dr-fill {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  height: 4px; border-radius: 999px;
+}
+.vd-dr-rail { left: 0; right: 0; background: var(--color-base-300); }
+.vd-dr-fill { background: var(--color-primary); }
+.vd-dualrange input[type="range"] {
+  position: absolute; top: 0; left: 0; width: 100%; height: 24px; margin: 0;
+  -webkit-appearance: none; appearance: none;
+  background: transparent; pointer-events: none;
+}
+.vd-dualrange input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; pointer-events: auto;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--color-base-100); border: 2px solid var(--color-primary);
+  box-shadow: 0 1px 3px rgb(0 0 0 / .25); cursor: pointer;
+}
+.vd-dualrange input[type="range"]::-moz-range-thumb {
+  pointer-events: auto;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--color-base-100); border: 2px solid var(--color-primary);
+  box-shadow: 0 1px 3px rgb(0 0 0 / .25); cursor: pointer;
+}
+
+/* ---- 場地申請流程 ------------------------------------------------------- */
+/* 步驟條 */
+.apply-stepper {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; max-width: 520px; margin-inline: auto;
+}
+.apply-step { display: flex; flex-direction: column; align-items: center; gap: 6px; position: relative; }
+.apply-step-circle {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 0.875rem; font-weight: 600;
+  border: 2px solid var(--color-base-content/20);
+  color: color-mix(in oklab, var(--color-base-content) 40%, transparent);
+  transition: background-color .25s ease, color .25s ease, border-color .25s ease;
+}
+.apply-step-circle.is-active {
+  background: var(--color-neutral); border-color: var(--color-neutral);
+  color: var(--color-neutral-content);
+}
+.apply-step-circle.is-done {
+  background: var(--color-neutral); border-color: var(--color-neutral);
+  color: var(--color-neutral-content);
+}
+.apply-step-label {
+  font-size: 0.8125rem; color: color-mix(in oklab, var(--color-base-content) 60%, transparent);
+  white-space: nowrap;
+}
+.apply-step-line {
+  flex: 1; height: 2px; background: color-mix(in oklab, var(--color-base-content) 15%, transparent);
+  min-width: 60px; margin-bottom: 22px;
+  transition: background-color .25s ease;
+}
+.apply-step-line.is-filled { background: var(--color-neutral); }
+
+/* 表單欄位 */
+.apply-form-section { display: flex; flex-direction: column; gap: 4px; }
+.apply-label { font-size: 0.875rem; font-weight: 500; color: var(--color-base-content); }
+.apply-req { color: var(--color-error); margin-left: 2px; }
+.apply-hint { font-size: 0.75rem; color: color-mix(in oklab, var(--color-base-content) 50%, transparent); }
+.apply-actions { background: color-mix(in oklab, var(--color-base-200) 40%, var(--color-base-100)); }
+
+/* 活動類型 / 餐飲：radio 方塊選項 */
+.apply-radio-card {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1rem; cursor: pointer;
+  border: 1px solid color-mix(in oklab, var(--color-base-content) 18%, transparent);
+  border-radius: var(--radius-field);
+  font-size: 0.9375rem; font-weight: 400; gap: .75rem;
+  background: var(--color-base-100);
+  transition: border-color .15s ease, background-color .15s ease;
+}
+.apply-radio-card input[type="radio"] { order: 1; accent-color: var(--color-primary); }
+.apply-radio-card:has(input:checked) {
+  border-color: var(--color-primary);
+  background: color-mix(in oklab, var(--color-primary) 8%, var(--color-base-100));
+}
+.apply-radio-card:hover:not(:has(input:checked)) {
+  border-color: color-mix(in oklab, var(--color-base-content) 35%, transparent);
+}
+
+/* 條款捲動區 */
+.vd-terms-scroll {
+  max-height: 360px; overflow-y: auto;
+  border: 1px solid color-mix(in oklab, var(--color-base-content) 12%, transparent);
+  border-radius: var(--radius-field);
+  padding: 1.25rem 1.5rem;
+  background: var(--color-base-200);
+}
+
+/* 申請步驟面板 */
+.apply-step-panel { transition: opacity .2s ease; }
+
+/* ---- 會員專區：側邊資訊卡 + 選單 -------------------------------------- */
+.member-avatar {
+  width: 160px; height: 160px; border-radius: 9999px;
+  display: grid; place-items: center; user-select: none;
+  background: color-mix(in oklab, var(--color-primary) 35%, white);
+  color: var(--color-neutral);
+  font-size: 4rem; font-weight: 600; line-height: 1;
+}
+.member-menu { display: flex; flex-direction: column; gap: 2px; }
+.member-menu-item {
+  display: block; width: 100%; text-align: left;
+  padding: 0.625rem 0.75rem; border-radius: var(--radius-field);
+  font-size: 1rem; color: var(--color-base-content);
+  transition: background-color .15s ease, color .15s ease;
+}
+.member-menu-item:hover { background: var(--color-base-200); }
+.member-menu-item.is-active {
+  color: var(--color-primary); font-weight: 600;
+  background: color-mix(in oklab, var(--color-primary) 8%, transparent);
+}
+
+/* 申請紀錄：縮圖 */
+.rec-thumb {
+  flex: 0 0 auto; width: 96px; height: 96px;
+  border-radius: var(--radius-field); overflow: hidden;
+  background: var(--color-base-200);
+}
+
+/* ---- FullCalendar v7（classic 主題）色彩覆蓋，貼近本專案風格 --------
+ * v7 內部使用雜湊化 class 名稱，無法以語意 class 覆寫；改以官方 palette
+ * 變數（--fc-classic-*）重新上色，對齊本專案 token（綠 primary / 暖橘 accent）。
+ * ------------------------------------------------------------------------- */
+#member-calendar {
+  font-size: 0.875rem;
+  /* 工具列按鈕：neutral 底白字 */
+  --fc-classic-button: var(--color-neutral);
+  --fc-classic-button-border: var(--color-neutral);
+  --fc-classic-button-strong: color-mix(in oklab, var(--color-neutral) 78%, black);
+  --fc-classic-button-strong-border: color-mix(in oklab, var(--color-neutral) 68%, black);
+  --fc-classic-button-foreground: var(--color-neutral-content);
+  /* primary：選中的檢視鈕、連結、即時線 */
+  --fc-classic-primary: var(--color-primary);
+  --fc-classic-primary-foreground: var(--color-primary-content);
+  --fc-classic-now: var(--color-primary);
+  /* 今天 / highlight：暖橘 accent */
+  --fc-classic-today: color-mix(in oklab, var(--color-accent) 22%, transparent);
+  --fc-classic-highlight: color-mix(in oklab, var(--color-accent) 22%, transparent);
+  /* 中性背景 / 文字 / 邊框：對齊 base 系列 */
+  --fc-classic-background: var(--color-base-100);
+  --fc-classic-foreground: var(--color-base-content);
+  --fc-classic-faint: color-mix(in oklab, var(--color-base-content) 4%, transparent);
+  --fc-classic-muted: color-mix(in oklab, var(--color-base-content) 8%, transparent);
+  --fc-classic-strong: color-mix(in oklab, var(--color-base-content) 14%, transparent);
+  --fc-classic-faint-foreground: color-mix(in oklab, var(--color-base-content) 45%, transparent);
+  --fc-classic-muted-foreground: color-mix(in oklab, var(--color-base-content) 60%, transparent);
+  --fc-classic-border: color-mix(in oklab, var(--color-base-content) 12%, transparent);
 }
 
 /* ---- 評分 ----------------------------------------------------------------
@@ -326,8 +616,14 @@ html.is-loaded .intro {
  * 導覽列：固定置頂、向下捲動隱藏 / 向上捲動顯示
  * ========================================================================== */
 #site-header {
-  transition: transform 0.35s ease;
+  background-color: var(--color-base-200);
+  transition: transform 0.35s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 #site-header.nav-hidden {
   transform: translateY(-100%);
+}
+/* 內頁頁首浮在 page-hero 之上時：背景透明（捲過 hero 後由 main.js 移除此狀態，恢復底色）*/
+#site-header.nav-over-hero {
+  background-color: transparent;
+  box-shadow: none;
 }

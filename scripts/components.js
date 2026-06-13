@@ -30,7 +30,7 @@ class SiteHeader extends HTMLElement {
     };
 
     this.innerHTML = `
-      <header id="site-header" class="navbar-wrapper fixed top-0 left-0 right-0 z-40 bg-base-200">
+      <header id="site-header" class="navbar-wrapper fixed top-0 left-0 right-0 z-40">
         <div class="page-container flex items-center justify-between gap-4 py-4">
           <a href="./index.html" class="shrink-0">
             <img src="./assets/image/Logo-light.svg" alt="中華民國僑務委員會 海外文教中心數位服務平台" class="h-12 md:h-[58px] w-auto" />
@@ -52,7 +52,7 @@ class SiteHeader extends HTMLElement {
               ${navItem('folk', '#', '民俗文物')}
               ${navItem('venue', './venue.html', '場地預約')}
               ${navItem('events', './index.html#events', '僑務活動')}
-              <a href="#" class="btn btn-neutral btn-sm md:btn-md rounded-full px-6">登入</a>
+              <a href="./member.html" class="btn btn-neutral btn-sm md:btn-md rounded-full px-6">登入</a>
             </nav>
           </div>
         </div>

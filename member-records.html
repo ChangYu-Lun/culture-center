@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>申請紀錄 — 海外文教中心數位服務平台</title>
+
+  <link rel="stylesheet" href="./dist/styles.css" />
+  <link rel="stylesheet" href="./styles/custom.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./styles/page.css" />
+</head>
+
+<body class="bg-base-200 text-base-content min-h-screen font-sans">
+
+  <site-header></site-header>
+
+  <main>
+    <!-- 頁首 Banner -->
+    <section class="page-hero relative bg-accent overflow-x-clip h-[260px]">
+      <img src="./assets/image/venue-title-graphic.png" alt="" class="pointer-events-none select-none absolute top-[90px] right-0 w-[460px] max-w-[55%] opacity-90" />
+      <div class="page-container relative z-[1] pt-32 pb-10">
+        <h1 class="intro intro-d1 text-5xl leading-tight text-accent-content">會員專區</h1>
+        <div class="breadcrumbs intro intro-d2 text-sm mt-2 text-base-content">
+          <ul>
+            <li><a href="./index.html">首頁</a></li>
+            <li><a href="./member.html">會員專區</a></li>
+            <li>申請紀錄</li>
+          </ul>
+        </div>
+      </div>
+      <img src="./assets/image/pt-graphic.svg" alt="" class="pointer-events-none absolute bottom-0 left-0 w-full h-[52px] object-cover" />
+    </section>
+
+    <div class="page-container pt-12 pb-24">
+      <div class="flex flex-col lg:flex-row gap-8 items-start">
+
+        <!-- 側邊 -->
+        <aside class="intro intro-d2 w-full lg:w-[328px] lg:shrink-0 lg:sticky lg:top-28">
+          <div class="card bg-base-100 rounded-box shadow-md">
+            <div class="card-body p-6 items-center text-center">
+              <div class="relative">
+                <div class="member-avatar">陳</div>
+                <button type="button" class="btn btn-circle btn-sm btn-neutral absolute bottom-1 right-1" aria-label="編輯頭像">
+                  <span class="material-symbols-rounded text-[18px]">edit</span>
+                </button>
+              </div>
+              <h2 class="text-2xl font-medium mt-4">陳○○</h2>
+              <p class="text-sm text-base-content/60 mt-2">i僑卡卡號：1234-5678-9012</p>
+              <p class="flex items-center justify-center gap-1 text-sm text-base-content/60 mt-1">
+                example@mail.com
+                <span class="material-symbols-rounded text-[18px] text-primary" title="已驗證" style="font-variation-settings:'FILL' 1;">verified</span>
+              </p>
+              <div class="divider my-4"></div>
+              <nav class="member-menu w-full">
+                <a href="./member.html" class="member-menu-item">會員總覽</a>
+                <a href="./member-records.html" class="member-menu-item is-active">申請紀錄</a>
+                <a href="#" class="member-menu-item">我的收藏</a>
+                <a href="#" class="member-menu-item">會員通知</a>
+                <a href="#" class="member-menu-item">會員資料</a>
+              </nav>
+            </div>
+          </div>
+        </aside>
+
+        <!-- 主內容 -->
+        <div class="intro intro-d3 flex-1 min-w-0">
+          <h2 class="text-2xl font-medium mb-4">申請紀錄</h2>
+
+          <!-- Tabs -->
+          <div role="tablist" class="tabs tabs-border mb-6" id="rec-tabs">
+            <button role="tab" class="tab tab-active" data-tab="book">書籍借閱</button>
+            <button role="tab" class="tab" data-tab="event">活動報名</button>
+            <button role="tab" class="tab" data-tab="artifact">文物出借</button>
+            <button role="tab" class="tab" data-tab="venue">場地租借</button>
+          </div>
+
+          <!-- 紀錄清單（由 member-records.js 產生）-->
+          <div id="rec-list" class="flex flex-col gap-4"></div>
+
+          <!-- 分頁 -->
+          <div class="flex justify-center mt-10">
+            <div class="join">
+              <button class="join-item btn btn-outline btn-square" aria-label="上一頁"><span class="material-symbols-rounded text-[20px]">arrow_back_ios_new</span></button>
+              <button class="join-item btn btn-neutral" aria-current="page">1</button>
+              <button class="join-item btn btn-outline">2</button>
+              <button class="join-item btn btn-outline">…</button>
+              <button class="join-item btn btn-outline">4</button>
+              <button class="join-item btn btn-outline btn-square" aria-label="下一頁"><span class="material-symbols-rounded text-[20px]">arrow_forward_ios</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <site-footer></site-footer>
+  <side-panel></side-panel>
+
+  <script src="./scripts/components.js"></script>
+  <script src="./scripts/main.js"></script>
+  <script src="./scripts/member-records.js"></script>
+</body>
+</html>

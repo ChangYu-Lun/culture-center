@@ -132,13 +132,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const header = document.getElementById('site-header');
   const spacer = document.getElementById('nav-spacer');
   if (header && spacer) {
-    const sizeSpacer = () => { spacer.style.height = `${header.offsetHeight}px`; };
+    // 內頁頁首 Banner（若有）：頁首浮在 hero 之上，spacer 收為 0 讓 hero 上移貼齊頂端
+    const hero = document.querySelector('.page-hero');
+    const sizeSpacer = () => { spacer.style.height = hero ? '0px' : `${header.offsetHeight}px`; };
     sizeSpacer();
     window.addEventListener('resize', sizeSpacer);
+
+    // 頁首在 hero 之上時背景透明；捲過 hero 後恢復底色
+    const updateHeaderBg = () => {
+      if (!hero) return;
+      const overHero = hero.getBoundingClientRect().bottom > header.offsetHeight;
+      header.classList.toggle('nav-over-hero', overHero);
+    };
+    updateHeaderBg();
+    window.addEventListener('resize', updateHeaderBg);
+    window.addEventListener('load', updateHeaderBg);
 
     let lastY = window.scrollY;
     window.addEventListener('scroll', () => {
       const y = window.scrollY;
+      updateHeaderBg();
       if (Math.abs(y - lastY) < 6) return;
       if (y > lastY && y > header.offsetHeight) header.classList.add('nav-hidden');   // 向下：移出
       else header.classList.remove('nav-hidden');                                     // 向上：移入

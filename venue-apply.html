@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>場地申請 — 海外文教中心數位服務平台</title>
+
+  <link rel="stylesheet" href="./dist/styles.css" />
+  <link rel="stylesheet" href="./styles/custom.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./styles/page.css" />
+</head>
+
+<body class="bg-base-200 text-base-content min-h-screen font-sans">
+
+  <site-header active="venue"></site-header>
+
+  <main>
+    <!-- ============================================================= -->
+    <!-- 頁首 Banner                                                    -->
+    <!-- ============================================================= -->
+    <section class="page-hero relative bg-accent overflow-x-clip h-[220px]">
+      <img src="./assets/image/venue-title-graphic.png" alt="" class="pointer-events-none select-none absolute top-[90px] right-0 w-[360px] max-w-[45%] opacity-80" />
+      <div class="page-container relative z-[1] pt-32">
+        <div class="breadcrumbs intro intro-d1 text-sm text-base-content">
+          <ul>
+            <li><a href="./index.html">首頁</a></li>
+            <li><a href="./venue.html">場地預約</a></li>
+            <li><a href="./venue-detail.html">洛杉磯華僑文教服務中心·第二教室</a></li>
+            <li>場地申請</li>
+          </ul>
+        </div>
+      </div>
+      <img src="./assets/image/pt-graphic.svg" alt="" class="pointer-events-none absolute bottom-0 left-0 w-full h-[52px] object-cover" />
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- 申請流程內容                                                   -->
+    <!-- ============================================================= -->
+    <div class="page-container py-12 pb-24">
+
+      <!-- 步驟標題區（Step 1+ 才顯示 stepper）-->
+      <div class="text-center mb-10">
+        <h1 class="intro intro-d1 text-3xl font-medium">場地申請</h1>
+        <p id="apply-subtitle" class="text-base-content/60 mt-1 hidden">洛杉磯華僑文教服務中心・第二教室</p>
+
+        <!-- 步驟條 -->
+        <nav id="apply-stepper" class="apply-stepper hidden mt-8 mb-2" aria-label="申請步驟">
+          <div class="apply-step" data-step="1">
+            <div class="apply-step-circle">1</div>
+            <span class="apply-step-label">申請資訊</span>
+          </div>
+          <div class="apply-step-line"></div>
+          <div class="apply-step" data-step="2">
+            <div class="apply-step-circle">2</div>
+            <span class="apply-step-label">活動資訊</span>
+          </div>
+          <div class="apply-step-line"></div>
+          <div class="apply-step" data-step="3">
+            <div class="apply-step-circle">3</div>
+            <span class="apply-step-label">申請完成</span>
+          </div>
+        </nav>
+      </div>
+
+      <!-- ============================= -->
+      <!-- STEP 0：借閱須知與服務條款    -->
+      <!-- ============================= -->
+      <div id="step-0" class="apply-step-panel max-w-3xl mx-auto">
+        <div class="card bg-base-100 rounded-box shadow-md">
+          <div class="card-body gap-6 p-8">
+            <h2 class="text-2xl font-semibold">借閱須知與服務條款</h2>
+
+            <div class="vd-terms-scroll">
+              <p class="text-base text-base-content/80 leading-7 mb-4">
+                為維護全球海外文教中心之場地品質與使用秩序，請借用民眾與團體務必詳閱並配合以下規定：
+              </p>
+              <div class="space-y-4 text-base text-base-content/80 leading-7">
+                <div>
+                  <p class="font-bold text-base-content mb-1">非營利與中立原則</p>
+                  <p>本中心屬非營利機構，場地設施僅供非營利性之文教及聯誼活動使用。嚴禁從事販賣、交易等任何商業行為，且辦理之活動不得涉及政黨、選舉造勢或其他政治與宗教活動。</p>
+                </div>
+                <div>
+                  <p class="font-bold text-base-content mb-1">環境布置與復原</p>
+                  <p>申請單位須自行布置場地。為維護政府行政中立立場，現有設施與既有布置（如國旗、元首玉照等）一律不得任意移動、變更或掩蓋。活動結束時，請務必將全部器材撤離、確實完成垃圾分類並帶走，將場地恢復原狀。</p>
+                </div>
+                <div>
+                  <p class="font-bold text-base-content mb-1">出借時間與超時規範</p>
+                  <p>請嚴格遵守各中心核准之出借時段，並準時結束。若有活動當日提早入場佈置或逾期超時之情形，將依各中心規範加計場地維護費。</p>
+                </div>
+                <div>
+                  <p class="font-bold text-base-content mb-1">費用與保證金繳納</p>
+                  <p>經中心核准借用後，申請人最遲須於活動前 3 日前繳清場地清潔維護費與保證金。活動結束後經中心同仁確認場地回復原狀且無污損，將全數退還保證金；如有毀損或污損，費用將自保證金中扣抵或由借用單位負賠償責任。</p>
+                </div>
+                <div>
+                  <p class="font-bold text-base-content mb-1">中心優先使用權</p>
+                  <p>本中心對於場地保有優先使用權。場地核准出借後如因必要情形，中心得通知申請單位更改使用日期及時間，申請單位不得異議。若因此無法配合而取消，中心將無息全數退還已繳費用。</p>
+                </div>
+                <div>
+                  <p class="font-bold text-base-content mb-1">免責與意外保險</p>
+                  <p>借用單位必須自行購買各項意外保險，並確實遵守場地容納人數限制。對於使用期間所發生之任何意外、傷亡、偷竊或疾病等情形，均由借用單位自行負責處理，本中心概不負任何賠償與法律責任。</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 同意 checkbox -->
+            <label class="flex items-start gap-3 cursor-pointer mt-2">
+              <input type="checkbox" id="agree-terms" class="checkbox checkbox-sm mt-0.5 shrink-0" />
+              <span class="flex flex-col">
+                <span class="font-medium">我已詳閱並同意完全遵守本中心場地租借要點及相關規定</span>
+                <span class="text-sm text-base-content/50" id="agree-hint">若未勾選無法租借場地</span>
+              </span>
+            </label>
+
+            <div>
+              <button type="button" class="btn btn-neutral rounded-full px-8" id="btn-step0">下一步</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================= -->
+      <!-- STEP 1：申請資訊             -->
+      <!-- ============================= -->
+      <div id="step-1" class="apply-step-panel max-w-3xl mx-auto hidden">
+        <div class="card bg-base-100 rounded-box shadow-md">
+          <div class="card-body gap-6 p-8">
+            <h2 class="text-xl font-semibold">申請人與團體資料</h2>
+
+            <div class="apply-form-section">
+              <label class="apply-label" for="f-org">借用團體/社團名稱<span class="apply-req">*</span></label>
+              <input id="f-org" type="text" placeholder="例：○○台灣同鄉會" class="input w-full" required />
+              <p class="apply-hint">請輸入完整的僑團或主辦單位全稱</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div class="apply-form-section">
+                <label class="apply-label" for="f-name">負責申請人<span class="apply-req">*</span></label>
+                <input id="f-name" type="text" class="input w-full" required />
+              </div>
+              <div class="apply-form-section">
+                <label class="apply-label" for="f-title">職稱<span class="apply-req">*</span></label>
+                <input id="f-title" type="text" class="input w-full" required />
+              </div>
+            </div>
+
+            <div class="apply-form-section">
+              <label class="apply-label" for="f-phone">聯絡電話<span class="apply-req">*</span></label>
+              <input id="f-phone" type="tel" placeholder="0909999999" class="input w-full" required />
+            </div>
+
+            <div class="apply-form-section">
+              <label class="apply-label" for="f-email">電子信箱 (E-mail)<span class="apply-req">*</span></label>
+              <input id="f-email" type="email" placeholder="example@mail.com" class="input w-full" required />
+            </div>
+          </div>
+
+          <!-- 底部操作列 -->
+          <div class="apply-actions border-t border-base-content/10 px-8 py-5 flex items-center gap-3">
+            <button type="button" class="btn btn-ghost rounded-full" id="btn-step1-back">上一步</button>
+            <button type="button" class="btn btn-neutral rounded-full px-8" id="btn-step1">下一步</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================= -->
+      <!-- STEP 2：活動資訊             -->
+      <!-- ============================= -->
+      <div id="step-2" class="apply-step-panel max-w-3xl mx-auto hidden">
+        <div class="card bg-base-100 rounded-box shadow-md">
+          <div class="card-body gap-6 p-8">
+            <h2 class="text-xl font-semibold">活動資訊</h2>
+
+            <div class="apply-form-section">
+              <label class="apply-label" for="f-ev-name">活動名稱<span class="apply-req">*</span></label>
+              <input id="f-ev-name" type="text" class="input w-full" required />
+            </div>
+
+            <div class="apply-form-section">
+              <label class="apply-label" for="f-ev-desc">活動內容簡述<span class="apply-req">*</span></label>
+              <textarea id="f-ev-desc" rows="4" placeholder="請簡述活動流程與主辦目的，以利中心確認符合非營利文教宗旨（150字以內）" class="textarea w-full" required maxlength="150"></textarea>
+              <div class="flex justify-end mt-1">
+                <span class="text-xs text-base-content/40" id="desc-count">0 / 150</span>
+              </div>
+            </div>
+
+            <!-- 活動類型 (radio options) -->
+            <div class="apply-form-section">
+              <p class="apply-label">活動類型<span class="apply-req">*</span></p>
+              <div class="grid grid-cols-2 gap-3 mt-1" id="ev-type-grid">
+                <label class="apply-radio-card"><input type="radio" name="ev-type" value="講座" required /> 講座</label>
+                <label class="apply-radio-card"><input type="radio" name="ev-type" value="集會" /> 集會</label>
+                <label class="apply-radio-card"><input type="radio" name="ev-type" value="展覽" /> 展覽</label>
+                <label class="apply-radio-card"><input type="radio" name="ev-type" value="音樂" /> 音樂</label>
+                <label class="apply-radio-card"><input type="radio" name="ev-type" value="舞蹈" /> 舞蹈</label>
+                <label class="apply-radio-card"><input type="radio" name="ev-type" value="戲劇" /> 戲劇</label>
+                <label class="apply-radio-card"><input type="radio" name="ev-type" value="其他" /> 其他</label>
+              </div>
+            </div>
+
+            <!-- 預計參加人數 -->
+            <div class="apply-form-section">
+              <label class="apply-label">預計參加人數<span class="apply-req">*</span></label>
+              <div class="flex items-center gap-3">
+                <div class="flex items-center border border-base-content/20 rounded-field overflow-hidden h-10">
+                  <span id="f-people-val" class="min-w-[3rem] text-center px-4 font-medium select-none">10</span>
+                  <span class="w-px h-6 bg-base-content/15 shrink-0"></span>
+                  <span class="text-sm text-base-content/60 px-3">人</span>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline btn-square" id="people-plus" aria-label="增加">
+                  <span class="material-symbols-rounded text-[18px]">add</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline btn-square" id="people-minus" aria-label="減少">
+                  <span class="material-symbols-rounded text-[18px]">remove</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="apply-form-section">
+              <label class="apply-label" for="f-ev-phone">聯絡電話<span class="apply-req">*</span></label>
+              <input id="f-ev-phone" type="tel" placeholder="0909999999" class="input w-full sm:max-w-xs" required />
+            </div>
+
+            <div class="apply-form-section">
+              <label class="apply-label" for="f-ev-email">電子信箱 (E-mail)<span class="apply-req">*</span></label>
+              <input id="f-ev-email" type="email" placeholder="example@mail.com" class="input w-full sm:max-w-xs" required />
+            </div>
+
+            <!-- 活動餐飲 -->
+            <div class="apply-form-section">
+              <p class="apply-label">活動餐飲<span class="apply-req">*</span></p>
+              <div class="grid grid-cols-2 gap-3 mt-1" id="food-grid">
+                <label class="apply-radio-card"><input type="radio" name="ev-food" value="不攜帶" required /> 不攜帶</label>
+                <label class="apply-radio-card"><input type="radio" name="ev-food" value="茶點" /> 茶點</label>
+                <label class="apply-radio-card"><input type="radio" name="ev-food" value="用餐" /> 用餐</label>
+                <label class="apply-radio-card"><input type="radio" name="ev-food" value="外燴" /> 外燴</label>
+                <label class="apply-radio-card"><input type="radio" name="ev-food" value="其他" /> 其他</label>
+              </div>
+            </div>
+
+            <!-- 餐飲提示 -->
+            <div class="alert alert-info gap-2 py-3 text-sm" id="food-alert" hidden>
+              <span class="material-symbols-rounded text-[20px] shrink-0">info</span>
+              若攜帶食物，活動後須清潔場地並帶走垃圾
+            </div>
+          </div>
+
+          <div class="apply-actions border-t border-base-content/10 px-8 py-5 flex items-center gap-3">
+            <button type="button" class="btn btn-ghost rounded-full" id="btn-step2-back">上一步</button>
+            <button type="button" class="btn btn-neutral rounded-full px-8" id="btn-step2">下一步</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================= -->
+      <!-- STEP 3：申請完成             -->
+      <!-- ============================= -->
+      <div id="step-3" class="apply-step-panel max-w-3xl mx-auto hidden">
+        <div class="card bg-base-100 rounded-box shadow-md">
+          <div class="card-body gap-5 p-8">
+
+            <!-- 成功標題 -->
+            <div class="flex items-center gap-3">
+              <span class="inline-flex items-center justify-center size-9 rounded-full bg-primary text-primary-content shrink-0">
+                <span class="material-symbols-rounded text-[22px]" style="font-variation-settings:'FILL' 1">check_circle</span>
+              </span>
+              <h2 class="text-xl font-semibold">預約申請已成功提交！</h2>
+            </div>
+
+            <div class="text-sm text-base-content/70 leading-relaxed space-y-2">
+              <p>本中心將收到申請後進行行政資格審核，經標準後，中心最晚將於活動前 2 個月（或依各中心規定時間）發送確認通知。</p>
+              <p>申請通過者，請務必於活動前 3 日內完成「場地清潔維護費」及「保證金」之繳納，未按時繳納者視為未完成手續，系統將自動取消信用。若欲變更日期或取消，請最遲於<strong>活動前一週（或 3 天前）</strong>透過系統或電話通知中心。</p>
+            </div>
+
+            <!-- 提醒 alert -->
+            <div class="alert alert-info gap-2 py-3 text-sm">
+              <span class="material-symbols-rounded text-[20px] shrink-0">info</span>
+              <strong>重要提醒：</strong>未經本中心正式核准前，請勿提前發布活動訊息或張貼海報
+            </div>
+
+            <!-- 申請摘要 -->
+            <div class="border border-base-content/15 rounded-field overflow-hidden">
+              <table class="w-full text-sm">
+                <tbody>
+                  <tr class="border-b border-base-content/10"><td class="px-5 py-3 text-base-content/50 w-28 shrink-0">申請編號</td><td class="px-5 py-3 font-medium" id="s-code">#BR-20260608-001</td></tr>
+                  <tr class="border-b border-base-content/10"><td class="px-5 py-3 text-base-content/50">場地地方</td><td class="px-5 py-3">洛杉磯華僑文教服務中心</td></tr>
+                  <tr class="border-b border-base-content/10"><td class="px-5 py-3 text-base-content/50">空間名稱</td><td class="px-5 py-3">第二教室</td></tr>
+                  <tr class="border-b border-base-content/10"><td class="px-5 py-3 text-base-content/50">借用日期</td><td class="px-5 py-3" id="s-date">2026/06/06</td></tr>
+                  <tr><td class="px-5 py-3 text-base-content/50">借用時長</td><td class="px-5 py-3" id="s-duration">3 小時（13:00-16:00）</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- 操作按鈕 -->
+            <div class="flex flex-wrap gap-3 mt-2">
+              <a href="./member-records.html" class="btn btn-neutral rounded-full px-6">檢視申請進度</a>
+              <button type="button" class="btn btn-outline rounded-full px-6" onclick="window.print()">下載申請紀錄</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-container -->
+  </main>
+
+  <site-footer></site-footer>
+  <side-panel></side-panel>
+
+  <script src="./scripts/components.js"></script>
+  <script src="./scripts/main.js"></script>
+  <script src="./scripts/venue-apply.js"></script>
+</body>
+</html>

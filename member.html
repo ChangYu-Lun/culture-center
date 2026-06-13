@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>會員總覽 — 海外文教中心數位服務平台</title>
+
+  <!-- 設計系統樣式（DaisyUI 母元件庫 Token 編譯輸出 + 結構客製層）-->
+  <link rel="stylesheet" href="./dist/styles.css" />
+  <link rel="stylesheet" href="./styles/custom.css" />
+
+  <!-- 字型：Inter + Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <!-- Material Symbols Rounded -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+
+  <!-- FullCalendar v7.0.0-rc.3（行事曆）— skeleton + classic 主題樣式 + 程式與正體中文語系 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.0-rc.3/skeleton.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.0-rc.3/themes/classic/theme.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.0-rc.3/themes/classic/palette.css" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.0-rc.3/all.global.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.0-rc.3/themes/classic/global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.0-rc.3/locales/zh-tw.global.js"></script>
+
+  <link rel="stylesheet" href="./styles/page.css" />
+</head>
+
+<body class="bg-base-200 text-base-content min-h-screen font-sans">
+
+  <!-- 共用導覽列（元件化，見 scripts/components.js）-->
+  <site-header></site-header>
+
+  <main>
+    <!-- 頁首 Banner（會員專區）-->
+    <section class="page-hero relative bg-accent overflow-x-clip h-[260px]">
+      <img src="./assets/image/venue-title-graphic.png" alt="" class="pointer-events-none select-none absolute top-[90px] right-0 w-[460px] max-w-[55%] opacity-90" />
+      <div class="page-container relative z-[1] pt-32 pb-10">
+        <h1 class="intro intro-d1 text-5xl leading-tight text-accent-content">會員專區</h1>
+        <div class="breadcrumbs intro intro-d2 text-sm mt-2 text-base-content">
+          <ul>
+            <li><a href="./index.html">首頁</a></li>
+            <li>會員專區</li>
+            <li>會員總覽</li>
+          </ul>
+        </div>
+      </div>
+      <img src="./assets/image/pt-graphic.svg" alt="" class="pointer-events-none absolute bottom-0 left-0 w-full h-[52px] object-cover" />
+    </section>
+
+    <!-- 內容 -->
+    <div class="page-container pt-12 pb-24">
+      <div class="flex flex-col lg:flex-row gap-8 items-start">
+
+        <!-- 側邊：會員資訊卡 + 選單 -->
+        <aside class="intro intro-d2 w-full lg:w-[328px] lg:shrink-0 lg:sticky lg:top-28">
+          <div class="card bg-base-100 rounded-box shadow-md">
+            <div class="card-body p-6 items-center text-center">
+              <div class="relative">
+                <div class="member-avatar">陳</div>
+                <button type="button" class="btn btn-circle btn-sm btn-neutral absolute bottom-1 right-1" aria-label="編輯頭像">
+                  <span class="material-symbols-rounded text-[18px]">edit</span>
+                </button>
+              </div>
+              <h2 class="text-2xl font-medium mt-4">陳○○</h2>
+              <p class="text-sm text-base-content/60 mt-2">i僑卡卡號：1234-5678-9012</p>
+              <p class="flex items-center justify-center gap-1 text-sm text-base-content/60 mt-1">
+                example@mail.com
+                <span class="material-symbols-rounded text-[18px] text-primary" title="已驗證" style="font-variation-settings:'FILL' 1;">verified</span>
+              </p>
+              <div class="divider my-4"></div>
+              <nav class="member-menu w-full">
+                <a href="./member.html" class="member-menu-item is-active">會員總覽</a>
+                <a href="./member-records.html" class="member-menu-item">申請紀錄</a>
+                <a href="#" class="member-menu-item">我的收藏</a>
+                <a href="#" class="member-menu-item">會員通知</a>
+                <a href="#" class="member-menu-item">會員資料</a>
+              </nav>
+            </div>
+          </div>
+        </aside>
+
+        <!-- 主內容 -->
+        <div class="intro intro-d3 flex-1 min-w-0 flex flex-col gap-12">
+
+          <!-- 我的行事曆 -->
+          <section>
+            <div class="flex items-center justify-between gap-4 mb-4">
+              <h2 class="text-2xl font-medium text-accent-alt">我的行事曆</h2>
+            </div>
+            <div class="card bg-base-100 rounded-box shadow-md">
+              <div class="card-body p-5 gap-4">
+                <div id="member-calendar-legend" class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-base-content/70"></div>
+                <div id="member-calendar"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 推薦書籍 -->
+          <section>
+            <div class="flex items-center justify-between gap-4 mb-5">
+              <h2 class="text-2xl font-medium text-accent-alt">推薦書籍</h2>
+              <a href="#" class="link link-hover text-sm text-base-content/70">查看更多</a>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+              <article class="book-card">
+                <div class="book-thumb"><img src="./assets/image/book-1.png" alt="台灣光華雜誌 2025 9月號" /></div>
+                <div>
+                  <span class="badge badge-soft badge-neutral">外語教材</span>
+                  <h3 class="book-title">台灣光華雜誌 2025 9月號</h3>
+                  <div class="rating-hearts" data-rating="4.5"></div>
+                </div>
+              </article>
+              <article class="book-card">
+                <div class="book-thumb"><img src="./assets/image/book-2.png" alt="來學華語(法文版)第一冊" /></div>
+                <div>
+                  <span class="badge badge-soft badge-neutral">外語教材</span>
+                  <h3 class="book-title">來學華語(法文版)第一冊</h3>
+                  <div class="rating-hearts" data-rating="4"></div>
+                </div>
+              </article>
+              <article class="book-card">
+                <div class="book-thumb"><img src="./assets/image/book-3.png" alt="老師的話" /></div>
+                <div>
+                  <span class="badge badge-soft badge-neutral">文化輔助</span>
+                  <h3 class="book-title">老師的話</h3>
+                  <div class="rating-hearts" data-rating="5"></div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- 推薦活動 -->
+          <section>
+            <div class="flex items-center justify-between gap-4 mb-5">
+              <h2 class="text-2xl font-medium text-accent-alt">推薦活動</h2>
+              <a href="#" class="link link-hover text-sm text-base-content/70">查看更多</a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <article class="news-card">
+                <div class="thumb aspect-[4/3]"><img src="./assets/image/event-1.png" alt="" /></div>
+                <div class="pt-5">
+                  <p class="text-base text-base-content/60">2026.06.06</p>
+                  <h3 class="news-card-title">115年海外數位華語文推廣計畫菲律賓暨大洋洲組初階班</h3>
+                  <span class="badge badge-soft badge-neutral">駐溫哥華辦事處僑務組</span>
+                </div>
+              </article>
+              <article class="news-card">
+                <div class="thumb aspect-[4/3]"><img src="./assets/image/event-2.png" alt="" /></div>
+                <div class="pt-5">
+                  <p class="text-base text-base-content/60">2026.06.06</p>
+                  <h3 class="news-card-title">2026年僑臺商智慧農業研習班開始報名！</h3>
+                  <span class="badge badge-soft badge-neutral">菲華文教服務中心</span>
+                </div>
+              </article>
+              <article class="news-card">
+                <div class="thumb aspect-[4/3]"><img src="./assets/image/event-3.png" alt="" /></div>
+                <div class="pt-5">
+                  <p class="text-base text-base-content/60">2026.06.06</p>
+                  <h3 class="news-card-title">2026海內外客家後生交流營</h3>
+                  <span class="badge badge-soft badge-neutral">全球僑社</span>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- 推薦場地 -->
+          <section>
+            <div class="flex items-center justify-between gap-4 mb-5">
+              <h2 class="text-2xl font-medium text-accent-alt">推薦場地</h2>
+              <a href="#" class="link link-hover text-sm text-base-content/70">查看更多</a>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+              <article class="venue-card">
+                <a href="./venue-detail.html" class="venue-link" aria-label="查看場地詳情"></a>
+                <div class="venue-thumb aspect-[3/2]"><img src="./assets/image/Venue-01.png" alt="華語文數位教室" /></div>
+                <div class="pt-5">
+                  <div class="flex items-center gap-2">
+                    <h3 class="venue-title flex-1">華語文數位教室</h3>
+                    <button class="btn btn-ghost btn-circle btn-sm" aria-label="加入收藏"><span class="material-symbols-rounded text-[20px]">star</span></button>
+                  </div>
+                  <p class="text-base text-base-content/60">菲華文教服務中心</p>
+                  <p class="text-base">$ 340 /小時起</p>
+                </div>
+              </article>
+              <article class="venue-card">
+                <a href="./venue-detail.html" class="venue-link" aria-label="查看場地詳情"></a>
+                <div class="venue-thumb aspect-[3/2]"><img src="./assets/image/image 26.png" alt="多功能藝文展演廳" /></div>
+                <div class="pt-5">
+                  <div class="flex items-center gap-2">
+                    <h3 class="venue-title flex-1">多功能藝文展演廳</h3>
+                    <button class="btn btn-ghost btn-circle btn-sm" aria-label="加入收藏"><span class="material-symbols-rounded text-[20px]">star</span></button>
+                  </div>
+                  <p class="text-base text-base-content/60">駐溫哥華辦事處</p>
+                  <p class="text-base">$ 280 /小時起</p>
+                </div>
+              </article>
+              <article class="venue-card">
+                <a href="./venue-detail.html" class="venue-link" aria-label="查看場地詳情"></a>
+                <div class="venue-thumb aspect-[3/2]"><img src="./assets/image/Venue-02.png" alt="文化交流會議室" /></div>
+                <div class="pt-5">
+                  <div class="flex items-center gap-2">
+                    <h3 class="venue-title flex-1">文化交流會議室</h3>
+                    <button class="btn btn-ghost btn-circle btn-sm" aria-label="加入收藏"><span class="material-symbols-rounded text-[20px]">star</span></button>
+                  </div>
+                  <p class="text-base text-base-content/60">舊金山華僑文教中心</p>
+                  <p class="text-base">$ 420 /小時起</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 行事曆事件 Modal -->
+  <dialog id="event-modal" class="modal">
+    <div class="modal-box">
+      <div class="flex items-center gap-2 mb-2">
+        <span id="em-dot" class="inline-block size-3 rounded-full shrink-0"></span>
+        <span id="em-type" class="text-sm text-base-content/60"></span>
+      </div>
+      <h3 id="em-title" class="text-lg font-semibold leading-snug"></h3>
+      <div class="mt-4 flex flex-col gap-2 text-sm">
+        <p class="flex items-start gap-2"><span class="material-symbols-rounded text-[18px] text-base-content/50">event</span><span id="em-date"></span></p>
+        <p id="em-time-row" class="flex items-start gap-2"><span class="material-symbols-rounded text-[18px] text-base-content/50">schedule</span><span id="em-time"></span></p>
+        <p id="em-loc-row" class="flex items-start gap-2"><span class="material-symbols-rounded text-[18px] text-base-content/50">location_on</span><span id="em-loc"></span></p>
+        <p id="em-note" class="text-base-content/70 leading-relaxed mt-1"></p>
+      </div>
+      <div class="modal-action">
+        <form method="dialog"><button class="btn btn-neutral rounded-full">關閉</button></form>
+      </div>
+    </div>
+    <form method="dialog" class="modal-backdrop"><button>close</button></form>
+  </dialog>
+
+  <!-- 共用頁尾與浮動面板 -->
+  <site-footer></site-footer>
+  <side-panel></side-panel>
+
+  <script src="./scripts/components.js"></script>
+  <script src="./scripts/main.js"></script>
+  <script src="./scripts/member.js"></script>
+</body>
+</html>
