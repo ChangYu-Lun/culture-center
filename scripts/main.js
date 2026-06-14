@@ -163,9 +163,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const backTop = document.getElementById('back-to-top');
   if (backTop) backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-  /* ---- 換頁進場：載入後依序浮現（.intro → html.is-loaded）------------- */
+  /* ---- 換頁進場：浮現（.intro → html.is-loaded）-----------------------
+   * 正常情況由 transition.js 於「筆畫退場」完成後觸發 is-loaded，使浮現
+   * 接續在筆畫換頁效果之後。此處僅保留加長的安全 timeout 作為後備
+   * （transition.js 缺失或動畫卡住時仍會浮現）；is-loaded 重複加為冪等。*/
   const markLoaded = () => document.documentElement.classList.add('is-loaded');
-  requestAnimationFrame(() => requestAnimationFrame(markLoaded));
-  window.addEventListener('load', markLoaded);   // 後備：rAF 在背景分頁可能被延後
-  setTimeout(markLoaded, 800);                    // 最終保險，避免內容卡在隱藏
+  setTimeout(markLoaded, 1500);
 });
