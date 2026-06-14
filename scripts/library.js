@@ -22,32 +22,25 @@
     { img: './assets/image/book-3.png', title: '老師的話', author: '淡江大學外國語文學院', tags: ['實體書', '文化輔助'], rating: 5 },
   ];
 
-  /* 愛心評分：滿心 + 半心 */
-  const hearts = (n) => {
-    let html = '';
-    for (let i = 1; i <= 5; i++) {
-      const fill = i <= n ? 1 : 0;
-      html += `<span class="material-symbols-rounded text-[16px]" style="font-variation-settings:'FILL' ${fill};color:var(--color-accent-alt,#c8851a)">favorite</span>`;
-    }
-    return `<div class="flex items-center gap-0.5">${html}</div>`;
-  };
-
+  /* 卡片樣式對齊首頁「精選藏書」.book-card：書封 contain + 陰影、daisyUI
+   * 愛心評分（.rating-hearts 由 main.js 轉成 amber 心）、.book-title。
+   * 額外保留列表頁需要的：整卡可點（.venue-link）、雙標籤、作者、收藏鈕。*/
   const cardHTML = ({ img, title, author, tags, rating }) => `
-    <article class="venue-card">
+    <article class="book-card relative">
       <a href="./library-detail.html" class="venue-link" aria-label="查看「${title}」詳情"></a>
-      <div class="venue-thumb aspect-[3/4]">
+      <div class="book-thumb relative">
         <img src="${img}" alt="${title}" loading="lazy" />
-        <button class="btn btn-ghost btn-circle btn-sm fav-btn absolute top-2 right-2 bg-base-100/80 hover:bg-base-100" aria-label="加入藏書點" aria-pressed="false">
+        <button class="btn btn-ghost btn-circle btn-sm fav-btn absolute top-2 right-2 z-[2] bg-base-100/80 hover:bg-base-100" aria-label="加入藏書點" aria-pressed="false">
           <span class="material-symbols-rounded text-[18px]">bookmark</span>
         </button>
       </div>
-      <div class="venue-card-body pt-4">
-        <div class="flex items-center gap-1.5 flex-wrap mb-1.5">
-          ${tags.map(t => `<span class="badge badge-soft badge-sm ${t === '實體書' ? 'badge-warning' : 'badge-info'} text-xs">${t}</span>`).join('')}
+      <div>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          ${tags.map(t => `<span class="badge badge-soft badge-neutral">${t}</span>`).join('')}
         </div>
-        <h3 class="venue-title text-base">${title}</h3>
-        <p class="text-sm text-base-content/60 mt-0.5">${author}</p>
-        <div class="mt-1.5">${hearts(rating)}</div>
+        <h3 class="book-title">${title}</h3>
+        <p class="text-sm text-base-content/60 -mt-1 mb-2">${author}</p>
+        <div class="rating-hearts" data-rating="${rating}"></div>
       </div>
     </article>`;
 

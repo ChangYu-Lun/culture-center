@@ -212,6 +212,15 @@ site-header, site-footer, side-panel { display: contents; }
   #venue-grid.is-list .venue-card { gap: 1rem; }
   #venue-grid.is-list .venue-thumb { flex-basis: 132px; width: 132px; }
 }
+/* 圖書列表頁：列表檢視（book-card 橫向）*/
+#library-grid.is-list { grid-template-columns: 1fr; gap: 1rem; }
+#library-grid.is-list .book-card { flex-direction: row; align-items: center; gap: 1.5rem; }
+#library-grid.is-list .book-thumb { flex: 0 0 160px; width: 160px; align-self: stretch; }
+#library-grid.is-list .book-card > div:last-child { flex: 1 1 auto; }
+@media (max-width: 640px) {
+  #library-grid.is-list .book-card { gap: 1rem; }
+  #library-grid.is-list .book-thumb { flex-basis: 110px; width: 110px; }
+}
 .venue-title {
   font-size: 1.125rem;
   font-weight: 500;
