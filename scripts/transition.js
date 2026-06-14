@@ -43,7 +43,23 @@
     'display:flex;align-items:center;justify-content:center;opacity:0;overflow:hidden}' +
     '#page-transition.is-covering{opacity:1}' +
     '#page-transition svg{width:100%;height:100%;transform:scale(1.35)}' +
-    '#page-transition path{stroke:var(--color-accent,#f9b664);fill:none}';
+    '#page-transition path{stroke:var(--color-accent,#f9b664);fill:none}' +
+    /* 等待資源就緒時的 4 球 loading（球色用 base-100，疊在覆蓋層中央）*/
+    '#page-transition .loader{position:absolute;left:50%;top:50%;' +
+    'transform:translate(-50%,-50%);height:30px;aspect-ratio:2.5;' +
+    '--_g:no-repeat radial-gradient(farthest-side,var(--color-base-100,#fff) 90%,#0000);' +
+    'background:var(--_g),var(--_g),var(--_g),var(--_g);background-size:20% 50%;' +
+    'animation:l43 1s infinite linear;opacity:0;transition:opacity .2s}' +
+    '#page-transition.is-loading .loader{opacity:1}' +
+    '@keyframes l43{' +
+    '0%{background-position:calc(0*100%/3) 50%,calc(1*100%/3) 50%,calc(2*100%/3) 50%,calc(3*100%/3) 50%}' +
+    '16.67%{background-position:calc(0*100%/3) 0,calc(1*100%/3) 50%,calc(2*100%/3) 50%,calc(3*100%/3) 50%}' +
+    '33.33%{background-position:calc(0*100%/3) 100%,calc(1*100%/3) 0,calc(2*100%/3) 50%,calc(3*100%/3) 50%}' +
+    '50%{background-position:calc(0*100%/3) 50%,calc(1*100%/3) 100%,calc(2*100%/3) 0,calc(3*100%/3) 50%}' +
+    '66.67%{background-position:calc(0*100%/3) 50%,calc(1*100%/3) 50%,calc(2*100%/3) 100%,calc(3*100%/3) 0}' +
+    '83.33%{background-position:calc(0*100%/3) 50%,calc(1*100%/3) 50%,calc(2*100%/3) 50%,calc(3*100%/3) 100%}' +
+    '100%{background-position:calc(0*100%/3) 50%,calc(1*100%/3) 50%,calc(2*100%/3) 50%,calc(3*100%/3) 50%}' +
+    '}';
   (document.head || document.documentElement).appendChild(style);
 
   /* ---- Overlay（append 到 <html>，先於 body 繪製）----------------------- */
@@ -54,7 +70,8 @@
     '<svg viewBox="0 0 1316 664" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">' +
     '<path d="' + PATH_D + '" pathLength="100" stroke-linecap="round" stroke-linejoin="round" ' +
     'stroke-width="' + THIN_WIDTH + '" stroke-dasharray="100" stroke-dashoffset="100"></path>' +
-    '</svg>';
+    '</svg>' +
+    '<div class="loader" aria-hidden="true"></div>';
   document.documentElement.appendChild(overlay);
 
   var path = overlay.querySelector('path');
@@ -78,8 +95,9 @@
    * 筆畫先快速縮細（0→0.3 露出運筆軌跡）再退收；overlay 於中段淡出。
    * 內容浮現（is-loaded）在 overlay 開始淡出時即提前觸發，使其頭部與
    * 筆畫退場的尾部時間序重疊，銜接更柔順。*/
-  function playEnter() {
-    if (REDUCED || HERE_NOTX) { markLoaded(); return; }
+  /* 筆畫退場揭開（覆蓋層淡出 + 浮現），僅在資源就緒後呼叫 */
+  function reveal() {
+    overlay.classList.remove('is-loading');
     var p1 = path.animate(
       [{ strokeDashoffset: 0,    strokeWidth: COVER_WIDTH + 'px', offset: 0 },
        {                         strokeWidth: DRAW_WIDTH  + 'px', offset: 0.3 },
@@ -100,6 +118,31 @@
       path.style.strokeWidth = THIN_WIDTH;
       markLoaded();
     };
+  }
+
+  var LOADER_DELAY = 200;   // 超過此時間仍未載完才顯示 loader（避免快速載入時閃爍）
+  var MAX_WAIT = 5000;      // 等待資源最長時間（逾時保險，仍會退場）
+
+  /* enter：覆蓋狀態下先等資源就緒（期間顯示 loader），再退場揭開 */
+  function playEnter() {
+    if (REDUCED || HERE_NOTX) { markLoaded(); return; }
+    if (document.readyState === 'complete') { reveal(); return; }
+
+    var done = false;
+    var loaderTimer = setTimeout(function () {
+      if (!done) overlay.classList.add('is-loading');
+    }, LOADER_DELAY);
+
+    function go() {
+      if (done) return;
+      done = true;
+      clearTimeout(loaderTimer);
+      clearTimeout(maxTimer);
+      window.removeEventListener('load', go);
+      reveal();
+    }
+    var maxTimer = setTimeout(go, MAX_WAIT);
+    window.addEventListener('load', go);
   }
 
   /* ---- leave：覆蓋舊頁後導頁 --------------------------------------------
@@ -163,7 +206,7 @@
   window.addEventListener('pageshow', function (e) {
     if (e.persisted) {
       navigating = false;
-      overlay.classList.remove('is-covering');
+      overlay.classList.remove('is-covering', 'is-loading');
       overlay.style.opacity = '0';
       path.style.strokeDashoffset = '100';
       path.style.strokeWidth = THIN_WIDTH;
