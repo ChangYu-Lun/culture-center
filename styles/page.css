@@ -477,6 +477,13 @@ site-header, site-footer, side-panel { display: contents; }
   color: var(--color-primary); font-weight: 600;
   background: color-mix(in oklab, var(--color-primary) 8%, transparent);
 }
+/* < lg：側邊選單改用底部 Dock 呈現 */
+@media (max-width: 1023.98px) {
+  .member-menu,
+  .member-aside-divider { display: none; }
+  /* 預留 Dock 高度，避免內容被固定底部導覽遮住 */
+  body:has(.dock) { padding-bottom: 5rem; }
+}
 
 /* 申請紀錄：縮圖 */
 .rec-thumb {

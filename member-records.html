@@ -57,7 +57,7 @@
                 example@mail.com
                 <span class="material-symbols-rounded text-[18px] text-primary" title="已驗證" style="font-variation-settings:'FILL' 1;">verified</span>
               </p>
-              <div class="divider my-4"></div>
+              <div class="divider my-4 member-aside-divider"></div>
               <nav class="member-menu w-full">
                 <a href="./member.html" class="member-menu-item">會員總覽</a>
                 <a href="./member-records.html" class="member-menu-item is-active">申請紀錄</a>
@@ -98,6 +98,30 @@
         </div>
       </div>
     </div>
+
+    <!-- 會員選單（< lg）：母庫 Dock 底部導覽 -->
+    <nav class="dock lg:hidden">
+      <a href="./member.html" aria-label="會員總覽">
+        <span class="material-symbols-rounded">grid_view</span>
+        <span class="dock-label">總覽</span>
+      </a>
+      <a href="./member-records.html" class="dock-active" aria-label="申請紀錄">
+        <span class="material-symbols-rounded">receipt_long</span>
+        <span class="dock-label">紀錄</span>
+      </a>
+      <a href="#" aria-label="我的收藏">
+        <span class="material-symbols-rounded">favorite</span>
+        <span class="dock-label">收藏</span>
+      </a>
+      <a href="#" aria-label="會員通知">
+        <span class="material-symbols-rounded">notifications</span>
+        <span class="dock-label">通知</span>
+      </a>
+      <a href="#" aria-label="會員資料">
+        <span class="material-symbols-rounded">person</span>
+        <span class="dock-label">資料</span>
+      </a>
+    </nav>
   </main>
 
   <site-footer></site-footer>
