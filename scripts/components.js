@@ -49,9 +49,9 @@ class SiteHeader extends HTMLElement {
 
             <nav class="flex items-center gap-1 md:gap-2">
               ${navItem('library', '#', '圖書借閱')}
-              ${navItem('folk', '#', '民俗文物')}
+              ${navItem('folk', './artifact.html', '民俗文物')}
               ${navItem('venue', './venue.html', '場地預約')}
-              ${navItem('events', './index.html#events', '僑務活動')}
+              ${navItem('events', './events.html', '僑務活動')}
               <a href="./member.html" class="btn btn-neutral btn-sm md:btn-md rounded-full px-6">登入</a>
             </nav>
           </div>

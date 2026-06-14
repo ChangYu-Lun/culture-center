@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>活動報名 — 海外文教中心數位服務平台</title>
+
+  <link rel="stylesheet" href="./dist/styles.css" />
+  <link rel="stylesheet" href="./styles/custom.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./styles/page.css" />
+  <style>
+    /* 確認摘要表 */
+    .confirm-table { width: 100%; border: 1px solid rgba(20,20,19,.12); border-radius: 6px; overflow: hidden; border-collapse: separate; border-spacing: 0; }
+    .confirm-table td { padding: .875rem 1.25rem; font-size: .9rem; border-bottom: 1px solid rgba(20,20,19,.08); }
+    .confirm-table tr:nth-child(even) td { background: var(--color-base-200, #faf9f5); }
+    .confirm-table tr:last-child td { border-bottom: none; }
+    .confirm-table td:first-child { color: rgba(20,20,19,.6); width: 40%; font-size: .85rem; }
+    /* 工坊選項 */
+    .workshop-card { display: flex; align-items: flex-start; gap: .75rem; border: 1.5px solid rgba(20,20,19,.15); border-radius: 10px; padding: .875rem; cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+    .workshop-card:has(input:checked) { border-color: var(--color-base-content); box-shadow: 0 0 0 1.5px var(--color-base-content); }
+    .workshop-card input[type="checkbox"] { flex-shrink: 0; margin-top: 2px; }
+  </style>
+</head>
+
+<body class="bg-base-200 text-base-content min-h-screen font-sans">
+
+  <site-header active="events"></site-header>
+
+  <main>
+    <!-- 頁首 Banner -->
+    <section class="page-hero relative bg-accent overflow-x-clip h-[220px]">
+      <img src="./assets/image/venue-title-graphic.png" alt="" class="pointer-events-none select-none absolute top-[90px] right-0 w-[360px] max-w-[45%] opacity-80" />
+      <div class="page-container relative z-[1] pt-32">
+        <div class="breadcrumbs intro intro-d1 text-sm text-base-content">
+          <ul>
+            <li><a href="./index.html">首頁</a></li>
+            <li><a href="./events.html">僑務活動</a></li>
+            <li><a href="./event-detail.html">2026年台灣文化節</a></li>
+            <li>活動報名</li>
+          </ul>
+        </div>
+      </div>
+      <img src="./assets/image/pt-graphic.svg" alt="" class="pointer-events-none absolute bottom-0 left-0 w-full h-[52px] object-cover" />
+    </section>
+
+    <div class="page-container py-12 pb-24">
+
+      <!-- 標題 + 步驟條 -->
+      <div class="text-center mb-10">
+        <h1 class="intro intro-d1 text-3xl font-medium">活動報名</h1>
+
+        <nav id="apply-stepper" class="apply-stepper mt-8 mb-2" aria-label="報名步驟">
+          <div class="apply-step is-active" data-step="1">
+            <div class="apply-step-circle">1</div>
+            <span class="apply-step-label">基本資料</span>
+          </div>
+          <div class="apply-step-line" id="line-1-2"></div>
+          <div class="apply-step" data-step="2" id="step-nav-2">
+            <div class="apply-step-circle">2</div>
+            <span class="apply-step-label">確認報名</span>
+          </div>
+          <div class="apply-step-line" id="line-2-3"></div>
+          <div class="apply-step" data-step="3" id="step-nav-3">
+            <div class="apply-step-circle">3</div>
+            <span class="apply-step-label">報名完成</span>
+          </div>
+        </nav>
+      </div>
+
+      <!-- ============================= -->
+      <!-- STEP 0：活動簡介 + 注意事項  -->
+      <!-- ============================= -->
+      <div id="ev-step-0" class="apply-step-panel max-w-3xl mx-auto">
+        <div class="card bg-base-100 rounded-box shadow-md">
+          <div class="card-body gap-6 p-8">
+
+            <!-- 活動摘要橫幅 -->
+            <div class="flex gap-4 p-4 bg-base-200 rounded-xl">
+              <img src="./assets/image/event-2.png" alt="" class="w-24 h-16 object-cover rounded-lg shrink-0" />
+              <div>
+                <p class="font-semibold leading-snug">2026年台灣文化節海外巡迴 — 洛杉磯場</p>
+                <div class="flex flex-wrap gap-2 mt-1 text-sm text-base-content/60">
+                  <span class="flex items-center gap-1">
+                    <span class="material-symbols-rounded text-[14px]">calendar_today</span> 2026.08.15
+                  </span>
+                  <span class="flex items-center gap-1">
+                    <span class="material-symbols-rounded text-[14px]">schedule</span> 09:00–17:00
+                  </span>
+                  <span class="flex items-center gap-1">
+                    <span class="material-symbols-rounded text-[14px]">location_on</span> 洛杉磯華僑文教服務中心
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <h2 class="text-2xl font-semibold">報名須知</h2>
+            <div class="vd-terms-scroll">
+              <div class="space-y-4 text-base text-base-content/80 leading-7">
+                <div>
+                  <p class="font-bold text-base-content mb-1">名額限制</p>
+                  <p>本活動免費入場，整體活動無需報名；惟體驗工坊（手作、美食）名額有限，需透過本系統完成線上報名，一人可報名最多 2 項工坊，名額以先到先得為原則。</p>
+                </div>
+                <div>
+                  <p class="font-bold text-base-content mb-1">取消與候補規定</p>
+                  <p>如已完成報名，因故無法出席，請於活動前 3 日（2026.08.12）前至系統取消；未按時取消者，將影響日後報名資格。候補名單依序遞補，遞補成功將以 Email 通知。</p>
+                </div>
+                <div>
+                  <p class="font-bold text-base-content mb-1">個人資料使用</p>
+                  <p>您所填寫之個人資料，僅供本次活動報到核驗及聯絡通知使用，不作其他商業用途，並依「個人資料保護法」妥善保管。</p>
+                </div>
+                <div>
+                  <p class="font-bold text-base-content mb-1">健康安全規範</p>
+                  <p>依各工坊場地規定，部分區域需配合防疫指引；如當日有發燒、呼吸道症狀，請勿前往參加，主辦單位有權拒絕入場。</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 同意 checkbox -->
+            <label class="flex items-start gap-3 cursor-pointer mt-2">
+              <input type="checkbox" id="agree-terms" class="checkbox checkbox-sm mt-0.5 shrink-0" />
+              <span class="flex flex-col">
+                <span class="font-medium">我已詳閱並同意報名須知及個人資料使用說明</span>
+                <span class="text-sm text-base-content/50" id="agree-hint">若未勾選無法繼續報名</span>
+              </span>
+            </label>
+
+            <div>
+              <button type="button" class="btn btn-neutral rounded-full px-8" id="btn-step0">下一步</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================= -->
+      <!-- STEP 1：基本報名資料          -->
+      <!-- ============================= -->
+      <div id="ev-step-1" class="apply-step-panel max-w-3xl mx-auto hidden">
+        <div class="card bg-base-100 rounded-box shadow-md">
+          <div class="card-body gap-6 p-8">
+            <h2 class="text-2xl font-semibold">報名人基本資料</h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div class="apply-form-section">
+                <label class="apply-label" for="f-name">姓名<span class="apply-req">*</span></label>
+                <input id="f-name" type="text" class="input w-full" required />
+              </div>
+              <div class="apply-form-section">
+                <label class="apply-label" for="f-eng-name">英文姓名</label>
+                <input id="f-eng-name" type="text" placeholder="Last, First" class="input w-full" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div class="apply-form-section">
+                <label class="apply-label" for="f-phone">聯絡電話<span class="apply-req">*</span></label>
+                <input id="f-phone" type="tel" placeholder="(XXX) XXX-XXXX" class="input w-full" required />
+              </div>
+              <div class="apply-form-section">
+                <label class="apply-label" for="f-email">電子信箱<span class="apply-req">*</span></label>
+                <input id="f-email" type="email" placeholder="example@mail.com" class="input w-full" required />
+              </div>
+            </div>
+
+            <div class="apply-form-section">
+              <label class="apply-label" for="f-affiliation">所屬僑社 / 機構</label>
+              <input id="f-affiliation" type="text" placeholder="請填寫所屬僑社、學校或機構名稱（無則免填）" class="input w-full" />
+            </div>
+
+            <!-- 人數 -->
+            <div class="apply-form-section">
+              <label class="apply-label">參加人數<span class="apply-req">*</span></label>
+              <div class="flex items-center gap-3">
+                <div class="flex items-center border border-base-content/20 rounded-field overflow-hidden h-10">
+                  <button type="button" class="w-10 h-full flex items-center justify-center hover:bg-base-200 transition-colors" id="people-minus" aria-label="減少">
+                    <span class="material-symbols-rounded text-[18px]">remove</span>
+                  </button>
+                  <span id="f-people-val" class="min-w-[3rem] text-center px-3 font-medium select-none">1</span>
+                  <button type="button" class="w-10 h-full flex items-center justify-center hover:bg-base-200 transition-colors" id="people-plus" aria-label="增加">
+                    <span class="material-symbols-rounded text-[18px]">add</span>
+                  </button>
+                </div>
+                <span class="text-sm text-base-content/60">人（每人需分別填寫資料）</span>
+              </div>
+            </div>
+
+            <!-- 工坊選擇 -->
+            <div class="apply-form-section">
+              <p class="apply-label">體驗工坊報名（可複選，最多 2 項）<span class="apply-req">*</span></p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1">
+                <label class="workshop-card">
+                  <input type="checkbox" class="checkbox checkbox-sm" name="workshop" value="craft" />
+                  <div>
+                    <p class="font-semibold text-sm">傳統手工藝工坊</p>
+                    <p class="text-xs text-base-content/60 mt-0.5">10:00–12:00　剩餘 8 名</p>
+                  </div>
+                </label>
+                <label class="workshop-card">
+                  <input type="checkbox" class="checkbox checkbox-sm" name="workshop" value="food" />
+                  <div>
+                    <p class="font-semibold text-sm">台灣傳統美食體驗</p>
+                    <p class="text-xs text-base-content/60 mt-0.5">12:00–13:30　剩餘 15 名</p>
+                  </div>
+                </label>
+                <label class="workshop-card">
+                  <input type="checkbox" class="checkbox checkbox-sm" name="workshop" value="calligraphy" />
+                  <div>
+                    <p class="font-semibold text-sm">書法體驗工坊</p>
+                    <p class="text-xs text-base-content/60 mt-0.5">14:00–15:30　剩餘 12 名</p>
+                  </div>
+                </label>
+                <label class="workshop-card">
+                  <input type="checkbox" class="checkbox checkbox-sm" name="workshop" value="kids" />
+                  <div>
+                    <p class="font-semibold text-sm">親子闖關遊戲</p>
+                    <p class="text-xs text-base-content/60 mt-0.5">15:00–16:30　剩餘 20 名</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- 特殊需求 -->
+            <div class="apply-form-section">
+              <label class="apply-label" for="f-special">特殊需求 / 備註</label>
+              <textarea id="f-special" rows="3" placeholder="如有飲食限制、無障礙需求或其他特殊需求，請在此說明" class="textarea w-full" maxlength="200"></textarea>
+            </div>
+
+          </div>
+          <div class="apply-actions border-t border-base-content/10 px-8 py-5 flex items-center gap-3">
+            <button type="button" class="btn btn-ghost rounded-full" onclick="goToStep(0)">上一步</button>
+            <button type="button" class="btn btn-neutral rounded-full px-8" onclick="goToStep(2)">下一步</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================= -->
+      <!-- STEP 2：確認報名資訊          -->
+      <!-- ============================= -->
+      <div id="ev-step-2" class="apply-step-panel max-w-3xl mx-auto hidden">
+        <div class="card bg-base-100 rounded-box shadow-md">
+          <div class="card-body gap-6 p-8">
+            <h2 class="text-2xl font-semibold">確認報名資訊</h2>
+
+            <!-- 活動資訊 -->
+            <div>
+              <h3 class="text-base font-semibold mb-3 text-accent-alt">活動資訊</h3>
+              <table class="confirm-table w-full">
+                <tbody>
+                  <tr><td>活動名稱</td><td class="font-medium">2026年台灣文化節海外巡迴 — 洛杉磯場</td></tr>
+                  <tr><td>活動日期</td><td>2026 年 8 月 15 日（六）09:00–17:00</td></tr>
+                  <tr><td>活動地點</td><td>洛杉磯華僑文教服務中心</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- 報名人資訊 -->
+            <div>
+              <h3 class="text-base font-semibold mb-3 text-accent-alt">報名人資訊</h3>
+              <table class="confirm-table w-full">
+                <tbody>
+                  <tr><td>姓名</td><td class="font-medium" id="confirm-name">—</td></tr>
+                  <tr><td>聯絡電話</td><td id="confirm-phone">—</td></tr>
+                  <tr><td>電子信箱</td><td id="confirm-email">—</td></tr>
+                  <tr><td>所屬僑社</td><td id="confirm-org">無</td></tr>
+                  <tr><td>參加人數</td><td id="confirm-people">1 人</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- 工坊選擇 -->
+            <div>
+              <h3 class="text-base font-semibold mb-3 text-accent-alt">體驗工坊</h3>
+              <table class="confirm-table w-full">
+                <tbody id="confirm-workshops">
+                  <tr><td colspan="2" class="text-base-content/50">未選擇工坊</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- 特殊需求 -->
+            <div>
+              <h3 class="text-base font-semibold mb-3 text-accent-alt">特殊需求</h3>
+              <p class="text-base text-base-content/70 leading-7 border border-base-content/10 rounded-lg p-4 bg-base-200/60" id="confirm-special">無</p>
+            </div>
+
+            <!-- 提示 -->
+            <div class="alert gap-2 py-3 text-sm">
+              <span class="material-symbols-rounded text-[20px] shrink-0">info</span>
+              報名送出後，系統將寄送確認 Email 至您的信箱，請留意查收。若未收到，請洽中心承辦人員。
+            </div>
+
+          </div>
+          <div class="apply-actions border-t border-base-content/10 px-8 py-5 flex items-center gap-3">
+            <button type="button" class="btn btn-ghost rounded-full" onclick="goToStep(1)">上一步，修改資料</button>
+            <button type="button" class="btn btn-neutral rounded-full px-8" onclick="submitApply()">確認送出報名</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================= -->
+      <!-- STEP 3：報名完成              -->
+      <!-- ============================= -->
+      <div id="ev-step-3" class="apply-step-panel max-w-3xl mx-auto hidden">
+        <div class="card bg-base-100 rounded-box shadow-md">
+          <div class="card-body gap-5 p-8">
+
+            <!-- 成功標題 -->
+            <div class="flex items-center gap-4">
+              <span class="inline-flex items-center justify-center size-12 rounded-full shrink-0" style="background:#5bcd99">
+                <span class="material-symbols-rounded text-white text-[26px]" style="font-variation-settings:'FILL' 1">check</span>
+              </span>
+              <div>
+                <h2 class="text-2xl font-semibold">報名成功！</h2>
+                <p class="text-sm text-base-content/60 mt-0.5">確認信已寄至您的信箱，請留意查收</p>
+              </div>
+            </div>
+
+            <p class="text-base text-base-content/80 leading-7">
+              感謝您報名本次活動！工作人員將於活動前 3 日寄送提醒通知與入場須知，請屆時攜帶本 QR Code 或報名確認信至現場核驗身份。
+            </p>
+
+            <!-- 報名摘要 -->
+            <table class="confirm-table w-full">
+              <tbody>
+                <tr><td>報名編號</td><td class="font-medium text-accent-alt" id="s-code">#EV-20260614-001</td></tr>
+                <tr><td>活動名稱</td><td>2026年台灣文化節海外巡迴 — 洛杉磯場</td></tr>
+                <tr><td>活動日期</td><td>2026 年 8 月 15 日（六）09:00–17:00</td></tr>
+                <tr><td>報名人</td><td id="s-name">—</td></tr>
+                <tr><td>報名人數</td><td id="s-people">1 人</td></tr>
+              </tbody>
+            </table>
+
+            <!-- QR Code 示意 -->
+            <div class="flex flex-col items-center gap-2 py-4 border border-base-content/10 rounded-xl bg-base-200/50">
+              <div class="size-28 bg-base-content/10 rounded-lg flex items-center justify-center">
+                <span class="material-symbols-rounded text-[56px] text-base-content/30">qr_code_2</span>
+              </div>
+              <p class="text-xs text-base-content/50">入場 QR Code（請截圖備用）</p>
+            </div>
+
+            <!-- 操作按鈕 -->
+            <div class="flex flex-wrap gap-3 mt-2">
+              <a href="./events.html" class="btn btn-neutral rounded-full px-6">回到活動列表</a>
+              <button type="button" class="btn btn-outline rounded-full px-6" onclick="window.print()">下載報名紀錄</button>
+              <a href="./member-records.html" class="btn btn-ghost rounded-full px-6">查看我的報名</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-container -->
+  </main>
+
+  <site-footer></site-footer>
+  <side-panel></side-panel>
+
+  <script src="./scripts/components.js"></script>
+  <script src="./scripts/main.js"></script>
+  <script>
+    let currentStep = -1; // -1 = step 0 (terms)
+
+    /* ---- 步驟切換 --------------------------------------------------------- */
+    function goToStep(n) {
+      const panelIds = ['ev-step-0', 'ev-step-1', 'ev-step-2', 'ev-step-3'];
+      panelIds.forEach(id => document.getElementById(id)?.classList.add('hidden'));
+      const target = n === 0 ? 'ev-step-1' : n === -1 ? 'ev-step-0' : `ev-step-${n}`;
+      document.getElementById(target)?.classList.remove('hidden');
+      updateStepper(n < 1 ? 1 : n);
+      currentStep = n;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateStepper(active) {
+      document.querySelectorAll('.apply-step').forEach((s, i) => {
+        s.classList.remove('is-active', 'is-done');
+        if (i + 1 < active) s.classList.add('is-done');
+        if (i + 1 === active) s.classList.add('is-active');
+      });
+      document.querySelectorAll('.apply-step-line').forEach((l, i) => {
+        l.classList.toggle('is-done', i + 1 < active);
+      });
+    }
+
+    /* ---- Step 0：報名須知同意 --------------------------------------------- */
+    document.getElementById('btn-step0').addEventListener('click', () => {
+      const cb = document.getElementById('agree-terms');
+      if (!cb.checked) {
+        cb.closest('label').classList.add('ring-2', 'ring-error', 'ring-offset-1', 'rounded');
+        document.getElementById('agree-hint').classList.add('text-error');
+        document.getElementById('agree-hint').textContent = '請先勾選同意';
+        return;
+      }
+      goToStep(0);
+    });
+
+    /* ---- 人數控制 ---------------------------------------------------------- */
+    let peopleCount = 1;
+    document.getElementById('people-plus').addEventListener('click', () => {
+      if (peopleCount < 10) document.getElementById('f-people-val').textContent = ++peopleCount;
+    });
+    document.getElementById('people-minus').addEventListener('click', () => {
+      if (peopleCount > 1) document.getElementById('f-people-val').textContent = --peopleCount;
+    });
+
+    /* ---- Step 2：填充確認頁資料 ------------------------------------------- */
+    const workshopNames = { craft: '傳統手工藝工坊', food: '台灣傳統美食體驗', calligraphy: '書法體驗工坊', kids: '親子闖關遊戲' };
+
+    function fillConfirm() {
+      document.getElementById('confirm-name').textContent    = document.getElementById('f-name').value || '—';
+      document.getElementById('confirm-phone').textContent   = document.getElementById('f-phone').value || '—';
+      document.getElementById('confirm-email').textContent   = document.getElementById('f-email').value || '—';
+      document.getElementById('confirm-org').textContent     = document.getElementById('f-affiliation').value || '無';
+      document.getElementById('confirm-people').textContent  = peopleCount + ' 人';
+      document.getElementById('confirm-special').textContent = document.getElementById('f-special').value || '無';
+
+      const checked = [...document.querySelectorAll('[name="workshop"]:checked')];
+      const tbody = document.getElementById('confirm-workshops');
+      if (checked.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="2" class="text-base-content/50">未選擇工坊</td></tr>';
+      } else {
+        tbody.innerHTML = checked.map(c => `<tr><td>${workshopNames[c.value]}</td><td>1 人</td></tr>`).join('');
+      }
+    }
+
+    /* ---- Step 3：提交 ----------------------------------------------------- */
+    function submitApply() {
+      const d = new Date();
+      const ds = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+      document.getElementById('s-code').textContent   = `#EV-${ds}-${String(Math.floor(Math.random()*900)+100)}`;
+      document.getElementById('s-name').textContent   = document.getElementById('f-name').value || '—';
+      document.getElementById('s-people').textContent = peopleCount + ' 人';
+
+      document.querySelectorAll('.apply-step').forEach(s => { s.classList.remove('is-active', 'is-done'); s.classList.add('is-done'); });
+      document.querySelectorAll('.apply-step-line').forEach(l => l.classList.add('is-done'));
+
+      ['ev-step-0','ev-step-1','ev-step-2'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+      document.getElementById('ev-step-3').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* 綁定「下一步」到確認頁 */
+    document.querySelector('[onclick="goToStep(2)"]').addEventListener('click', fillConfirm, true);
+
+    /* ---- 工坊最多選 2 項 --------------------------------------------------- */
+    document.querySelectorAll('[name="workshop"]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const checked = [...document.querySelectorAll('[name="workshop"]:checked')];
+        if (checked.length > 2) { cb.checked = false; }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>僑務活動 — 海外文教中心數位服務平台</title>
+
+  <link rel="stylesheet" href="./dist/styles.css" />
+  <link rel="stylesheet" href="./styles/custom.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./styles/page.css" />
+</head>
+
+<body class="bg-base-200 text-base-content min-h-screen font-sans">
+
+  <site-header active="events"></site-header>
+
+  <main>
+    <!-- ============================================================= -->
+    <!-- 頁首 Banner                                                    -->
+    <!-- ============================================================= -->
+    <section class="page-hero relative bg-accent overflow-x-clip">
+      <img src="./assets/image/venue-title-graphic.png" alt="" class="pointer-events-none select-none absolute top-4 right-0 w-[520px] max-w-[55%] opacity-90" />
+
+      <div class="page-container relative z-[1] pt-32 pb-36">
+        <h1 class="intro intro-d1 text-5xl leading-tight text-accent-content">僑務活動</h1>
+        <div class="breadcrumbs intro intro-d2 text-sm mt-2 text-base-content">
+          <ul>
+            <li><a href="./index.html">首頁</a></li>
+            <li>僑務活動</li>
+          </ul>
+        </div>
+      </div>
+
+      <img src="./assets/image/pt-graphic.svg" alt="" class="pointer-events-none absolute bottom-0 left-0 w-full h-[52px] object-cover" />
+
+      <!-- 搜尋卡（疊在 Banner 底緣，向下凸出）-->
+      <div class="intro intro-d3 absolute left-0 right-0 -bottom-7 z-30 px-4 flex justify-center">
+        <div class="card w-full max-w-[640px] bg-base-100 rounded-box shadow-md border border-base-content">
+          <div class="card-body p-6 gap-[18px]">
+
+            <!-- 搜尋列 -->
+            <div class="vd-search relative flex items-center gap-1 rounded-[8px] border border-base-content bg-base-100 p-1.5">
+              <!-- 關鍵字 -->
+              <button type="button" class="vd-field" id="ev-keyword-btn">
+                <span class="material-symbols-rounded text-[18px] text-base-content/50">search</span>
+                <span class="vd-field-text" id="ev-keyword-label" data-placeholder="活動關鍵字">活動關鍵字</span>
+              </button>
+              <span class="vd-div w-px self-stretch my-1.5 bg-base-content/15"></span>
+              <!-- 日期 -->
+              <button type="button" class="vd-field" id="ev-date-btn">
+                <span class="material-symbols-rounded text-[18px] text-base-content/50">calendar_today</span>
+                <span class="vd-field-text" id="ev-date-label" data-placeholder="活動日期">活動日期</span>
+              </button>
+              <!-- 搜尋鈕 -->
+              <button type="button" class="btn btn-neutral btn-square shrink-0 rounded-[4px]" aria-label="搜尋">
+                <span class="material-symbols-rounded text-[20px]">search</span>
+              </button>
+            </div>
+
+            <!-- 篩選按鈕列 -->
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <button type="button" class="btn btn-outline btn-sm rounded-full gap-1 font-semibold text-neutral border-base-content/20" id="filter-region-btn">
+                所屬地區
+                <span class="material-symbols-rounded text-[16px]">keyboard_arrow_down</span>
+              </button>
+              <button type="button" class="btn btn-outline btn-sm rounded-full gap-1 font-semibold text-neutral border-base-content/20" id="filter-type-btn">
+                活動類型
+                <span class="material-symbols-rounded text-[16px]">keyboard_arrow_down</span>
+              </button>
+              <button type="button" class="btn btn-outline btn-sm rounded-full gap-1 font-semibold text-neutral border-base-content/20" id="filter-status-btn">
+                報名狀態
+                <span class="material-symbols-rounded text-[16px]">keyboard_arrow_down</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- 活動卡片區                                                     -->
+    <!-- ============================================================= -->
+    <section class="intro intro-d4 pt-24 pb-20">
+      <div class="page-container">
+
+        <!-- 工具列 -->
+        <div class="flex items-center justify-between gap-4 flex-wrap mb-8">
+          <div class="flex items-center gap-3 flex-wrap">
+            <div class="flex items-center gap-2">
+              <span class="text-sm font-medium whitespace-nowrap">共 18 筆，每頁顯示</span>
+              <select class="select select-bordered h-10 min-h-10 w-20 text-sm" aria-label="每頁顯示筆數">
+                <option>12</option>
+                <option>24</option>
+                <option>48</option>
+              </select>
+            </div>
+            <select class="select select-bordered h-10 min-h-10 w-[136px] text-sm" aria-label="排序方式">
+              <option>時間近到遠</option>
+              <option>時間遠到近</option>
+              <option>最新公告</option>
+            </select>
+          </div>
+          <div class="join" id="view-toggle">
+            <button class="join-item btn btn-neutral btn-square is-active" data-view="grid" aria-label="格狀檢視" aria-pressed="true">
+              <span class="material-symbols-rounded text-[20px]">grid_view</span>
+            </button>
+            <button class="join-item btn btn-outline btn-square" data-view="list" aria-label="列表檢視" aria-pressed="false">
+              <span class="material-symbols-rounded text-[20px]">format_list_bulleted</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 活動卡片格 -->
+        <div id="events-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-11 gap-y-10">
+          <!-- 由 events.js 產生 -->
+        </div>
+
+        <!-- 分頁 -->
+        <div class="flex justify-center mt-16">
+          <div class="join">
+            <button class="join-item btn btn-outline btn-square" aria-label="上一頁">
+              <span class="material-symbols-rounded text-[20px]">arrow_back_ios_new</span>
+            </button>
+            <button class="join-item btn btn-neutral" aria-current="page">1</button>
+            <button class="join-item btn btn-outline">2</button>
+            <button class="join-item btn btn-outline">3</button>
+            <button class="join-item btn btn-outline btn-square" aria-label="下一頁">
+              <span class="material-symbols-rounded text-[20px]">arrow_forward_ios</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <site-footer></site-footer>
+  <side-panel></side-panel>
+
+  <script src="./scripts/components.js"></script>
+  <script src="./scripts/main.js"></script>
+  <script src="./scripts/events.js"></script>
+</body>
+</html>

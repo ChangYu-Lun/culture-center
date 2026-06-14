@@ -105,6 +105,45 @@ site-header, site-footer, side-panel { display: contents; }
   min-height: 3.5rem;
 }
 
+/* ---- Event 卡片 ---------------------------------------------------------- */
+.event-card { display: flex; flex-direction: column; height: 100%; position: relative; }
+.event-link { position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+.event-card .btn, .event-card .badge, .event-card button { position: relative; z-index: 2; }
+.event-date-badge {
+  position: absolute;
+  top: .75rem; left: .75rem;
+  background: var(--color-neutral);
+  color: var(--color-neutral-content, #fdf8f6);
+  border-radius: .5rem;
+  padding: .25rem .625rem;
+  font-size: .75rem;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: .03em;
+  z-index: 3;
+  pointer-events: none;
+}
+.event-tag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  background: rgba(20,20,19,.06);
+  border-radius: 999px;
+  padding: .1rem .625rem;
+  font-size: .75rem;
+  color: rgba(20,20,19,.7);
+  font-weight: 500;
+}
+/* 列表檢視 */
+#events-grid.is-list { grid-template-columns: 1fr; gap: 1rem; }
+#events-grid.is-list .event-card { flex-direction: row; align-items: stretch; gap: 1.5rem; }
+#events-grid.is-list .event-card .news-card-thumb { flex: 0 0 240px; width: 240px; }
+#events-grid.is-list .event-card .event-body { padding-top: 0; align-self: center; flex: 1 1 auto; }
+@media (max-width: 640px) {
+  #events-grid.is-list .event-card { gap: 1rem; }
+  #events-grid.is-list .event-card .news-card-thumb { flex-basis: 120px; width: 120px; }
+}
+
 /* ---- Books 卡片 ---------------------------------------------------------- */
 .book-card { display: flex; flex-direction: column; gap: 1.25rem; height: 100%; }
 .book-thumb {
