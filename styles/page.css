@@ -72,10 +72,18 @@ site-header, site-footer, side-panel { display: contents; }
   width: 100%;
 }
 .hero-swiper .swiper-slide { overflow: hidden; }
-/* 以遮罩做出設計稿的圓角異形邊（小尺寸退化為圓角）*/
+/* 以遮罩做出設計稿的圓角異形邊 */
 .hero-mask {
   -webkit-mask: url("../assets/image/mask.svg") center / 100% 100% no-repeat;
           mask: url("../assets/image/mask.svg") center / 100% 100% no-repeat;
+}
+/* 小尺寸（≤767px）：方形比例 + 對應的小尺寸遮罩 */
+@media (max-width: 767px) {
+  .hero-swiper { aspect-ratio: 1 / 1; }
+  .hero-mask {
+    -webkit-mask-image: url("../assets/image/hero-mask_sm.svg");
+            mask-image: url("../assets/image/hero-mask_sm.svg");
+  }
 }
 
 /* ---- News / Events 卡片 -------------------------------------------------- */
