@@ -29,6 +29,15 @@ class SiteHeader extends HTMLElement {
       return `<a data-nav="${key}" href="${href}" class="${cls}"${cur}>${label}</a>`;
     };
 
+    const mobileItem = (key, href, label) => {
+      const isActive = key === active;
+      const cls = isActive
+        ? 'py-2.5 px-2 font-semibold text-primary'
+        : 'py-2.5 px-2 font-medium';
+      const cur = isActive ? ' aria-current="page"' : '';
+      return `<a data-nav="${key}" href="${href}" class="${cls}"${cur}>${label}</a>`;
+    };
+
     this.innerHTML = `
       <header id="site-header" class="navbar-wrapper fixed top-0 left-0 right-0 z-40">
         <div class="page-container flex items-center justify-between gap-4 py-4">
@@ -36,7 +45,8 @@ class SiteHeader extends HTMLElement {
             <img src="./assets/image/Logo-light.svg" alt="中華民國僑務委員會 海外文教中心數位服務平台" class="h-12 md:h-[58px] w-auto" />
           </a>
 
-          <div class="flex flex-col items-end gap-2">
+          <!-- 桌面選單（≥ md）-->
+          <div class="hidden md:flex flex-col items-end gap-2">
             <div class="hidden lg:flex items-center gap-4 text-sm">
               <a href="./index.html#news" class="link link-hover text-base-content/70">最新消息</a>
               <a href="#" class="link link-hover text-base-content/70">網站導覽</a>
@@ -55,9 +65,44 @@ class SiteHeader extends HTMLElement {
               <a href="./member.html" class="btn btn-neutral btn-sm md:btn-md rounded-full px-6">登入</a>
             </nav>
           </div>
+
+          <!-- 漢堡鈕（< md）-->
+          <button type="button" id="nav-toggle" class="btn btn-ghost btn-circle md:hidden" aria-label="開啟選單" aria-expanded="false" aria-controls="mobile-menu">
+            <span class="material-symbols-rounded text-[28px]" id="nav-toggle-icon">menu</span>
+          </button>
+        </div>
+
+        <!-- 行動版選單面板（< md）-->
+        <div id="mobile-menu" class="md:hidden hidden border-t border-base-content/10 bg-base-100">
+          <nav class="page-container flex flex-col py-3">
+            ${mobileItem('library', './library.html', '圖書借閱')}
+            ${mobileItem('folk', './artifact.html', '民俗文物')}
+            ${mobileItem('venue', './venue.html', '場地預約')}
+            ${mobileItem('events', './events.html', '僑務活動')}
+            <div class="divider my-2 before:bg-base-content/10 after:bg-base-content/10"></div>
+            <a href="./index.html#news" class="py-2.5 px-2 text-base-content/70">最新消息</a>
+            <a href="#" class="py-2.5 px-2 text-base-content/70">網站導覽</a>
+            <button class="flex items-center gap-1 py-2.5 px-2 text-base-content/70">
+              <span class="material-symbols-rounded text-[18px]">language</span><span>中文 TW</span>
+            </button>
+            <a href="./member.html" class="btn btn-neutral rounded-full mt-3">登入</a>
+          </nav>
         </div>
       </header>
       <div id="nav-spacer" aria-hidden="true"></div>`;
+
+    /* 漢堡選單開合 */
+    const toggle = this.querySelector('#nav-toggle');
+    const menu = this.querySelector('#mobile-menu');
+    const icon = this.querySelector('#nav-toggle-icon');
+    if (toggle && menu) {
+      toggle.addEventListener('click', () => {
+        const open = menu.classList.toggle('hidden') === false;
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+        icon.textContent = open ? 'close' : 'menu';
+      });
+    }
   }
 }
 
