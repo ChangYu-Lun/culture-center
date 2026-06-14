@@ -505,6 +505,24 @@ site-header, site-footer, side-panel { display: contents; }
   --fc-classic-muted-foreground: color-mix(in oklab, var(--color-base-content) 60%, transparent);
   --fc-classic-border: color-mix(in oklab, var(--color-base-content) 12%, transparent);
 }
+/* 工具列按鈕改為 outlined：透明底 + neutral 邊框/文字；
+ * hover 與選中（aria-pressed）才填滿 neutral（同 daisyUI btn-outline 行為）。
+ * v7 class 名雜湊化，故直接以 #member-calendar button 強制覆蓋 palette。 */
+#member-calendar button {
+  background: transparent !important;
+  color: var(--color-neutral) !important;
+  border: 1px solid var(--color-neutral) !important;
+  box-shadow: none !important;
+}
+#member-calendar button:hover:not(:disabled),
+#member-calendar button[aria-pressed="true"] {
+  background: var(--color-neutral) !important;
+  color: var(--color-neutral-content) !important;
+}
+#member-calendar button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
 
 /* ---- 評分 ----------------------------------------------------------------
  * 採用 daisyUI 的 rating 元件（愛心遮罩、amber-500 底色），由 main.js 動態產生。
