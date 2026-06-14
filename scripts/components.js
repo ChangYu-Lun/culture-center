@@ -48,7 +48,7 @@ class SiteHeader extends HTMLElement {
             </div>
 
             <nav class="flex items-center gap-1 md:gap-2">
-              ${navItem('library', '#', '圖書借閱')}
+              ${navItem('library', './library.html', '圖書借閱')}
               ${navItem('folk', './artifact.html', '民俗文物')}
               ${navItem('venue', './venue.html', '場地預約')}
               ${navItem('events', './events.html', '僑務活動')}

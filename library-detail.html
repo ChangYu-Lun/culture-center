@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>老師的話 — 海外文教中心數位服務平台</title>
+
+  <link rel="stylesheet" href="./dist/styles.css" />
+  <link rel="stylesheet" href="./styles/custom.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./styles/page.css" />
+
+  <style>
+    /* 圖書資訊表 */
+    .book-info { border: 1px solid rgba(20,20,19,.15); border-radius: 8px; overflow: hidden; }
+    .book-info tr { border-bottom: 1px solid rgba(20,20,19,.1); }
+    .book-info tr:last-child { border-bottom: none; }
+    .book-info td { padding: .75rem 1rem; font-size: .9rem; }
+    .book-info td:first-child { width: 6.5rem; color: rgba(20,20,19,.6); background: var(--color-base-200, #faf9f5); vertical-align: top; }
+    /* 館藏表 */
+    .stock-table { width: 100%; border: 1px solid rgba(20,20,19,.15); border-radius: 8px; overflow: hidden; border-collapse: separate; border-spacing: 0; }
+    .stock-table th { padding: .875rem 1rem; text-align: left; font-weight: 400; font-size: .875rem; color: rgba(20,20,19,.6); background: var(--color-base-200, #faf9f5); border-bottom: 1px solid rgba(20,20,19,.15); }
+    .stock-table td { padding: .875rem 1rem; font-size: .9rem; border-bottom: 1px solid rgba(20,20,19,.1); vertical-align: middle; }
+    .stock-table tr:last-child td { border-bottom: none; }
+    /* 評價長條 */
+    .rate-bar { height: 8px; border-radius: 999px; background: rgba(20,20,19,.1); overflow: hidden; }
+    .rate-bar > span { display: block; height: 100%; background: var(--color-accent-alt, #c8851a); }
+    .heart-row .material-symbols-rounded { font-variation-settings: 'FILL' 1; color: var(--color-accent-alt, #c8851a); }
+  </style>
+</head>
+
+<body class="bg-base-200 text-base-content min-h-screen font-sans">
+
+  <site-header active="library"></site-header>
+
+  <main>
+    <!-- Banner（扁平，同詳情頁模式）-->
+    <section class="page-hero relative bg-accent overflow-x-clip h-[270px]">
+      <img src="./assets/image/venue-title-graphic.png" alt="" class="pointer-events-none select-none absolute top-[90px] right-0 w-[460px] max-w-[55%] opacity-90" />
+      <img src="./assets/image/pt-graphic.svg" alt="" class="pointer-events-none absolute bottom-0 left-0 w-full h-[52px] object-cover" />
+    </section>
+
+    <div class="page-container pt-12 pb-24 flex flex-col gap-20">
+
+      <!-- ===== 主區塊：書封 + 資訊 ===== -->
+      <section class="flex flex-col gap-6">
+
+        <!-- 麵包屑 -->
+        <div class="breadcrumbs intro intro-d1 text-sm text-base-content">
+          <ul>
+            <li><a href="./index.html">首頁</a></li>
+            <li><a href="./library.html">圖書借閱</a></li>
+            <li>老師的話</li>
+          </ul>
+        </div>
+
+        <div class="intro intro-d2 flex flex-col lg:flex-row gap-10 items-start">
+
+          <!-- 左：書封 -->
+          <div class="w-full lg:w-[340px] lg:shrink-0 flex flex-col gap-4">
+            <div class="aspect-[3/4] border border-base-content/15 rounded-field overflow-hidden bg-base-100">
+              <img src="./assets/image/book-3.png" alt="老師的話" class="w-full h-full object-cover" />
+            </div>
+            <div class="flex gap-2">
+              <button type="button" class="btn btn-ghost btn-sm rounded-full gap-1.5">
+                <span class="material-symbols-rounded text-[18px]">ios_share</span>分享
+              </button>
+              <button type="button" class="btn btn-ghost btn-sm rounded-full gap-1.5" id="bk-save">
+                <span class="material-symbols-rounded text-[18px]" id="bk-save-icon">bookmark</span>加入藏書點
+              </button>
+            </div>
+          </div>
+
+          <!-- 右：資訊 -->
+          <div class="flex-1 min-w-0 flex flex-col gap-6">
+
+            <div class="flex flex-col gap-2">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="badge badge-soft badge-warning text-xs">實體書</span>
+                <span class="badge badge-soft badge-info text-xs">文化輔助</span>
+              </div>
+              <h1 class="text-3xl font-medium leading-snug">老師的話</h1>
+            </div>
+
+            <!-- 圖書資訊表 -->
+            <table class="book-info w-full">
+              <tbody>
+                <tr><td>作者</td><td>洪銘苹、曹靜瑞、張家妮、黃平惠</td></tr>
+                <tr><td>譯者</td><td>淡江大學外國語文學院</td></tr>
+                <tr><td>出版社</td><td>行政院僑務委員會</td></tr>
+                <tr><td>出版日期</td><td>2025/03/01</td></tr>
+                <tr>
+                  <td>評價</td>
+                  <td>
+                    <div class="flex items-center gap-2">
+                      <span class="heart-row flex items-center gap-0.5">
+                        <span class="material-symbols-rounded text-[16px]">favorite</span>
+                        <span class="material-symbols-rounded text-[16px]">favorite</span>
+                        <span class="material-symbols-rounded text-[16px]">favorite</span>
+                        <span class="material-symbols-rounded text-[16px]">favorite</span>
+                        <span class="material-symbols-rounded text-[16px]">favorite</span>
+                      </span>
+                      <span class="text-sm text-base-content/60">(49)</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- 操作按鈕 -->
+            <div class="flex gap-3 flex-wrap">
+              <a href="./library-apply.html" class="btn btn-neutral rounded-full px-8">立即預約</a>
+              <button type="button" class="btn btn-outline rounded-full px-8 gap-1.5">
+                <span class="material-symbols-rounded text-[18px]">menu_book</span>線上閱讀
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 內容簡介 ===== -->
+      <section class="flex flex-col gap-4">
+        <h2 class="reveal-clip text-3xl font-medium text-accent-alt">內容簡介</h2>
+        <p class="text-base text-base-content/80 leading-8">
+          本教材以�八成教學概念，並依據中華民國國家教育研究院合華語教學專業人士研發之「臺灣華語感文能力基準（TBCL）」，開發適合海外各行行各專成人華語文能力之華語融入主學習之華語教材，期透過自然對話的方式，學習日常生活所需之應對詞彙，以奠定華語文的基礎，且為日後學習進階華語文作準備。
+        </p>
+      </section>
+
+      <!-- ===== 館藏 ===== -->
+      <section class="flex flex-col gap-4">
+        <h2 class="reveal-clip text-3xl font-medium text-accent-alt">館藏</h2>
+        <table class="stock-table">
+          <thead>
+            <tr>
+              <th>藏書點</th>
+              <th class="text-center">館藏數量</th>
+              <th class="text-center">可借數量</th>
+              <th class="text-center">預約人數</th>
+              <th class="text-right w-32"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>多倫多華僑文教服務中心</td>
+              <td class="text-center">1</td>
+              <td class="text-center">1</td>
+              <td class="text-center">5</td>
+              <td class="text-right"><a href="./library-apply.html" class="btn btn-neutral btn-sm rounded-full px-5">立即預約</a></td>
+            </tr>
+            <tr>
+              <td>芝加哥華僑文教服務中心</td>
+              <td class="text-center">1</td>
+              <td class="text-center">1</td>
+              <td class="text-center">1</td>
+              <td class="text-right"><a href="./library-apply.html" class="btn btn-neutral btn-sm rounded-full px-5">立即預約</a></td>
+            </tr>
+            <tr>
+              <td>巴西聖保羅華僑文教服務中心</td>
+              <td class="text-center">1</td>
+              <td class="text-center">1</td>
+              <td class="text-center">0</td>
+              <td class="text-right"><a href="./library-apply.html" class="btn btn-neutral btn-sm rounded-full px-5">立即預約</a></td>
+            </tr>
+            <tr>
+              <td>金山灣區華僑文教服務中心</td>
+              <td class="text-center">2</td>
+              <td class="text-center">1</td>
+              <td class="text-center">2</td>
+              <td class="text-right"><a href="./library-apply.html" class="btn btn-neutral btn-sm rounded-full px-5">立即預約</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ===== 會員評價 ===== -->
+      <section class="flex flex-col gap-6">
+        <h2 class="reveal-clip text-3xl font-medium text-accent-alt">會員評價</h2>
+
+        <div class="flex flex-col sm:flex-row gap-8 items-start">
+          <!-- 總分 -->
+          <div class="flex flex-col items-center gap-2 shrink-0">
+            <span class="text-5xl font-medium">4.9</span>
+            <span class="heart-row flex items-center gap-0.5">
+              <span class="material-symbols-rounded text-[18px]">favorite</span>
+              <span class="material-symbols-rounded text-[18px]">favorite</span>
+              <span class="material-symbols-rounded text-[18px]">favorite</span>
+              <span class="material-symbols-rounded text-[18px]">favorite</span>
+              <span class="material-symbols-rounded text-[18px]">favorite</span>
+            </span>
+            <button type="button" class="btn btn-outline btn-sm rounded-full">評分與評論</button>
+          </div>
+          <!-- 分布 -->
+          <div class="flex-1 w-full flex flex-col gap-2">
+            <div class="flex items-center gap-3"><span class="text-sm w-8">5 ★</span><div class="rate-bar flex-1"><span style="width:96%"></span></div><span class="text-sm text-base-content/60 w-10 text-right">96%</span></div>
+            <div class="flex items-center gap-3"><span class="text-sm w-8">4 ★</span><div class="rate-bar flex-1"><span style="width:4%"></span></div><span class="text-sm text-base-content/60 w-10 text-right">4%</span></div>
+            <div class="flex items-center gap-3"><span class="text-sm w-8">3 ★</span><div class="rate-bar flex-1"><span style="width:0%"></span></div><span class="text-sm text-base-content/60 w-10 text-right">0%</span></div>
+            <div class="flex items-center gap-3"><span class="text-sm w-8">2 ★</span><div class="rate-bar flex-1"><span style="width:0%"></span></div><span class="text-sm text-base-content/60 w-10 text-right">0%</span></div>
+            <div class="flex items-center gap-3"><span class="text-sm w-8">1 ★</span><div class="rate-bar flex-1"><span style="width:0%"></span></div><span class="text-sm text-base-content/60 w-10 text-right">0%</span></div>
+          </div>
+        </div>
+
+        <!-- 評論列表 -->
+        <div class="flex flex-col gap-6 mt-2">
+          <div class="flex flex-col gap-1.5">
+            <h3 class="font-semibold">跨越年齡的溫暖智慧</h3>
+            <p class="text-xs text-base-content/50">2026.06.06</p>
+            <span class="heart-row flex items-center gap-0.5">
+              <span class="material-symbols-rounded text-[15px]">favorite</span><span class="material-symbols-rounded text-[15px]">favorite</span><span class="material-symbols-rounded text-[15px]">favorite</span><span class="material-symbols-rounded text-[15px]">favorite</span><span class="material-symbols-rounded text-[15px]">favorite</span>
+            </span>
+            <p class="text-sm text-base-content/80 leading-7 mt-1">這本書聽完文字感動、清晰易懂，但難易暗含的處世智慧卻很深採刻，受惠本的時人易讓你回味再三。書頁中的每一篇課文都不只是字句的堆疊，更是一本對工法處世的領悟，是一本不分年齡，皆能讀懂並且勵志的文化讀物。</p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="font-semibold">海外華語文教育的品格基石</h3>
+            <p class="text-xs text-base-content/50">2026.05.21</p>
+            <span class="heart-row flex items-center gap-0.5">
+              <span class="material-symbols-rounded text-[15px]">favorite</span><span class="material-symbols-rounded text-[15px]">favorite</span><span class="material-symbols-rounded text-[15px]">favorite</span><span class="material-symbols-rounded text-[15px]">favorite</span><span class="material-symbols-rounded text-[15px]">favorite</span>
+            </span>
+            <p class="text-sm text-base-content/80 leading-7 mt-1">在海外推廣中文教育是門深的學問，這本書尤其讓人印象深刻。它將中華文化的精髓融入淺顯易讀的課文中，無論是初學者或是進階學習者都能有所收穫。如果你正在尋找一本兼具教育意義與文化深度的中文讀物，這本書絕對值得推薦。</p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="font-semibold">字句傳俗，道理深遠的萊讀書</h3>
+            <p class="text-xs text-base-content/50">2026.05.10</p>
+            <span class="heart-row flex items-center gap-0.5">
+              <span class="material-symbols-rounded text-[15px]">favorite</span><span class="material-symbols-rounded text-[15px]">favorite</span><span class="material-symbols-rounded text-[15px]">favorite</span><span class="material-symbols-rounded text-[15px]">favorite</span><span class="material-symbols-rounded text-[15px]">favorite</span>
+            </span>
+            <p class="text-sm text-base-content/80 leading-7 mt-1">這本書真誠又溫暖，從生活化的小故事帶出做人處世的道理，每次閱讀都有不一樣的小收穫，對成長中的孩子或是大人都很受用，誠心推薦給每一位讀者。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 相關書籍 ===== -->
+      <section class="flex flex-col gap-6">
+        <h2 class="reveal-clip text-3xl font-medium text-accent-alt">相關書籍</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-x-8 gap-y-8">
+          <article class="venue-card">
+            <a href="./library-detail.html" class="venue-link" aria-label="台灣光華雜誌 2025 9月號"></a>
+            <div class="venue-thumb aspect-[3/4]"><img src="./assets/image/book-1.png" alt="台灣光華雜誌 2025 9月號" loading="lazy" /></div>
+            <div class="venue-card-body pt-3">
+              <div class="flex items-center gap-1.5 mb-1"><span class="badge badge-soft badge-warning badge-sm text-xs">實體書</span><span class="badge badge-soft badge-info badge-sm text-xs">文化輔助</span></div>
+              <h3 class="venue-title text-sm">台灣光華雜誌 2025 9月號</h3>
+            </div>
+          </article>
+          <article class="venue-card">
+            <a href="./library-detail.html" class="venue-link" aria-label="來學華語(法文版)第一冊"></a>
+            <div class="venue-thumb aspect-[3/4]"><img src="./assets/image/book-2.png" alt="來學華語(法文版)第一冊" loading="lazy" /></div>
+            <div class="venue-card-body pt-3">
+              <div class="flex items-center gap-1.5 mb-1"><span class="badge badge-soft badge-info badge-sm text-xs">電子書</span><span class="badge badge-soft badge-info badge-sm text-xs">文化輔助</span></div>
+              <h3 class="venue-title text-sm">來學華語(法文版)第一冊</h3>
+            </div>
+          </article>
+          <article class="venue-card">
+            <a href="./library-detail.html" class="venue-link" aria-label="老師的話"></a>
+            <div class="venue-thumb aspect-[3/4]"><img src="./assets/image/book-3.png" alt="老師的話" loading="lazy" /></div>
+            <div class="venue-card-body pt-3">
+              <div class="flex items-center gap-1.5 mb-1"><span class="badge badge-soft badge-warning badge-sm text-xs">實體書</span><span class="badge badge-soft badge-info badge-sm text-xs">文化輔助</span></div>
+              <h3 class="venue-title text-sm">老師的話</h3>
+            </div>
+          </article>
+          <article class="venue-card">
+            <a href="./library-detail.html" class="venue-link" aria-label="台灣光華雜誌 2025 10月號"></a>
+            <div class="venue-thumb aspect-[3/4]"><img src="./assets/image/book-4.png" alt="台灣光華雜誌 2025 10月號" loading="lazy" /></div>
+            <div class="venue-card-body pt-3">
+              <div class="flex items-center gap-1.5 mb-1"><span class="badge badge-soft badge-warning badge-sm text-xs">實體書</span><span class="badge badge-soft badge-info badge-sm text-xs">文化輔助</span></div>
+              <h3 class="venue-title text-sm">台灣光華雜誌 2025 10月號</h3>
+            </div>
+          </article>
+        </div>
+      </section>
+
+    </div><!-- /page-container -->
+  </main>
+
+  <site-footer></site-footer>
+  <side-panel></side-panel>
+
+  <script src="./scripts/components.js"></script>
+  <script src="./scripts/main.js"></script>
+  <script>
+    // 加入藏書點切換
+    const saveBtn = document.getElementById('bk-save');
+    const saveIcon = document.getElementById('bk-save-icon');
+    let saved = false;
+    saveBtn.addEventListener('click', () => {
+      saved = !saved;
+      saveIcon.style.fontVariationSettings = saved ? "'FILL' 1" : "'FILL' 0";
+      saveIcon.style.color = saved ? 'var(--color-accent-alt, #845409)' : '';
+    });
+  </script>
+</body>
+</html>

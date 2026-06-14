@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>圖書借閱申請 — 海外文教中心數位服務平台</title>
+
+  <link rel="stylesheet" href="./dist/styles.css" />
+  <link rel="stylesheet" href="./styles/custom.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+
+  <script type="module" src="https://unpkg.com/cally"></script>
+
+  <link rel="stylesheet" href="./styles/page.css" />
+  <style>
+    /* 借閱清單列 */
+    .cart-row { display: flex; align-items: center; gap: 1rem; padding: 1rem; border: 1px solid rgba(20,20,19,.12); border-radius: 8px; transition: border-color .15s, box-shadow .15s; }
+    .cart-row:has(input:checked) { border-color: var(--color-base-content, #141413); box-shadow: 0 0 0 1px var(--color-base-content, #141413); }
+    .cart-row.is-locked { opacity: .6; background: var(--color-base-200, #faf9f5); }
+    .cart-row-img { width: 56px; height: 74px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
+    /* 摘要 / 確認表 */
+    .summary-table { width: 100%; border: 1px solid rgba(20,20,19,.15); border-radius: 8px; overflow: hidden; border-collapse: separate; border-spacing: 0; }
+    .summary-table td { padding: .875rem 1rem; font-size: .9rem; border-bottom: 1px solid rgba(20,20,19,.1); vertical-align: top; }
+    .summary-table tr:nth-child(even) td { background: var(--color-base-200, #faf9f5); }
+    .summary-table tr:last-child td { border-bottom: none; }
+    .summary-table td:first-child { color: rgba(20,20,19,.7); width: 38%; }
+    /* 條款 */
+    .terms-box { max-height: 320px; overflow-y: auto; border: 1px solid rgba(20,20,19,.15); border-radius: 8px; padding: 1.25rem 1.5rem; background: var(--color-base-200, #faf9f5); }
+  </style>
+</head>
+
+<body class="bg-base-200 text-base-content min-h-screen font-sans">
+
+  <site-header active="library"></site-header>
+
+  <main>
+    <!-- 頁首 Banner -->
+    <section class="page-hero relative bg-accent overflow-x-clip h-[220px]">
+      <img src="./assets/image/venue-title-graphic.png" alt="" class="pointer-events-none select-none absolute top-[90px] right-0 w-[360px] max-w-[45%] opacity-80" />
+      <div class="page-container relative z-[1] pt-32">
+        <div class="breadcrumbs intro intro-d1 text-sm text-base-content">
+          <ul>
+            <li><a href="./index.html">首頁</a></li>
+            <li><a href="./library.html">圖書借閱</a></li>
+            <li>圖書借閱申請</li>
+          </ul>
+        </div>
+      </div>
+      <img src="./assets/image/pt-graphic.svg" alt="" class="pointer-events-none absolute bottom-0 left-0 w-full h-[52px] object-cover" />
+    </section>
+
+    <div class="page-container py-12 pb-24">
+
+      <!-- 標題 + 步驟條 -->
+      <div class="text-center mb-10">
+        <h1 class="intro intro-d1 text-3xl font-medium">圖書借閱申請</h1>
+
+        <nav id="apply-stepper" class="apply-stepper mt-8 mb-2" aria-label="申請步驟">
+          <div class="apply-step is-active" data-step="1"><div class="apply-step-circle">1</div><span class="apply-step-label">借閱清單</span></div>
+          <div class="apply-step-line"></div>
+          <div class="apply-step" data-step="2"><div class="apply-step-circle">2</div><span class="apply-step-label">同意規範</span></div>
+          <div class="apply-step-line"></div>
+          <div class="apply-step" data-step="3"><div class="apply-step-circle">3</div><span class="apply-step-label">申請資料</span></div>
+          <div class="apply-step-line"></div>
+          <div class="apply-step" data-step="4"><div class="apply-step-circle">4</div><span class="apply-step-label">確認送出</span></div>
+          <div class="apply-step-line"></div>
+          <div class="apply-step" data-step="5"><div class="apply-step-circle">5</div><span class="apply-step-label">預約完成</span></div>
+        </nav>
+      </div>
+
+      <!-- ============================= -->
+      <!-- STEP 1：借閱清單確認           -->
+      <!-- ============================= -->
+      <div id="lib-step-1" class="apply-step-panel max-w-3xl mx-auto">
+        <div class="card bg-base-100 rounded-box shadow-md">
+          <div class="card-body gap-5 p-8">
+            <div class="flex items-center justify-between gap-3 flex-wrap">
+              <h2 class="text-2xl font-medium">我的借閱清單</h2>
+              <label class="flex items-center gap-2 text-sm cursor-pointer">
+                <input type="checkbox" id="cart-all" class="checkbox checkbox-sm" checked />
+                全選 / 反選
+              </label>
+            </div>
+
+            <div class="flex flex-col gap-3" id="cart-list">
+              <!-- 書籍 A（預設勾選）-->
+              <label class="cart-row">
+                <input type="checkbox" class="checkbox checkbox-sm cart-item" checked />
+                <img src="./assets/image/book-3.png" alt="" class="cart-row-img" />
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold">老師的話</p>
+                  <p class="text-sm text-base-content/60">洪銘苹 等 ・ ISBN 978-986-5453-21-0</p>
+                  <p class="text-xs text-success mt-0.5">可借閱</p>
+                </div>
+              </label>
+              <!-- 書籍 B（預設勾選）-->
+              <label class="cart-row">
+                <input type="checkbox" class="checkbox checkbox-sm cart-item" checked />
+                <img src="./assets/image/book-1.png" alt="" class="cart-row-img" />
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold">台灣光華雜誌 2025 9月號</p>
+                  <p class="text-sm text-base-content/60">光華雜誌社 ・ ISSN 1991-525X</p>
+                  <p class="text-xs text-success mt-0.5">可借閱</p>
+                </div>
+              </label>
+              <!-- 書籍 C（可借閱）-->
+              <label class="cart-row">
+                <input type="checkbox" class="checkbox checkbox-sm cart-item" />
+                <img src="./assets/image/book-2.png" alt="" class="cart-row-img" />
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold">來學華語(法文版)第一冊</p>
+                  <p class="text-sm text-base-content/60">行政院僑務委員會 ・ ISBN 978-986-5453-08-1</p>
+                  <p class="text-xs text-success mt-0.5">可借閱</p>
+                </div>
+              </label>
+              <!-- 書籍 D（僅供館內閱覽，阻斷勾選）-->
+              <label class="cart-row is-locked">
+                <input type="checkbox" class="checkbox checkbox-sm cart-item" disabled />
+                <img src="./assets/image/book-4.png" alt="" class="cart-row-img" />
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold">中華大辭典（參考工具書）</p>
+                  <p class="text-sm text-base-content/60">教育部 ・ 索書號 R 802.3</p>
+                  <p class="text-xs text-error mt-0.5 flex items-center gap-1">
+                    <span class="material-symbols-rounded text-[14px]">block</span>此書僅供館內閱覽，恕不外借
+                  </p>
+                </div>
+              </label>
+            </div>
+
+            <!-- 上限提示 -->
+            <div id="cart-warn" class="alert alert-warning rounded-box hidden">
+              <span class="material-symbols-rounded">warning</span>
+              <span>每次借閱上限為 8 冊，請調整勾選數量。</span>
+            </div>
+            <p class="text-sm text-base-content/60">已選 <span id="cart-count" class="font-semibold text-base-content">2</span> / 8 冊（每人每次借閱以 8 冊為限）</p>
+
+          </div>
+          <div class="apply-actions border-t border-base-content/10 px-8 py-5 flex items-center gap-3">
+            <a href="./library.html" class="btn btn-ghost rounded-full">返回圖書列表</a>
+            <button type="button" id="step1-next" class="btn btn-neutral rounded-full px-8" onclick="goToStep(2)">確認書籍，開始申請</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================= -->
+      <!-- STEP 2：同意館內規範           -->
+      <!-- ============================= -->
+      <div id="lib-step-2" class="apply-step-panel max-w-3xl mx-auto hidden">
+        <div class="card bg-base-100 rounded-box shadow-md">
+          <div class="card-body gap-5 p-8">
+            <h2 class="text-2xl font-medium">借閱須知與服務條款</h2>
+            <p class="text-sm text-base-content/60">金山灣區華僑文教服務中心 圖書館借用規則摘要</p>
+
+            <div class="terms-box text-sm text-base-content/80 leading-7 space-y-2">
+              <p>1. 本館開放時間為週二至週日早上 10 點至下午 5 點，週一固定休館。</p>
+              <p>2. 借書證申辦需年滿 18 歲；未滿 18 歲者需由監護人憑證提出申請。</p>
+              <p>3. 申辦需繳交圖書保證金美金 80 元（現金或支票，支票抬頭：CC of TECO），辦理後 3 個月內請勿退證。</p>
+              <p>4. 申請借書證、借還書服務於閉館前 10 分鐘停止受理。</p>
+              <p>5. 借期為 3 週，恕不受理網路或電話預約續借。</p>
+              <p>6. 逾期未還者將凍結借閱資格，俟全數歸還並自歸還日起 3 個月後，始得恢復資格。</p>
+              <p>7. 進入館內請愛惜公物、維持寧靜，不可有飲食或喧鬧行為。</p>
+            </div>
+
+            <label id="agree-label" class="flex items-start gap-3 cursor-pointer rounded-box border border-base-content/15 p-4 transition-colors">
+              <input type="checkbox" id="agree-check" class="checkbox checkbox-sm mt-0.5" />
+              <span class="text-sm leading-6">我已詳閱貴中心圖書館規則，並願意遵守一切規定。<span class="apply-req">*</span></span>
+            </label>
+          </div>
+          <div class="apply-actions border-t border-base-content/10 px-8 py-5 flex items-center gap-3">
+            <button type="button" class="btn btn-ghost rounded-full" onclick="goToStep(1)">上一步</button>
+            <button type="button" class="btn btn-neutral rounded-full px-8" onclick="tryStep3()">下一步</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================= -->
+      <!-- STEP 3：申請人與取書資料       -->
+      <!-- ============================= -->
+      <div id="lib-step-3" class="apply-step-panel max-w-3xl mx-auto hidden">
+        <div class="card bg-base-100 rounded-box shadow-md">
+          <div class="card-body gap-6 p-8">
+            <div>
+              <h2 class="text-2xl font-medium">申請人基本資料</h2>
+              <p class="text-sm text-base-content/60 mt-1 flex items-center gap-1">
+                <span class="material-symbols-rounded text-[16px]">info</span>
+                基本資料已自動帶入會員資訊，若有變更可於此修改並同步更新會員資料。
+              </p>
+            </div>
+
+            <!-- 基本資料 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div class="apply-form-section">
+                <label class="apply-label" for="f-name">中文姓名<span class="apply-req">*</span></label>
+                <input id="f-name" type="text" value="王小明" class="input w-full" required />
+              </div>
+              <div class="apply-form-section">
+                <label class="apply-label" for="f-ename">英文姓名<span class="apply-req">*</span></label>
+                <input id="f-ename" type="text" value="Wang, Hsiao-Ming" class="input w-full" required />
+              </div>
+              <div class="apply-form-section">
+                <label class="apply-label" for="f-birth">出生年月日<span class="apply-req">*</span></label>
+                <input id="f-birth" type="date" value="2000-05-12" class="input w-full" required onchange="checkAge()" />
+              </div>
+              <div class="apply-form-section">
+                <label class="apply-label">性別<span class="apply-req">*</span></label>
+                <div class="flex items-center gap-6 h-10">
+                  <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="gender" class="radio radio-sm" checked />男</label>
+                  <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="gender" class="radio radio-sm" />女</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- 身分證明文件 -->
+            <div class="flex flex-col gap-3 pt-1">
+              <h3 class="font-semibold">身分證明文件 <span class="text-sm font-normal text-base-content/50">（每次申請需重新核對）</span></h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div class="apply-form-section">
+                  <label class="apply-label" for="f-idtype">證件類型<span class="apply-req">*</span></label>
+                  <select id="f-idtype" class="select w-full" required>
+                    <option>身分證字號</option>
+                    <option>駕照字號</option>
+                  </select>
+                </div>
+                <div class="apply-form-section">
+                  <label class="apply-label" for="f-idno">證件號碼<span class="apply-req">*</span></label>
+                  <input id="f-idno" type="text" placeholder="請輸入證件號碼" class="input w-full" required />
+                </div>
+              </div>
+            </div>
+
+            <!-- 聯絡資訊 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div class="apply-form-section">
+                <label class="apply-label" for="f-phone">聯絡電話<span class="apply-req">*</span></label>
+                <input id="f-phone" type="tel" value="(408) 555-0199" class="input w-full" required />
+              </div>
+              <div class="apply-form-section">
+                <label class="apply-label" for="f-phone2">住宅 (H) / 辦公室 (O) 電話</label>
+                <input id="f-phone2" type="tel" placeholder="選填" class="input w-full" />
+              </div>
+              <div class="apply-form-section sm:col-span-2">
+                <label class="apply-label" for="f-email">電子郵件 (E-Mail)<span class="apply-req">*</span></label>
+                <input id="f-email" type="email" value="lnd870929@gmail.com" class="input w-full" required />
+              </div>
+            </div>
+
+            <!-- 住址 -->
+            <div class="flex flex-col gap-3">
+              <h3 class="font-semibold">住址 (H)<span class="apply-req">*</span></h3>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <input type="text" value="Milpitas" placeholder="城市 City" class="input w-full" />
+                <input type="text" value="CA" placeholder="州別 State" class="input w-full" readonly />
+                <input type="text" value="95035" placeholder="郵遞區號 Zip" class="input w-full" />
+                <input type="text" placeholder="詳細地址" class="input w-full col-span-2 sm:col-span-1" />
+              </div>
+            </div>
+
+            <!-- 監護人資訊（條件展開）-->
+            <div id="guardian-block" class="hidden flex-col gap-3 rounded-box border border-warning/40 bg-warning/5 p-5">
+              <h3 class="font-semibold flex items-center gap-1.5">
+                <span class="material-symbols-rounded text-[18px] text-warning">family_restroom</span>
+                監護人資訊（未滿十八歲申請者請填寫）
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div class="apply-form-section">
+                  <label class="apply-label" for="f-gname">監護人中文姓名<span class="apply-req">*</span></label>
+                  <input id="f-gname" type="text" class="input w-full" />
+                </div>
+                <div class="apply-form-section">
+                  <label class="apply-label" for="f-gename">監護人英文姓名<span class="apply-req">*</span></label>
+                  <input id="f-gename" type="text" class="input w-full" />
+                </div>
+              </div>
+              <p class="apply-hint">未滿十八歲者由監護人憑證填寫上方身分證或駕照字號。</p>
+            </div>
+
+            <!-- 配偶代借（選填）-->
+            <details class="rounded-box border border-base-content/15 p-5">
+              <summary class="font-semibold cursor-pointer">配偶代借設定（如需配偶代借者請填寫）</summary>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-4">
+                <div class="apply-form-section">
+                  <label class="apply-label" for="f-sname">配偶中文姓名</label>
+                  <input id="f-sname" type="text" class="input w-full" />
+                </div>
+                <div class="apply-form-section">
+                  <label class="apply-label" for="f-sename">配偶英文姓名</label>
+                  <input id="f-sename" type="text" class="input w-full" />
+                </div>
+              </div>
+            </details>
+
+            <!-- 取書設定 -->
+            <div class="flex flex-col gap-4 pt-1">
+              <h3 class="font-semibold">取書設定</h3>
+              <div class="apply-form-section">
+                <label class="apply-label">保證金預計繳交方式<span class="apply-req">*</span></label>
+                <div class="flex flex-col gap-2">
+                  <label class="flex items-center gap-2 cursor-pointer rounded-box border border-base-content/15 p-3 text-sm">
+                    <input type="radio" name="deposit" class="radio radio-sm" checked />現金（美金 80 元，請於現場報到時繳交）
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer rounded-box border border-base-content/15 p-3 text-sm">
+                    <input type="radio" name="deposit" class="radio radio-sm" />支票（美金 80 元，支票抬頭請寫：CC of TECO）
+                  </label>
+                </div>
+              </div>
+              <div class="apply-form-section">
+                <label class="apply-label" for="f-pickup">預計到館取書日期<span class="apply-req">*</span></label>
+                <input id="f-pickup" type="date" value="2026-06-18" class="input w-full" required />
+                <p class="apply-hint">系統自動屏蔽週一休館日；當日僅能於 10:00 至 16:50 之間辦理（閉館前 10 分鐘停止受理）。</p>
+              </div>
+            </div>
+
+          </div>
+          <div class="apply-actions border-t border-base-content/10 px-8 py-5 flex items-center gap-3">
+            <button type="button" class="btn btn-ghost rounded-full" onclick="goToStep(2)">上一步</button>
+            <button type="button" class="btn btn-neutral rounded-full px-8" onclick="fillConfirm();goToStep(4)">下一步</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================= -->
+      <!-- STEP 4：送出前確認             -->
+      <!-- ============================= -->
+      <div id="lib-step-4" class="apply-step-panel max-w-3xl mx-auto hidden">
+        <div class="card bg-base-100 rounded-box shadow-md">
+          <div class="card-body gap-8 p-8">
+            <h2 class="text-2xl font-medium">確認借閱申請資料</h2>
+
+            <!-- 借閱書籍簡要清單 -->
+            <div class="flex flex-col gap-3">
+              <h3 class="font-semibold">本次借閱書籍（共 <span id="c-total">2</span> 冊）</h3>
+              <ul id="c-books" class="flex flex-col gap-1.5 text-sm text-base-content/80 list-disc ps-5"></ul>
+            </div>
+
+            <!-- 申請人資訊複查 -->
+            <div class="flex flex-col gap-3">
+              <h3 class="font-semibold">申請人資訊</h3>
+              <table class="summary-table">
+                <tbody id="c-applicant"></tbody>
+              </table>
+            </div>
+
+            <!-- 線上簽署確認 -->
+            <div class="flex flex-col gap-2">
+              <h3 class="font-semibold">線上簽署確認</h3>
+              <table class="summary-table">
+                <tbody><tr><td>申請日期</td><td id="c-date">—</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="apply-actions border-t border-base-content/10 px-8 py-5 flex items-center gap-3">
+            <button type="button" class="btn btn-ghost rounded-full" onclick="goToStep(3)">返回修改清單與資料</button>
+            <button type="button" class="btn btn-neutral rounded-full px-8" onclick="submitApply()">確認無誤，送出申請</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================= -->
+      <!-- STEP 5：預約成功               -->
+      <!-- ============================= -->
+      <div id="lib-step-5" class="apply-step-panel max-w-3xl mx-auto hidden">
+        <div class="card bg-base-100 rounded-box shadow-md">
+          <div class="card-body gap-5 p-8">
+
+            <div class="flex items-center gap-3">
+              <span class="inline-flex items-center justify-center size-[45px] rounded-full shrink-0" style="background:#5bcd99">
+                <span class="material-symbols-rounded text-white text-[24px]" style="font-variation-settings:'FILL' 1">check</span>
+              </span>
+              <h2 class="text-2xl font-medium">🎉 預約與借閱申請已成功提交！</h2>
+            </div>
+
+            <p class="text-base text-base-content/80 leading-7">
+              感謝您的申請！我們已將您的預約確認信發送至您的電子郵件。請於您預約的時間前往中心圖書館辦理現場領證與取書。
+            </p>
+
+            <!-- 關鍵憑證資訊 -->
+            <table class="summary-table">
+              <tbody>
+                <tr><td>預約編號</td><td id="s-code" class="font-semibold">BR-2026061401</td></tr>
+                <tr><td>申請人姓名</td><td id="s-name">王小明</td></tr>
+                <tr><td>本次預約書籍</td><td id="s-books">老師的話、台灣光華雜誌 2025 9月號（共 2 冊）</td></tr>
+                <tr><td>預計到館取書日期</td><td id="s-pickup">2026/06/18</td></tr>
+              </tbody>
+            </table>
+
+            <!-- 現場報到應備物品 -->
+            <div class="rounded-box border border-base-content/15 p-5 flex flex-col gap-2">
+              <h3 class="font-semibold flex items-center gap-1.5"><span class="material-symbols-rounded text-[18px]">checklist</span>現場報到應備物品清單</h3>
+              <ul class="text-sm text-base-content/80 leading-7 list-disc ps-5">
+                <li>申請人（或監護人）之身分證或汽車駕照正本以供核對。</li>
+                <li>圖書保證金 80 美元（現金或支票，支票抬頭請寫：CC of TECO）。</li>
+              </ul>
+            </div>
+
+            <!-- 館址與時間 -->
+            <div class="rounded-box bg-base-200 p-5 flex flex-col gap-1.5 text-sm text-base-content/80">
+              <p class="flex items-center gap-2"><span class="material-symbols-rounded text-[18px]">store</span>辦理地點：金山灣區華僑文教服務中心 (Milpitas)</p>
+              <p class="flex items-center gap-2"><span class="material-symbols-rounded text-[18px]">location_on</span>100 S. Milpitas Blvd., Milpitas, CA 95035</p>
+              <p class="flex items-center gap-2"><span class="material-symbols-rounded text-[18px]">schedule</span>開放時間：週二至週日 早上 10 點至下午 5 點（週一休館）</p>
+              <p class="flex items-center gap-2 text-base-content/55"><span class="material-symbols-rounded text-[18px]">info</span>申請借書證及借、還書在閉館前 10 分鐘停止受理。</p>
+            </div>
+
+            <!-- 操作按鈕 -->
+            <div class="flex flex-wrap gap-3 pt-2">
+              <button type="button" class="btn btn-neutral rounded-full px-6 gap-1.5" onclick="window.print()">
+                <span class="material-symbols-rounded text-[18px]">download</span>下載 / 列印預約憑證
+              </button>
+              <a href="https://www.google.com/maps?q=100+S.+Milpitas+Blvd.,+Milpitas,+CA+95035" target="_blank" rel="noopener" class="btn btn-outline rounded-full px-6 gap-1.5">
+                <span class="material-symbols-rounded text-[18px]">map</span>在 Google 地圖上查看
+              </a>
+              <a href="./index.html" class="btn btn-ghost rounded-full px-6">返回文教中心首頁</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-container -->
+  </main>
+
+  <site-footer></site-footer>
+  <side-panel></side-panel>
+
+  <script src="./scripts/components.js"></script>
+  <script src="./scripts/main.js"></script>
+  <script>
+    let currentStep = 1;
+    const MAX_BOOKS = 8;
+
+    function goToStep(n) {
+      document.getElementById(`lib-step-${currentStep}`).classList.add('hidden');
+      document.getElementById(`lib-step-${n}`).classList.remove('hidden');
+      updateStepper(n);
+      currentStep = n;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateStepper(active) {
+      const steps = document.querySelectorAll('.apply-step');
+      const lines = document.querySelectorAll('.apply-step-line');
+      steps.forEach((s, i) => {
+        const k = i + 1;
+        s.classList.remove('is-active', 'is-done');
+        if (k < active) s.classList.add('is-done');
+        if (k === active) s.classList.add('is-active');
+      });
+      lines.forEach((l, i) => l.classList.toggle('is-done', i + 1 < active));
+    }
+
+    /* ---- Step 1：清單勾選 / 上限邏輯 ---- */
+    const items = () => Array.from(document.querySelectorAll('.cart-item:not(:disabled)'));
+    const allBox = document.getElementById('cart-all');
+    const warn = document.getElementById('cart-warn');
+    const countEl = document.getElementById('cart-count');
+    const step1Next = document.getElementById('step1-next');
+
+    function refreshCart() {
+      const checked = items().filter(i => i.checked).length;
+      countEl.textContent = checked;
+      const over = checked > MAX_BOOKS;
+      warn.classList.toggle('hidden', !over);
+      step1Next.disabled = over || checked === 0;
+    }
+    items().forEach(i => i.addEventListener('change', refreshCart));
+    allBox.addEventListener('change', () => {
+      items().forEach(i => { i.checked = allBox.checked; });
+      refreshCart();
+    });
+    refreshCart();
+
+    /* ---- Step 2：同意必填 ---- */
+    function tryStep3() {
+      const ok = document.getElementById('agree-check').checked;
+      const label = document.getElementById('agree-label');
+      if (!ok) {
+        label.classList.add('ring-2', 'ring-error');
+        label.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      label.classList.remove('ring-2', 'ring-error');
+      goToStep(3);
+    }
+
+    /* ---- Step 3：未滿 18 歲展開監護人 ---- */
+    function checkAge() {
+      const v = document.getElementById('f-birth').value;
+      const block = document.getElementById('guardian-block');
+      if (!v) { block.classList.add('hidden'); return; }
+      const b = new Date(v);
+      const now = new Date();
+      let age = now.getFullYear() - b.getFullYear();
+      const m = now.getMonth() - b.getMonth();
+      if (m < 0 || (m === 0 && now.getDate() < b.getDate())) age--;
+      const minor = age < 18;
+      block.classList.toggle('hidden', !minor);
+      block.classList.toggle('flex', minor);
+      document.getElementById('f-gname').required = minor;
+      document.getElementById('f-gename').required = minor;
+    }
+    checkAge();
+
+    /* ---- Step 4：帶入確認資料 ---- */
+    function selectedBooks() {
+      return items().filter(i => i.checked).map(i => i.closest('.cart-row').querySelector('.font-semibold').textContent.trim());
+    }
+    function fillConfirm() {
+      const books = selectedBooks();
+      document.getElementById('c-total').textContent = books.length;
+      document.getElementById('c-books').innerHTML = books.map(b => `<li>${b}</li>`).join('');
+
+      const v = id => document.getElementById(id).value;
+      const gender = document.querySelector('input[name="gender"]:checked').parentElement.textContent.trim();
+      const deposit = document.querySelector('input[name="deposit"]:checked').parentElement.textContent.trim();
+      const rows = [
+        ['中文姓名', v('f-name')],
+        ['英文姓名', v('f-ename')],
+        ['出生年月日', v('f-birth')],
+        ['性別', gender],
+        ['證件', document.getElementById('f-idtype').value + '：' + (v('f-idno') || '—')],
+        ['聯絡電話', v('f-phone')],
+        ['電子郵件', v('f-email')],
+        ['保證金繳交方式', deposit],
+        ['預計到館取書日期', v('f-pickup')],
+      ];
+      document.getElementById('c-applicant').innerHTML =
+        rows.map(([k, val]) => `<tr><td>${k}</td><td>${val}</td></tr>`).join('');
+
+      const d = new Date();
+      document.getElementById('c-date').textContent =
+        `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`;
+    }
+
+    /* ---- Step 5：送出 ---- */
+    function submitApply() {
+      const books = selectedBooks();
+      const d = new Date();
+      const ds = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+      const n = String(Math.floor(Math.random()*90)+10);
+      document.getElementById('s-code').textContent = `BR-${ds}${n}`;
+      document.getElementById('s-name').textContent = document.getElementById('f-name').value;
+      document.getElementById('s-books').textContent = `${books.join('、')}（共 ${books.length} 冊）`;
+      document.getElementById('s-pickup').textContent = document.getElementById('f-pickup').value.replaceAll('-', '/');
+      goToStep(5);
+    }
+  </script>
+</body>
+</html>
