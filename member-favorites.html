@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的收藏 — 海外文教中心數位服務平台</title>
+
+  <link rel="stylesheet" href="./dist/styles.css" />
+  <script src="./scripts/transition.js"></script>
+  <link rel="stylesheet" href="./styles/custom.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./styles/page.css" />
+</head>
+
+<body class="bg-base-200 text-base-content min-h-screen font-sans">
+
+  <site-header></site-header>
+
+  <main>
+    <section class="page-hero relative bg-accent overflow-x-clip h-[260px]">
+      <img src="./assets/image/title-graphic.png" alt="" class="pointer-events-none select-none absolute top-[90px] right-0 w-[460px] max-w-[55%] opacity-90" />
+      <div class="page-container relative z-[1] pt-32 pb-10">
+        <h1 class="intro intro-d1 text-5xl leading-tight text-accent-content">會員專區</h1>
+        <div class="breadcrumbs intro intro-d2 text-sm mt-2 text-base-content">
+          <ul>
+            <li><a href="./index.html">首頁</a></li>
+            <li><a href="./member.html">會員專區</a></li>
+            <li>我的收藏</li>
+          </ul>
+        </div>
+      </div>
+      <img src="./assets/image/pt-graphic.svg" alt="" class="pointer-events-none absolute bottom-0 left-0 w-full h-[52px] object-cover" />
+    </section>
+
+    <div class="page-container pt-12 pb-24">
+      <div class="flex flex-col lg:flex-row gap-8 items-start">
+
+        <member-nav active="favorites"></member-nav>
+
+        <div class="intro intro-d3 flex-1 min-w-0">
+          <h2 class="text-2xl font-medium mb-4">我的收藏</h2>
+
+          <!-- Tabs：圖書 / 活動 / 文物 / 場地 -->
+          <div role="tablist" class="tabs tabs-border mb-6" id="fav-tabs">
+            <button role="tab" class="tab tab-active" data-tab="book">圖書</button>
+            <button role="tab" class="tab" data-tab="event">活動</button>
+            <button role="tab" class="tab" data-tab="artifact">文物</button>
+            <button role="tab" class="tab" data-tab="venue">場地</button>
+          </div>
+
+          <!-- 圖書 -->
+          <div class="fav-panel" data-panel="book">
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-x-8 gap-y-8">
+              <article class="book-card relative">
+                <a href="./library-detail.html" class="venue-link"></a>
+                <div class="book-thumb relative"><img src="./assets/image/book-1.png" alt="台灣光華雜誌 2025 9月號" />
+                  <button class="btn btn-ghost btn-circle btn-sm fav-btn absolute top-2 right-2 z-[2] bg-base-100/80" aria-label="移除收藏"><span class="material-symbols-rounded text-[18px]" style="font-variation-settings:'FILL' 1">bookmark</span></button>
+                </div>
+                <div><span class="badge badge-soft badge-neutral">外語教材</span><h3 class="book-title">台灣光華雜誌 2025 9月號</h3><div class="rating-hearts" data-rating="4.5"></div></div>
+              </article>
+              <article class="book-card relative">
+                <a href="./library-detail.html" class="venue-link"></a>
+                <div class="book-thumb relative"><img src="./assets/image/book-3.png" alt="老師的話" />
+                  <button class="btn btn-ghost btn-circle btn-sm fav-btn absolute top-2 right-2 z-[2] bg-base-100/80" aria-label="移除收藏"><span class="material-symbols-rounded text-[18px]" style="font-variation-settings:'FILL' 1">bookmark</span></button>
+                </div>
+                <div><span class="badge badge-soft badge-neutral">文化輔助</span><h3 class="book-title">老師的話</h3><div class="rating-hearts" data-rating="5"></div></div>
+              </article>
+            </div>
+          </div>
+
+          <!-- 活動 -->
+          <div class="fav-panel hidden" data-panel="event">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <article class="news-card">
+                <div class="thumb aspect-[4/3]"><img src="./assets/image/event-1.png" alt="" /></div>
+                <div class="pt-5"><p class="text-base text-base-content/60">2026.07.15</p><h3 class="news-card-title">115年海外數位華語文推廣計畫菲律賓暨大洋洲組初階班</h3><span class="badge badge-soft badge-neutral">菲華文教服務中心</span></div>
+              </article>
+              <article class="news-card">
+                <div class="thumb aspect-[4/3]"><img src="./assets/image/event-2.png" alt="" /></div>
+                <div class="pt-5"><p class="text-base text-base-content/60">2026.07.20</p><h3 class="news-card-title">2026年僑臺商智慧農業研習班</h3><span class="badge badge-soft badge-neutral">駐溫哥華辦事處僑務組</span></div>
+              </article>
+            </div>
+          </div>
+
+          <!-- 文物 -->
+          <div class="fav-panel hidden" data-panel="artifact">
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-x-8 gap-y-8">
+              <article class="venue-card">
+                <a href="./artifact-detail.html" class="venue-link"></a>
+                <div class="venue-thumb aspect-square"><img src="https://www.figma.com/api/mcp/asset/4cf252a5-ba41-4abe-ae1f-a1cf01d733b6" alt="兒童款民俗功夫裝" /></div>
+                <div class="venue-card-body pt-4"><h3 class="venue-title text-base">兒童款民俗功夫裝</h3><p class="text-sm text-base-content/60 mt-0.5">洛杉磯華僑文教服務中心</p><p class="text-sm font-medium mt-1">保證金 $500.00 USD</p></div>
+              </article>
+              <article class="venue-card">
+                <a href="./artifact-detail.html" class="venue-link"></a>
+                <div class="venue-thumb aspect-square"><img src="https://www.figma.com/api/mcp/asset/d9bc1085-c45e-4d57-ae38-a99bdb1b9c3e" alt="節慶專業舞獅頭" /></div>
+                <div class="venue-card-body pt-4"><h3 class="venue-title text-base">節慶專業舞獅頭</h3><p class="text-sm text-base-content/60 mt-0.5">洛杉磯華僑文教服務中心</p><p class="text-sm font-medium mt-1">保證金 $300.00 USD</p></div>
+              </article>
+            </div>
+          </div>
+
+          <!-- 場地 -->
+          <div class="fav-panel hidden" data-panel="venue">
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-6">
+              <article class="venue-card">
+                <a href="./venue-detail.html" class="venue-link"></a>
+                <div class="venue-thumb aspect-[3/2]"><img src="./assets/image/Venue-01.png" alt="華語文數位教室" /></div>
+                <div class="pt-5"><h3 class="venue-title">華語文數位教室</h3><p class="text-base text-base-content/60">菲華文教服務中心</p><p class="text-base">$ 340 /小時起</p></div>
+              </article>
+              <article class="venue-card">
+                <a href="./venue-detail.html" class="venue-link"></a>
+                <div class="venue-thumb aspect-[3/2]"><img src="./assets/image/Venue-02.png" alt="文化交流會議室" /></div>
+                <div class="pt-5"><h3 class="venue-title">文化交流會議室</h3><p class="text-base text-base-content/60">舊金山華僑文教中心</p><p class="text-base">$ 420 /小時起</p></div>
+              </article>
+            </div>
+          </div>
+
+          <!-- 空狀態（示意，預設隱藏）-->
+          <div id="fav-empty" class="hidden flex-col items-center text-center gap-3 py-16 text-base-content/50">
+            <span class="material-symbols-rounded text-[48px]">bookmark_border</span>
+            <p>此分類尚無收藏項目</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <site-footer></site-footer>
+  <side-panel></side-panel>
+
+  <script src="./scripts/components.js"></script>
+  <script src="./scripts/main.js"></script>
+  <script>
+    const tabs = document.getElementById('fav-tabs');
+    const panels = document.querySelectorAll('.fav-panel');
+    tabs.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-tab]');
+      if (!btn) return;
+      tabs.querySelectorAll('[data-tab]').forEach(b => b.classList.toggle('tab-active', b === btn));
+      panels.forEach(p => p.classList.toggle('hidden', p.dataset.panel !== btn.dataset.tab));
+    });
+    // 移除收藏（示意）：點書籤鈕淡出卡片
+    document.addEventListener('click', (e) => {
+      const fav = e.target.closest('.fav-btn');
+      if (!fav) return;
+      e.preventDefault();
+      const card = fav.closest('article');
+      card.style.transition = 'opacity .2s'; card.style.opacity = '0';
+      setTimeout(() => card.remove(), 200);
+    });
+  </script>
+</body>
+</html>

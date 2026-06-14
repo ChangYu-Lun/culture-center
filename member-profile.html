@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>會員資料 — 海外文教中心數位服務平台</title>
+
+  <link rel="stylesheet" href="./dist/styles.css" />
+  <script src="./scripts/transition.js"></script>
+  <link rel="stylesheet" href="./styles/custom.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./styles/page.css" />
+</head>
+
+<body class="bg-base-200 text-base-content min-h-screen font-sans">
+
+  <site-header></site-header>
+
+  <main>
+    <section class="page-hero relative bg-accent overflow-x-clip h-[260px]">
+      <img src="./assets/image/title-graphic.png" alt="" class="pointer-events-none select-none absolute top-[90px] right-0 w-[460px] max-w-[55%] opacity-90" />
+      <div class="page-container relative z-[1] pt-32 pb-10">
+        <h1 class="intro intro-d1 text-5xl leading-tight text-accent-content">會員專區</h1>
+        <div class="breadcrumbs intro intro-d2 text-sm mt-2 text-base-content">
+          <ul>
+            <li><a href="./index.html">首頁</a></li>
+            <li><a href="./member.html">會員專區</a></li>
+            <li>會員資料</li>
+          </ul>
+        </div>
+      </div>
+      <img src="./assets/image/pt-graphic.svg" alt="" class="pointer-events-none absolute bottom-0 left-0 w-full h-[52px] object-cover" />
+    </section>
+
+    <div class="page-container pt-12 pb-24">
+      <div class="flex flex-col lg:flex-row gap-8 items-start">
+
+        <member-nav active="profile"></member-nav>
+
+        <div class="intro intro-d3 flex-1 min-w-0 flex flex-col gap-8">
+
+          <!-- 會員資訊卡（由總覽/紀錄移來）-->
+          <div class="card bg-base-100 rounded-box shadow-md">
+            <div class="card-body p-6 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+              <div class="relative shrink-0">
+                <div class="member-avatar">陳</div>
+                <button type="button" class="btn btn-circle btn-sm btn-neutral absolute bottom-1 right-1" aria-label="編輯頭像">
+                  <span class="material-symbols-rounded text-[18px]">edit</span>
+                </button>
+              </div>
+              <div class="flex flex-col gap-1">
+                <h2 class="text-2xl font-medium">陳○○</h2>
+                <p class="text-sm text-base-content/60">i僑卡卡號：1234-5678-9012</p>
+                <p class="flex items-center justify-center sm:justify-start gap-1 text-sm text-base-content/60">
+                  example@mail.com
+                  <span class="material-symbols-rounded text-[18px] text-primary" title="已驗證" style="font-variation-settings:'FILL' 1;">verified</span>
+                </p>
+                <div class="flex items-center justify-center sm:justify-start gap-2 mt-2">
+                  <span class="badge badge-soft badge-success">一般會員</span>
+                  <span class="badge badge-soft badge-neutral">i僑卡有效至 2028/12/31</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 基本資料編輯 -->
+          <div class="card bg-base-100 rounded-box shadow-md">
+            <div class="card-body p-8 gap-6">
+              <div class="flex items-center justify-between gap-3 flex-wrap">
+                <h2 class="text-2xl font-medium">基本資料</h2>
+                <span class="text-sm text-base-content/50">資料同步自 i僑卡會籍</span>
+              </div>
+
+              <form id="profile-form" class="flex flex-col gap-5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div class="apply-form-section">
+                    <label class="apply-label" for="p-name">中文姓名<span class="apply-req">*</span></label>
+                    <input id="p-name" type="text" value="陳○○" class="input w-full" required />
+                  </div>
+                  <div class="apply-form-section">
+                    <label class="apply-label" for="p-ename">英文姓名<span class="apply-req">*</span></label>
+                    <input id="p-ename" type="text" value="CHEN, ○○" class="input w-full" required />
+                  </div>
+                  <div class="apply-form-section">
+                    <label class="apply-label" for="p-birth">出生年月日</label>
+                    <input id="p-birth" type="date" value="1990-03-12" class="input w-full" />
+                  </div>
+                  <div class="apply-form-section">
+                    <label class="apply-label">性別</label>
+                    <div class="flex items-center gap-6 h-10">
+                      <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="p-gender" class="radio radio-sm" checked />男</label>
+                      <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="p-gender" class="radio radio-sm" />女</label>
+                    </div>
+                  </div>
+                  <div class="apply-form-section">
+                    <label class="apply-label" for="p-email">電子郵件<span class="apply-req">*</span></label>
+                    <input id="p-email" type="email" value="example@mail.com" class="input w-full" required />
+                  </div>
+                  <div class="apply-form-section">
+                    <label class="apply-label" for="p-phone">聯絡電話</label>
+                    <input id="p-phone" type="tel" value="(408) 555-0199" class="input w-full" />
+                  </div>
+                </div>
+                <div class="apply-form-section">
+                  <label class="apply-label" for="p-addr">聯絡地址</label>
+                  <input id="p-addr" type="text" value="100 S. Milpitas Blvd., Milpitas, CA 95035" class="input w-full" />
+                </div>
+                <div class="apply-form-section">
+                  <label class="apply-label" for="p-org">所屬僑社</label>
+                  <input id="p-org" type="text" value="金山灣區華僑文教服務中心" class="input w-full" />
+                </div>
+
+                <div class="flex items-center gap-3 pt-2">
+                  <button type="submit" class="btn btn-neutral rounded-full px-8">儲存變更</button>
+                  <span id="save-hint" class="text-sm text-success items-center gap-1 hidden">
+                    <span class="material-symbols-rounded text-[18px]" style="font-variation-settings:'FILL' 1">check_circle</span>已儲存
+                  </span>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <site-footer></site-footer>
+  <side-panel></side-panel>
+
+  <script src="./scripts/components.js"></script>
+  <script src="./scripts/main.js"></script>
+  <script>
+    document.getElementById('profile-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const hint = document.getElementById('save-hint');
+      hint.classList.remove('hidden');
+      hint.classList.add('inline-flex');
+      setTimeout(() => { hint.classList.add('hidden'); hint.classList.remove('inline-flex'); }, 2500);
+    });
+  </script>
+</body>
+</html>

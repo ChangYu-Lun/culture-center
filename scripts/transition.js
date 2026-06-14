@@ -19,7 +19,8 @@
 
   /* 不套用筆畫轉場的頁面（會員專區、登入/註冊、各申請流程）：
    * 來源或目的頁屬於此清單時，直接導頁、不播放覆蓋/退場動畫。 */
-  var NO_TX = ['member', 'member-records', 'login', 'register',
+  var NO_TX = ['member', 'member-records', 'member-profile', 'member-favorites',
+               'member-notifications', 'login', 'register',
                'artifact-apply', 'library-apply', 'event-apply', 'venue-apply'];
   function pageKey(path) {
     var seg = (path || '').split('/').pop() || 'index';

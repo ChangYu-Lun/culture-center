@@ -196,6 +196,58 @@ class SidePanel extends HTMLElement {
   }
 }
 
+/* ---- 會員專區導覽（側邊選單 lg + 底部 Dock < lg）------------------------
+ * 五頁共用：以 active 屬性標示當前頁；會員通知有未讀時於選單加紅點。
+ * 未讀狀態以 localStorage 'cc-unread' 模擬（預設視為有未讀）。
+ * -------------------------------------------------------------------------- */
+class MemberNav extends HTMLElement {
+  connectedCallback() {
+    const active = this.getAttribute('active') || '';
+    let unread = true;
+    try { unread = localStorage.getItem('cc-unread') !== '0'; } catch (_) {}
+    const dot = unread
+      ? '<span class="inline-block size-2 rounded-full bg-error" aria-label="有未讀通知"></span>'
+      : '';
+
+    const items = [
+      { key: 'overview',      href: './member.html',               icon: 'grid_view',    label: '會員總覽', short: '總覽' },
+      { key: 'records',       href: './member-records.html',       icon: 'receipt_long', label: '申請紀錄', short: '紀錄' },
+      { key: 'favorites',     href: './member-favorites.html',     icon: 'favorite',     label: '我的收藏', short: '收藏' },
+      { key: 'notifications', href: './member-notifications.html', icon: 'notifications', label: '會員通知', short: '通知', badge: true },
+      { key: 'profile',       href: './member-profile.html',       icon: 'person',       label: '會員資料', short: '資料' },
+    ];
+
+    const menu = items.map((it) => {
+      const cur = it.key === active ? ' is-active' : '';
+      const badge = it.badge ? dot : '';
+      return `<a href="${it.href}" class="member-menu-item flex items-center justify-between gap-2${cur}">
+        <span>${it.label}</span>${badge}
+      </a>`;
+    }).join('');
+
+    const dock = items.map((it) => {
+      const cur = it.key === active ? ' class="dock-active"' : '';
+      const badge = it.badge && unread
+        ? '<span class="absolute -top-0.5 right-1.5 size-2 rounded-full bg-error"></span>' : '';
+      return `<a href="${it.href}"${cur} aria-label="${it.label}">
+        <span class="relative inline-flex"><span class="material-symbols-rounded">${it.icon}</span>${badge}</span>
+        <span class="dock-label">${it.short}</span>
+      </a>`;
+    }).join('');
+
+    this.innerHTML = `
+      <aside class="intro intro-d2 w-full lg:w-[260px] lg:shrink-0 lg:sticky lg:top-28 hidden lg:block">
+        <div class="card bg-base-100 rounded-box shadow-md">
+          <div class="card-body p-4">
+            <nav class="member-menu w-full">${menu}</nav>
+          </div>
+        </div>
+      </aside>
+      <nav class="dock lg:hidden">${dock}</nav>`;
+  }
+}
+
 customElements.define('site-header', SiteHeader);
 customElements.define('site-footer', SiteFooter);
 customElements.define('side-panel', SidePanel);
+customElements.define('member-nav', MemberNav);

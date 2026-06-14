@@ -36,7 +36,7 @@
   <main>
     <!-- 頁首 Banner（會員專區）-->
     <section class="page-hero relative bg-accent overflow-x-clip h-[260px]">
-      <img src="./assets/image/venue-title-graphic.png" alt="" class="pointer-events-none select-none absolute top-[90px] right-0 w-[460px] max-w-[55%] opacity-90" />
+      <img src="./assets/image/title-graphic.png" alt="" class="pointer-events-none select-none absolute top-[90px] right-0 w-[460px] max-w-[55%] opacity-90" />
       <div class="page-container relative z-[1] pt-32 pb-10">
         <h1 class="intro intro-d1 text-5xl leading-tight text-accent-content">會員專區</h1>
         <div class="breadcrumbs intro intro-d2 text-sm mt-2 text-base-content">
@@ -54,33 +54,8 @@
     <div class="page-container pt-12 pb-24">
       <div class="flex flex-col lg:flex-row gap-8 items-start">
 
-        <!-- 側邊：會員資訊卡 + 選單 -->
-        <aside class="intro intro-d2 w-full lg:w-[328px] lg:shrink-0 lg:sticky lg:top-28">
-          <div class="card bg-base-100 rounded-box shadow-md">
-            <div class="card-body p-6 items-center text-center">
-              <div class="relative">
-                <div class="member-avatar">陳</div>
-                <button type="button" class="btn btn-circle btn-sm btn-neutral absolute bottom-1 right-1" aria-label="編輯頭像">
-                  <span class="material-symbols-rounded text-[18px]">edit</span>
-                </button>
-              </div>
-              <h2 class="text-2xl font-medium mt-4">陳○○</h2>
-              <p class="text-sm text-base-content/60 mt-2">i僑卡卡號：1234-5678-9012</p>
-              <p class="flex items-center justify-center gap-1 text-sm text-base-content/60 mt-1">
-                example@mail.com
-                <span class="material-symbols-rounded text-[18px] text-primary" title="已驗證" style="font-variation-settings:'FILL' 1;">verified</span>
-              </p>
-              <div class="divider my-4 member-aside-divider"></div>
-              <nav class="member-menu w-full">
-                <a href="./member.html" class="member-menu-item is-active">會員總覽</a>
-                <a href="./member-records.html" class="member-menu-item">申請紀錄</a>
-                <a href="#" class="member-menu-item">我的收藏</a>
-                <a href="#" class="member-menu-item">會員通知</a>
-                <a href="#" class="member-menu-item">會員資料</a>
-              </nav>
-            </div>
-          </div>
-        </aside>
+        <!-- 側邊選單（lg）+ 底部 Dock（< lg），共用元件 -->
+        <member-nav active="overview"></member-nav>
 
         <!-- 主內容 -->
         <div class="intro intro-d3 flex-1 min-w-0 flex flex-col gap-12">
@@ -216,29 +191,6 @@
       </div>
     </div>
 
-    <!-- 會員選單（< lg）：母庫 Dock 底部導覽 -->
-    <nav class="dock lg:hidden">
-      <a href="./member.html" class="dock-active" aria-label="會員總覽">
-        <span class="material-symbols-rounded">grid_view</span>
-        <span class="dock-label">總覽</span>
-      </a>
-      <a href="./member-records.html" aria-label="申請紀錄">
-        <span class="material-symbols-rounded">receipt_long</span>
-        <span class="dock-label">紀錄</span>
-      </a>
-      <a href="#" aria-label="我的收藏">
-        <span class="material-symbols-rounded">favorite</span>
-        <span class="dock-label">收藏</span>
-      </a>
-      <a href="#" aria-label="會員通知">
-        <span class="material-symbols-rounded">notifications</span>
-        <span class="dock-label">通知</span>
-      </a>
-      <a href="#" aria-label="會員資料">
-        <span class="material-symbols-rounded">person</span>
-        <span class="dock-label">資料</span>
-      </a>
-    </nav>
   </main>
 
   <!-- 行事曆事件 Modal -->

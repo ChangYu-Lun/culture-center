@@ -46,6 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
       location: '文物典藏組', note: '借展文物歸還日，請確認包裝完整並完成點交。' },
     { type: 'event',    title: '僑務委員會線上座談', start: '2026-06-28T19:00:00', end: '2026-06-28T20:30:00',
       location: '線上視訊（Webex）', note: '會前一日將以 email 寄送會議連結。' },
+    // 6/13 多筆事件：示範「+N 更多」→ 點擊切換到當日「日」視圖
+    { type: 'venue',    title: '大禮堂 場佈', start: '2026-06-13T08:00:00', end: '2026-06-13T09:30:00',
+      location: '洛杉磯華僑文教服務中心 大禮堂', note: '交流會前場地佈置。' },
+    { type: 'book',     title: '《剪紙藝術》到期', start: '2026-06-13', allDay: true,
+      location: '菲華文教服務中心 圖書區', note: '請於到期日前歸還。' },
+    { type: 'event',    title: '志工行前說明會', start: '2026-06-13T13:30:00', end: '2026-06-13T14:30:00',
+      location: '洛杉磯華僑文教服務中心 第一教室', note: '當日協助活動之志工請出席。' },
+    { type: 'artifact', title: '文物《織錦》點交', start: '2026-06-13T15:00:00', end: '2026-06-13T16:00:00',
+      location: '文物典藏組', note: '借展文物點交。' },
   ];
 
   const events = raw.map((e) => ({
@@ -94,7 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
     },
     buttonText: { today: '今天', month: '月', week: '週', day: '天', list: '清單' },
+    // 一天事件過多時收合為「+N 更多」，點擊切換到該日「日」視圖檢視全部
     dayMaxEvents: 3,
+    moreLinkClick: 'timeGridDay',
+    moreLinkContent: (arg) => '+' + arg.num + ' 更多',
     nowIndicator: true,
     events,
     // v7 以 --fc-event-color 變數決定事件顏色：依類型逐一設定

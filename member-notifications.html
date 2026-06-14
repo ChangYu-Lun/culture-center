@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>會員通知 — 海外文教中心數位服務平台</title>
+
+  <link rel="stylesheet" href="./dist/styles.css" />
+  <script src="./scripts/transition.js"></script>
+  <link rel="stylesheet" href="./styles/custom.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./styles/page.css" />
+  <style>
+    .noti-list { border: 1px solid rgba(20,20,19,.1); border-radius: var(--radius-box); overflow: hidden; }
+    .noti-item { display: flex; gap: 1rem; padding: 1rem 1.25rem; border-bottom: 1px solid rgba(20,20,19,.08); background: var(--color-base-100); transition: background-color .15s; }
+    .noti-item:last-child { border-bottom: none; }
+    .noti-item.is-unread { background: color-mix(in oklab, var(--color-accent) 8%, var(--color-base-100)); }
+    .noti-icon { flex-shrink: 0; width: 40px; height: 40px; border-radius: 9999px; display: grid; place-items: center; }
+    .noti-title { font-weight: 500; }
+    .noti-item.is-unread .noti-title { font-weight: 700; }
+  </style>
+</head>
+
+<body class="bg-base-200 text-base-content min-h-screen font-sans">
+
+  <site-header></site-header>
+
+  <main>
+    <section class="page-hero relative bg-accent overflow-x-clip h-[260px]">
+      <img src="./assets/image/title-graphic.png" alt="" class="pointer-events-none select-none absolute top-[90px] right-0 w-[460px] max-w-[55%] opacity-90" />
+      <div class="page-container relative z-[1] pt-32 pb-10">
+        <h1 class="intro intro-d1 text-5xl leading-tight text-accent-content">會員專區</h1>
+        <div class="breadcrumbs intro intro-d2 text-sm mt-2 text-base-content">
+          <ul>
+            <li><a href="./index.html">首頁</a></li>
+            <li><a href="./member.html">會員專區</a></li>
+            <li>會員通知</li>
+          </ul>
+        </div>
+      </div>
+      <img src="./assets/image/pt-graphic.svg" alt="" class="pointer-events-none absolute bottom-0 left-0 w-full h-[52px] object-cover" />
+    </section>
+
+    <div class="page-container pt-12 pb-24">
+      <div class="flex flex-col lg:flex-row gap-8 items-start">
+
+        <member-nav active="notifications"></member-nav>
+
+        <div class="intro intro-d3 flex-1 min-w-0">
+          <div class="flex items-center justify-between gap-3 flex-wrap mb-4">
+            <h2 class="text-2xl font-medium flex items-center gap-2">
+              會員通知
+              <span id="unread-count" class="badge badge-error badge-sm">2</span>
+            </h2>
+            <button type="button" id="mark-all" class="btn btn-outline btn-sm rounded-full gap-1">
+              <span class="material-symbols-rounded text-[18px]">done_all</span>全部標為已讀
+            </button>
+          </div>
+
+          <div class="noti-list" id="noti-list">
+            <div class="noti-item is-unread">
+              <span class="noti-icon" style="background:color-mix(in oklab,#2f7a4f 18%,transparent)"><span class="material-symbols-rounded text-[22px]" style="color:#2f7a4f">menu_book</span></span>
+              <div class="flex-1 min-w-0">
+                <p class="noti-title">《台灣光華雜誌》可取書通知</p>
+                <p class="text-sm text-base-content/70 mt-0.5">您預約的書籍已到館，請於 7 日內持 i僑卡至菲華文教服務中心櫃台取書。</p>
+                <p class="text-xs text-base-content/45 mt-1">2026.06.10 · 圖書借閱</p>
+              </div>
+              <span class="inline-block size-2 rounded-full bg-error shrink-0 mt-2" aria-label="未讀"></span>
+            </div>
+            <div class="noti-item is-unread">
+              <span class="noti-icon" style="background:color-mix(in oklab,#c05621 18%,transparent)"><span class="material-symbols-rounded text-[22px]" style="color:#c05621">event_available</span></span>
+              <div class="flex-1 min-w-0">
+                <p class="noti-title">「青年僑生交流會」報名成功</p>
+                <p class="text-sm text-base-content/70 mt-0.5">您已完成報名，活動將於 6/13 上午 10 點於洛杉磯華僑文教服務中心大禮堂舉行。</p>
+                <p class="text-xs text-base-content/45 mt-1">2026.06.09 · 僑務活動</p>
+              </div>
+              <span class="inline-block size-2 rounded-full bg-error shrink-0 mt-2" aria-label="未讀"></span>
+            </div>
+            <div class="noti-item">
+              <span class="noti-icon" style="background:color-mix(in oklab,#1f6f8b 18%,transparent)"><span class="material-symbols-rounded text-[22px]" style="color:#1f6f8b">meeting_room</span></span>
+              <div class="flex-1 min-w-0">
+                <p class="noti-title">「第二教室」場地預約已核准</p>
+                <p class="text-sm text-base-content/70 mt-0.5">6/18 13:00–16:00 的場地租借申請已通過，請提早 10 分鐘報到。</p>
+                <p class="text-xs text-base-content/45 mt-1">2026.06.05 · 場地預約</p>
+              </div>
+            </div>
+            <div class="noti-item">
+              <span class="noti-icon" style="background:color-mix(in oklab,#8a3a72 18%,transparent)"><span class="material-symbols-rounded text-[22px]" style="color:#8a3a72">inventory_2</span></span>
+              <div class="flex-1 min-w-0">
+                <p class="noti-title">文物《青花瓷瓶》歸還提醒</p>
+                <p class="text-sm text-base-content/70 mt-0.5">借展文物將於 6/25 到期，請確認包裝完整並完成點交。</p>
+                <p class="text-xs text-base-content/45 mt-1">2026.06.01 · 民俗文物</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <site-footer></site-footer>
+  <side-panel></side-panel>
+
+  <script src="./scripts/components.js"></script>
+  <script src="./scripts/main.js"></script>
+  <script>
+    const markAll = document.getElementById('mark-all');
+    markAll.addEventListener('click', () => {
+      document.querySelectorAll('.noti-item.is-unread').forEach(it => {
+        it.classList.remove('is-unread');
+        const d = it.querySelector('.bg-error'); if (d) d.remove();
+      });
+      const cnt = document.getElementById('unread-count'); if (cnt) cnt.remove();
+      try { localStorage.setItem('cc-unread', '0'); } catch (_) {}
+      // 同步移除選單未讀紅點
+      document.querySelectorAll('member-nav .bg-error').forEach(d => d.remove());
+    });
+  </script>
+</body>
+</html>

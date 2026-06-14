@@ -12,7 +12,7 @@
 }
 
 /* 共用版面元件（Web Components）：包裹層不影響版面，子元素如同直屬 body */
-site-header, site-footer, side-panel { display: contents; }
+site-header, site-footer, side-panel, member-nav { display: contents; }
 
 /* 版心容器：對應設計稿 1280px 寬、左右 64px 留白 */
 .page-container {
@@ -477,11 +477,9 @@ site-header, site-footer, side-panel { display: contents; }
   color: var(--color-primary); font-weight: 600;
   background: color-mix(in oklab, var(--color-primary) 8%, transparent);
 }
-/* < lg：側邊選單改用底部 Dock 呈現 */
+/* < lg：側邊選單（member-nav 的 aside 已 hidden lg:block）改用底部 Dock，
+ * 預留 Dock 高度，避免內容被固定底部導覽遮住 */
 @media (max-width: 1023.98px) {
-  .member-menu,
-  .member-aside-divider { display: none; }
-  /* 預留 Dock 高度，避免內容被固定底部導覽遮住 */
   body:has(.dock) { padding-bottom: 5rem; }
 }
 
