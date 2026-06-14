@@ -17,6 +17,17 @@
 
   var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* 不套用筆畫轉場的頁面（會員專區、登入/註冊、各申請流程）：
+   * 來源或目的頁屬於此清單時，直接導頁、不播放覆蓋/退場動畫。 */
+  var NO_TX = ['member', 'member-records', 'login', 'register',
+               'artifact-apply', 'library-apply', 'event-apply', 'venue-apply'];
+  function pageKey(path) {
+    var seg = (path || '').split('/').pop() || 'index';
+    return seg.replace(/\.html$/, '') || 'index';
+  }
+  function isNoTx(path) { return NO_TX.indexOf(pageKey(path)) !== -1; }
+  var HERE_NOTX = isNoTx(window.location.pathname);
+
   /* 參考 repo 的波浪路徑（viewBox 0 0 1316 664）*/
   var PATH_D = 'M13.4746 291.27C13.4746 291.27 100.646 -18.6724 255.617 16.8418C410.588 52.356 61.0296 431.197 233.017 546.326C431.659 679.299 444.494 21.0125 652.73 100.784C860.967 180.556 468.663 430.709 617.216 546.326C765.769 661.944 819.097 48.2722 988.501 120.156C1174.21 198.957 809.424 543.841 988.501 636.726C1189.37 740.915 1301.67 149.213 1301.67 149.213';
 
@@ -53,7 +64,7 @@
     path.style.strokeDashoffset = '0';
     path.style.strokeWidth = COVER_WIDTH;
   }
-  if (!REDUCED) setCovered();
+  if (!REDUCED && !HERE_NOTX) setCovered();
 
   var EASE = 'cubic-bezier(0.65, 0, 0.35, 1)';
 
@@ -67,7 +78,7 @@
    * 內容浮現（is-loaded）在 overlay 開始淡出時即提前觸發，使其頭部與
    * 筆畫退場的尾部時間序重疊，銜接更柔順。*/
   function playEnter() {
-    if (REDUCED) { markLoaded(); return; }
+    if (REDUCED || HERE_NOTX) { markLoaded(); return; }
     var p1 = path.animate(
       [{ strokeDashoffset: 0,    strokeWidth: COVER_WIDTH + 'px', offset: 0 },
        {                         strokeWidth: DRAW_WIDTH  + 'px', offset: 0.3 },
@@ -94,7 +105,8 @@
    * 筆畫以細線繪出運筆軌跡，接近填滿（offset 0.6 之後）才加粗成覆蓋面。*/
   var navigating = false;
   function playLeave(href) {
-    if (REDUCED) { window.location.href = href; return; }
+    // 來源或目的頁不套用轉場 → 直接導頁
+    if (REDUCED || HERE_NOTX || isNoTx(href)) { window.location.href = href; return; }
     if (navigating) return;
     navigating = true;
     overlay.classList.add('is-covering');
