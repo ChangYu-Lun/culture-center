@@ -23,8 +23,8 @@ class SiteHeader extends HTMLElement {
     const navItem = (key, href, label) => {
       const isActive = key === active;
       const cls = isActive
-        ? 'btn btn-ghost btn-sm md:btn-md rounded-full font-semibold text-primary'
-        : 'btn btn-ghost btn-sm md:btn-md rounded-full font-medium';
+        ? 'btn btn-ghost btn-sm xl:btn-md rounded-full font-semibold text-primary'
+        : 'btn btn-ghost btn-sm xl:btn-md rounded-full font-medium';
       const cur = isActive ? ' aria-current="page"' : '';
       return `<a data-nav="${key}" href="${href}" class="${cls}"${cur}>${label}</a>`;
     };
@@ -38,6 +38,27 @@ class SiteHeader extends HTMLElement {
       return `<a data-nav="${key}" href="${href}" class="${cls}"${cur}>${label}</a>`;
     };
 
+    /* 登入狀態（以 localStorage 模擬）：未登入顯示「登入」鈕，已登入顯示頭像選單 */
+    let loggedIn = false, userName = '會員';
+    try {
+      loggedIn = localStorage.getItem('cc-logged-in') === '1';
+      userName = localStorage.getItem('cc-user-name') || '會員';
+    } catch (_) {}
+    const initial = userName.slice(0, 1);
+
+    const authNode = (btnSize) => loggedIn
+      ? `<div class="dropdown dropdown-end">
+           <div tabindex="0" role="button" class="btn btn-ghost btn-circle" aria-label="會員選單">
+             <span class="flex items-center justify-center w-9 h-9 rounded-full bg-neutral text-neutral-content font-medium">${initial}</span>
+           </div>
+           <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box shadow-lg mt-2 w-44 z-50 p-2">
+             <li><a href="./member.html">會員專區</a></li>
+             <li><a href="./member-records.html">借閱紀錄</a></li>
+             <li><button type="button" data-logout>登出</button></li>
+           </ul>
+         </div>`
+      : `<a href="./login.html" class="btn btn-neutral ${btnSize} rounded-full px-6">登入</a>`;
+
     this.innerHTML = `
       <header id="site-header" class="navbar-wrapper fixed top-0 left-0 right-0 z-40">
         <div class="page-container flex items-center justify-between gap-4 py-4">
@@ -45,9 +66,9 @@ class SiteHeader extends HTMLElement {
             <img src="./assets/image/Logo-light.svg" alt="中華民國僑務委員會 海外文教中心數位服務平台" class="h-12 md:h-[58px] w-auto" />
           </a>
 
-          <!-- 桌面選單（≥ md）-->
-          <div class="hidden md:flex flex-col items-end gap-2">
-            <div class="hidden lg:flex items-center gap-4 text-sm">
+          <!-- 桌面選單（≥ lg）-->
+          <div class="hidden lg:flex flex-col items-end gap-2">
+            <div class="flex items-center gap-4 text-sm">
               <a href="./index.html#news" class="link link-hover text-base-content/70">最新消息</a>
               <a href="#" class="link link-hover text-base-content/70">網站導覽</a>
               <span class="text-base-content/20">|</span>
@@ -57,23 +78,26 @@ class SiteHeader extends HTMLElement {
               </button>
             </div>
 
-            <nav class="flex items-center gap-1 md:gap-2">
+            <nav class="flex items-center gap-1 xl:gap-2">
               ${navItem('library', './library.html', '圖書借閱')}
               ${navItem('folk', './artifact.html', '民俗文物')}
               ${navItem('venue', './venue.html', '場地預約')}
               ${navItem('events', './events.html', '僑務活動')}
-              <a href="./member.html" class="btn btn-neutral btn-sm md:btn-md rounded-full px-6">登入</a>
+              ${authNode('btn-sm xl:btn-md')}
             </nav>
           </div>
 
-          <!-- 漢堡鈕（< md）-->
-          <button type="button" id="nav-toggle" class="btn btn-ghost btn-circle md:hidden" aria-label="開啟選單" aria-expanded="false" aria-controls="mobile-menu">
-            <span class="material-symbols-rounded text-[28px]" id="nav-toggle-icon">menu</span>
-          </button>
+          <!-- 右側：登入/頭像 + 漢堡（< lg）-->
+          <div class="flex items-center gap-2 lg:hidden">
+            ${authNode('btn-sm')}
+            <button type="button" id="nav-toggle" class="btn btn-ghost btn-circle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobile-menu">
+              <span class="material-symbols-rounded text-[28px]" id="nav-toggle-icon">menu</span>
+            </button>
+          </div>
         </div>
 
-        <!-- 行動版選單面板（< md）-->
-        <div id="mobile-menu" class="md:hidden hidden border-t border-base-content/10 bg-base-100">
+        <!-- 行動版選單面板（< lg）：僅放主選單與工具連結，登入/頭像留在 navbar -->
+        <div id="mobile-menu" class="lg:hidden hidden border-t border-base-content/10 bg-base-100">
           <nav class="page-container flex flex-col py-3">
             ${mobileItem('library', './library.html', '圖書借閱')}
             ${mobileItem('folk', './artifact.html', '民俗文物')}
@@ -85,7 +109,6 @@ class SiteHeader extends HTMLElement {
             <button class="flex items-center gap-1 py-2.5 px-2 text-base-content/70">
               <span class="material-symbols-rounded text-[18px]">language</span><span>中文 TW</span>
             </button>
-            <a href="./member.html" class="btn btn-neutral rounded-full mt-3">登入</a>
           </nav>
         </div>
       </header>
@@ -103,6 +126,14 @@ class SiteHeader extends HTMLElement {
         icon.textContent = open ? 'close' : 'menu';
       });
     }
+
+    /* 登出 */
+    this.addEventListener('click', (e) => {
+      if (e.target.closest('[data-logout]')) {
+        try { localStorage.removeItem('cc-logged-in'); } catch (_) {}
+        window.location.href = './index.html';
+      }
+    });
   }
 }
 
