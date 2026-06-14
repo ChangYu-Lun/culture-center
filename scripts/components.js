@@ -49,7 +49,7 @@ class SiteHeader extends HTMLElement {
              <li><a href="./member-favorites.html">我的收藏</a></li>
              <li><a href="./member-notifications.html">會員通知</a></li>
              <li><a href="./member-profile.html">會員資料</a></li>
-             <li><div class="divider my-1"></div></li>
+             <li class="menu-disabled my-1"><div class="h-px bg-base-content/10 mx-2"></div></li>
              <li><button type="button" data-logout>會員登出</button></li>
            </ul>
          </div>`
