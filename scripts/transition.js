@@ -21,6 +21,7 @@
   var PATH_D = 'M13.4746 291.27C13.4746 291.27 100.646 -18.6724 255.617 16.8418C410.588 52.356 61.0296 431.197 233.017 546.326C431.659 679.299 444.494 21.0125 652.73 100.784C860.967 180.556 468.663 430.709 617.216 546.326C765.769 661.944 819.097 48.2722 988.501 120.156C1174.21 198.957 809.424 543.841 988.501 636.726C1189.37 740.915 1301.67 149.213 1301.67 149.213';
 
   var COVER_WIDTH = 900;   // 覆蓋峰值筆寬（viewBox 單位，需大到填滿畫面）
+  var DRAW_WIDTH = 6;      // 運筆軌跡筆寬（細，看得出繪畫軌跡）
   var THIN_WIDTH = 2;      // 退場後筆寬
 
   /* ---- 關鍵 CSS（內聯，不依賴 dist）-------------------------------------- */
@@ -61,20 +62,25 @@
     document.documentElement.classList.add('is-loaded');
   }
 
-  /* ---- enter：退場揭開 -------------------------------------------------- */
+  /* ---- enter：退場揭開 --------------------------------------------------
+   * 筆畫先快速縮細（0→0.3 露出運筆軌跡）再退收；overlay 於中段淡出。
+   * 內容浮現（is-loaded）在 overlay 開始淡出時即提前觸發，使其頭部與
+   * 筆畫退場的尾部時間序重疊，銜接更柔順。*/
   function playEnter() {
     if (REDUCED) { markLoaded(); return; }
-    // 筆畫退收 + 縮細（1.2s），overlay 於後段淡出
     var p1 = path.animate(
-      [{ strokeDashoffset: 0, strokeWidth: COVER_WIDTH + 'px' },
-       { strokeDashoffset: -100, strokeWidth: THIN_WIDTH + 'px' }],
-      { duration: 1200, easing: EASE, fill: 'forwards' }
+      [{ strokeDashoffset: 0,    strokeWidth: COVER_WIDTH + 'px', offset: 0 },
+       {                         strokeWidth: DRAW_WIDTH  + 'px', offset: 0.3 },
+       { strokeDashoffset: -100, strokeWidth: THIN_WIDTH  + 'px', offset: 1 }],
+      { duration: 1100, easing: EASE, fill: 'forwards' }
     );
-    var p2 = overlay.animate(
+    overlay.animate(
       [{ opacity: 1 }, { opacity: 0 }],
-      { duration: 500, delay: 700, easing: EASE, fill: 'forwards' }
+      { duration: 550, delay: 450, easing: EASE, fill: 'forwards' }
     );
-    p2.onfinish = function () {
+    // 提前觸發浮現：與筆畫退場尾段重疊
+    setTimeout(markLoaded, 450);
+    p1.onfinish = function () {
       overlay.classList.remove('is-covering');
       overlay.style.opacity = '0';
       // 重置 path 供下次 leave 使用
@@ -84,7 +90,8 @@
     };
   }
 
-  /* ---- leave：覆蓋舊頁後導頁 -------------------------------------------- */
+  /* ---- leave：覆蓋舊頁後導頁 --------------------------------------------
+   * 筆畫以細線繪出運筆軌跡，接近填滿（offset 0.6 之後）才加粗成覆蓋面。*/
   var navigating = false;
   function playLeave(href) {
     if (REDUCED) { window.location.href = href; return; }
@@ -93,17 +100,18 @@
     overlay.classList.add('is-covering');
     overlay.style.opacity = '';            // 交由 WAAPI 控制
     path.style.strokeDashoffset = '100';
-    path.style.strokeWidth = THIN_WIDTH;
+    path.style.strokeWidth = DRAW_WIDTH;
     overlay.animate([{ opacity: 0 }, { opacity: 1 }],
-      { duration: 350, easing: EASE, fill: 'forwards' });
+      { duration: 300, easing: EASE, fill: 'forwards' });
     var draw = path.animate(
-      [{ strokeDashoffset: 100, strokeWidth: THIN_WIDTH + 'px' },
-       { strokeDashoffset: 0, strokeWidth: COVER_WIDTH + 'px' }],
-      { duration: 700, easing: EASE, fill: 'forwards' }
+      [{ strokeDashoffset: 100, strokeWidth: DRAW_WIDTH  + 'px', offset: 0 },
+       {                        strokeWidth: DRAW_WIDTH  + 'px', offset: 0.6 },
+       { strokeDashoffset: 0,   strokeWidth: COVER_WIDTH + 'px', offset: 1 }],
+      { duration: 850, easing: EASE, fill: 'forwards' }
     );
     draw.onfinish = function () { window.location.href = href; };
     // 保險：動畫卡住也要導頁
-    setTimeout(function () { if (navigating) window.location.href = href; }, 1100);
+    setTimeout(function () { if (navigating) window.location.href = href; }, 1200);
   }
 
   /* ---- 連結攔截 --------------------------------------------------------- */
