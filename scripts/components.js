@@ -21,21 +21,13 @@ class SiteHeader extends HTMLElement {
   connectedCallback() {
     const active = this.getAttribute('active') || '';
     const navItem = (key, href, label) => {
-      const isActive = key === active;
-      const cls = isActive
-        ? 'btn btn-ghost btn-sm xl:btn-md rounded-full font-semibold text-primary'
-        : 'btn btn-ghost btn-sm xl:btn-md rounded-full font-medium';
-      const cur = isActive ? ' aria-current="page"' : '';
-      return `<a data-nav="${key}" href="${href}" class="${cls}"${cur}>${label}</a>`;
+      const cur = key === active ? ' aria-current="page"' : '';
+      return `<a data-nav="${key}" href="${href}" class="btn btn-ghost btn-sm xl:btn-md rounded-full font-medium"${cur}>${label}</a>`;
     };
 
     const mobileItem = (key, href, label) => {
-      const isActive = key === active;
-      const cls = isActive
-        ? 'py-2.5 px-2 font-semibold text-primary'
-        : 'py-2.5 px-2 font-medium';
-      const cur = isActive ? ' aria-current="page"' : '';
-      return `<a data-nav="${key}" href="${href}" class="${cls}"${cur}>${label}</a>`;
+      const cur = key === active ? ' aria-current="page"' : '';
+      return `<a data-nav="${key}" href="${href}" class="py-2.5 px-2 font-medium"${cur}>${label}</a>`;
     };
 
     /* 登入狀態（以 localStorage 模擬）：未登入顯示「登入」鈕，已登入顯示頭像選單 */
@@ -52,9 +44,13 @@ class SiteHeader extends HTMLElement {
              <span class="flex items-center justify-center w-9 h-9 rounded-full bg-neutral text-neutral-content font-medium">${initial}</span>
            </div>
            <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box shadow-lg mt-2 w-44 z-50 p-2">
-             <li><a href="./member.html">會員專區</a></li>
-             <li><a href="./member-records.html">借閱紀錄</a></li>
-             <li><button type="button" data-logout>登出</button></li>
+             <li><a href="./member.html">會員總覽</a></li>
+             <li><a href="./member-records.html">申請紀錄</a></li>
+             <li><a href="./member-favorites.html">我的收藏</a></li>
+             <li><a href="./member-notifications.html">會員通知</a></li>
+             <li><a href="./member-profile.html">會員資料</a></li>
+             <li><div class="divider my-1"></div></li>
+             <li><button type="button" data-logout>會員登出</button></li>
            </ul>
          </div>`
       : `<a href="./login.html" class="btn btn-neutral ${btnSize} rounded-full px-6">登入</a>`;
