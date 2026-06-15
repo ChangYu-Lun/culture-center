@@ -70,16 +70,4 @@
       grid.classList.toggle('is-list', btn.dataset.view === 'list');
     });
   }
-
-  /* ---- 搜尋列：文字輸入模擬 ---------------------------------------------- */
-  const keyBtn = document.getElementById('art-keyword-btn');
-  const keyLabel = document.getElementById('art-keyword-label');
-  if (keyBtn && keyLabel) {
-    keyBtn.addEventListener('click', () => {
-      const val = prompt('搜尋文物關鍵字', '');
-      if (val !== null) {
-        keyLabel.textContent = val || keyLabel.dataset.placeholder || '文物關鍵字';
-      }
-    });
-  }
 })();

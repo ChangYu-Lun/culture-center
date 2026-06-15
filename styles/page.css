@@ -385,6 +385,120 @@ site-header, site-footer, side-panel, member-nav { display: contents; }
   box-shadow: 0 1px 3px rgb(0 0 0 / .25); cursor: pointer;
 }
 
+/* ======================================================================== */
+/* 共用篩選浮層（filters.js）：圖書 / 文物 / 活動 的藥丸篩選鈕下拉面板          */
+/* ======================================================================== */
+/* 已套用篩選的藥丸鈕高亮 */
+.btn.is-filtered {
+  background-color: var(--color-neutral);
+  border-color: var(--color-neutral);
+  color: var(--color-neutral-content);
+}
+.btn.is-filtered .filter-label { font-weight: 700; }
+.filter-label {
+  display: inline-block; max-width: 11rem;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: bottom;
+}
+/* 搜尋列上的日期欄位開啟態 */
+.vd-field.is-open { background-color: var(--color-base-200); }
+
+/* 浮層容器（fixed 定位，附加於 body）*/
+.filter-pop {
+  position: fixed; z-index: 60;
+  background: var(--color-base-100);
+  border: 1px solid color-mix(in oklab, var(--color-base-content) 12%, transparent);
+  border-radius: var(--radius-box);
+  box-shadow: 0 12px 32px -8px rgb(0 0 0 / .25);
+  padding: 1rem;
+}
+.filter-pop--loc    { width: min(420px, 88vw); }
+.filter-pop--multi  { width: min(340px, 88vw); }
+.filter-pop--single { width: 220px; }
+.filter-pop--rating { width: 240px; }
+.filter-pop--date   { width: max-content; }
+.fp-title { font-size: .875rem; font-weight: 600; margin-bottom: .75rem; }
+
+/* 地點：洲 tile → 文教中心 */
+.fp-tile-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .5rem; }
+.fp-tile {
+  display: flex; flex-direction: column; align-items: flex-start; gap: .125rem;
+  padding: .75rem; text-align: left; cursor: pointer;
+  border: 1px solid color-mix(in oklab, var(--color-base-content) 15%, transparent);
+  border-radius: var(--radius-field); background: var(--color-base-100);
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.fp-tile:hover { background: var(--color-base-200); border-color: var(--color-primary); }
+.fp-tile .fp-tile-name { font-size: .9375rem; font-weight: 500; }
+.fp-tile .fp-tile-count { font-size: .75rem; color: color-mix(in oklab, var(--color-base-content) 50%, transparent); }
+.fp-tile .material-symbols-rounded { color: var(--color-accent-alt); }
+.fp-back {
+  display: flex; align-items: center; gap: .25rem;
+  font-size: .9375rem; font-weight: 600; cursor: pointer;
+  background: 0; border: 0; padding: .25rem 0; margin-bottom: .25rem;
+}
+.fp-center-list { display: flex; flex-direction: column; max-height: 264px; overflow-y: auto; }
+.fp-center-item {
+  display: block; width: 100%; text-align: left;
+  padding: .5rem .75rem; border-radius: var(--radius-field);
+  font-size: .875rem; cursor: pointer; background: 0; border: 0;
+  transition: background-color .12s ease;
+}
+.fp-center-item:hover { background: var(--color-base-200); }
+.fp-clear {
+  width: 100%; margin-top: .5rem; padding: .5rem; cursor: pointer;
+  font-size: .8125rem; color: color-mix(in oklab, var(--color-base-content) 60%, transparent);
+  background: 0; border: 0; border-top: 1px solid color-mix(in oklab, var(--color-base-content) 10%, transparent);
+}
+.fp-clear:hover { color: var(--color-base-content); }
+
+/* 複選晶片 */
+.fp-chip-wrap { display: flex; flex-wrap: wrap; gap: .5rem; }
+.fp-chip {
+  padding: .375rem .75rem; cursor: pointer; font-size: .8125rem; font-weight: 500;
+  border: 1px solid color-mix(in oklab, var(--color-base-content) 20%, transparent);
+  border-radius: 999px; background: var(--color-base-100);
+  transition: background-color .12s ease, border-color .12s ease, color .12s ease;
+}
+.fp-chip:hover { border-color: var(--color-primary); }
+.fp-chip.is-on {
+  background: var(--color-neutral); border-color: var(--color-neutral); color: var(--color-neutral-content);
+}
+.fp-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; }
+.fp-reset {
+  font-size: .8125rem; cursor: pointer; background: 0; border: 0;
+  color: color-mix(in oklab, var(--color-base-content) 60%, transparent);
+}
+.fp-reset:hover { color: var(--color-base-content); text-decoration: underline; }
+
+/* 單選清單 */
+.fp-opt-list { display: flex; flex-direction: column; }
+.fp-opt {
+  display: flex; align-items: center; justify-content: space-between; gap: .5rem;
+  width: 100%; text-align: left; padding: .5rem .75rem; cursor: pointer;
+  font-size: .875rem; background: 0; border: 0; border-radius: var(--radius-field);
+  transition: background-color .12s ease;
+}
+.fp-opt:hover { background: var(--color-base-200); }
+.fp-opt .fp-check { opacity: 0; color: var(--color-accent-alt); }
+.fp-opt.is-on { font-weight: 600; }
+.fp-opt.is-on .fp-check { opacity: 1; }
+
+/* 圖像化評價（愛心）*/
+.fp-hearts { display: flex; gap: .25rem; }
+.fp-heart {
+  cursor: pointer; background: 0; border: 0; padding: .125rem; line-height: 0;
+  color: color-mix(in oklab, var(--color-base-content) 25%, transparent);
+  transition: color .12s ease, transform .12s ease;
+}
+.fp-heart .material-symbols-rounded { font-size: 30px; font-variation-settings: 'FILL' 1; }
+.fp-heart:hover { transform: scale(1.1); }
+.fp-heart.is-on { color: var(--color-amber-500, #f59e0b); }
+.fp-rating-label { font-size: .8125rem; margin: .625rem 0; color: color-mix(in oklab, var(--color-base-content) 70%, transparent); }
+
+/* 日期面板 */
+.filter-pop--date calendar-date.cally { width: 100%; }
+.filter-pop--date .fp-reset { margin-top: .5rem; }
+
 /* ---- 場地申請流程 ------------------------------------------------------- */
 /* 步驟條 */
 .apply-stepper {

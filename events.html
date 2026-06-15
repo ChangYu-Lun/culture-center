@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="zh-Hant" data-theme="light">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,8 +12,15 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+    rel="stylesheet" />
+
+  <!-- Cally 日曆 Web Component（活動日期面板用）-->
+  <script type="module" src="https://unpkg.com/cally"></script>
 
   <link rel="stylesheet" href="./styles/page.css" />
 </head>
@@ -26,7 +34,8 @@
     <!-- 頁首 Banner                                                    -->
     <!-- ============================================================= -->
     <section class="page-hero relative bg-accent overflow-x-clip">
-      <img src="./assets/image/title-graphic.png" alt="" class="pointer-events-none select-none absolute top-4 right-0 w-[520px] max-w-[55%] opacity-90" />
+      <img src="./assets/image/title-graphic.png" alt=""
+        class="pointer-events-none select-none absolute top-4 right-0 w-[520px] max-w-[55%] opacity-90" />
 
       <div class="page-container relative z-[1] pt-32 pb-36">
         <h1 class="intro intro-d1 text-5xl leading-tight text-accent-content">僑務活動</h1>
@@ -38,23 +47,26 @@
         </div>
       </div>
 
-      <img src="./assets/image/pt-graphic.svg" alt="" class="pointer-events-none absolute bottom-0 left-0 w-full h-[52px] object-cover" />
+      <img src="./assets/image/pt-graphic.svg" alt=""
+        class="pointer-events-none absolute bottom-0 left-0 w-full h-[52px] object-cover" />
 
       <!-- 搜尋卡（疊在 Banner 底緣，向下凸出）-->
       <div class="intro intro-d3 absolute left-0 right-0 -bottom-7 z-30 px-4 flex justify-center">
-        <div class="card w-full max-w-[640px] bg-base-100 rounded-box shadow-md border border-base-content">
+        <div class="card w-full max-w-[640px] bg-base-100 rounded-box shadow-md">
           <div class="card-body p-6 gap-[18px]">
 
             <!-- 搜尋列 -->
-            <div class="vd-search relative flex items-center gap-1 rounded-[8px] border border-base-content bg-base-100 p-1.5">
+            <div
+              class="vd-search relative flex items-center gap-1 rounded-[8px] border border-base-content/20 bg-base-100 p-1.5">
               <!-- 關鍵字 -->
-              <button type="button" class="vd-field" id="ev-keyword-btn">
+              <label class="vd-field flex-1 cursor-text" for="ev-search-input">
                 <span class="material-symbols-rounded text-[18px] text-base-content/50">search</span>
-                <span class="vd-field-text" id="ev-keyword-label" data-placeholder="活動關鍵字">活動關鍵字</span>
-              </button>
+                <input id="ev-search-input" type="text" placeholder="輸入活動關鍵字進行搜尋"
+                  class="bg-transparent border-0 outline-none w-full text-sm placeholder:text-base-content/40" />
+              </label>
               <span class="vd-div w-px self-stretch my-1.5 bg-base-content/15"></span>
               <!-- 日期 -->
-              <button type="button" class="vd-field" id="ev-date-btn">
+              <button type="button" class="vd-field" id="ev-date-btn" aria-haspopup="true" aria-expanded="false">
                 <span class="material-symbols-rounded text-[18px] text-base-content/50">calendar_today</span>
                 <span class="vd-field-text" id="ev-date-label" data-placeholder="活動日期">活動日期</span>
               </button>
@@ -66,15 +78,21 @@
 
             <!-- 篩選按鈕列 -->
             <div class="flex items-center gap-1.5 flex-wrap">
-              <button type="button" class="btn btn-outline btn-sm rounded-full gap-1 font-semibold text-neutral border-base-content/20" id="filter-region-btn">
-                所屬地區
+              <button type="button"
+                class="btn btn-outline btn-sm rounded-full gap-1 font-semibold text-neutral border-base-content/20"
+                id="filter-region-btn">
+                所屬中心
                 <span class="material-symbols-rounded text-[16px]">keyboard_arrow_down</span>
               </button>
-              <button type="button" class="btn btn-outline btn-sm rounded-full gap-1 font-semibold text-neutral border-base-content/20" id="filter-type-btn">
+              <button type="button"
+                class="btn btn-outline btn-sm rounded-full gap-1 font-semibold text-neutral border-base-content/20"
+                id="filter-type-btn">
                 活動類型
                 <span class="material-symbols-rounded text-[16px]">keyboard_arrow_down</span>
               </button>
-              <button type="button" class="btn btn-outline btn-sm rounded-full gap-1 font-semibold text-neutral border-base-content/20" id="filter-status-btn">
+              <button type="button"
+                class="btn btn-outline btn-sm rounded-full gap-1 font-semibold text-neutral border-base-content/20"
+                id="filter-status-btn">
                 報名狀態
                 <span class="material-symbols-rounded text-[16px]">keyboard_arrow_down</span>
               </button>
@@ -109,10 +127,12 @@
             </select>
           </div>
           <div class="join" id="view-toggle">
-            <button class="join-item btn btn-neutral btn-square is-active" data-view="grid" aria-label="格狀檢視" aria-pressed="true">
+            <button class="join-item btn btn-neutral btn-square is-active" data-view="grid" aria-label="格狀檢視"
+              aria-pressed="true">
               <span class="material-symbols-rounded text-[20px]">grid_view</span>
             </button>
-            <button class="join-item btn btn-outline btn-square" data-view="list" aria-label="列表檢視" aria-pressed="false">
+            <button class="join-item btn btn-outline btn-square" data-view="list" aria-label="列表檢視"
+              aria-pressed="false">
               <span class="material-symbols-rounded text-[20px]">format_list_bulleted</span>
             </button>
           </div>
@@ -148,5 +168,7 @@
   <script src="./scripts/components.js"></script>
   <script src="./scripts/main.js"></script>
   <script src="./scripts/events.js"></script>
+  <script src="./scripts/filters.js"></script>
 </body>
+
 </html>

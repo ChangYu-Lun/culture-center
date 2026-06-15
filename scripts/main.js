@@ -26,7 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
       inner += `<input type="radio" name="${name}" class="${cls}" disabled${checked} aria-label="${val} 顆心" />`;
     }
     el.classList.remove('rating-hearts');
-    el.classList.add('rating', 'rating-half', 'rating-md');
+    el.classList.add('rating', 'rating-half');
+    if (!el.className.match(/rating-(xs|sm|md|lg)/)) {
+      el.classList.add('rating-md');
+    }
     el.setAttribute('role', 'img');
     el.setAttribute('aria-label', `評分 ${score} / 5`);
     el.innerHTML = inner;

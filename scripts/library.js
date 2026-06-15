@@ -40,7 +40,7 @@
         </div>
         <h3 class="book-title">${title}</h3>
         <p class="text-sm text-base-content/60 -mt-1 mb-2">${author}</p>
-        <div class="rating-hearts" data-rating="${rating}"></div>
+        <div class="rating-hearts rating-sm" data-rating="${rating}"></div>
       </div>
     </article>`;
 
