@@ -17,17 +17,29 @@
 
   var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* 不套用筆畫轉場的頁面（會員專區、登入/註冊、各申請流程）：
-   * 來源或目的頁屬於此清單時，直接導頁、不播放覆蓋/退場動畫。 */
-  var NO_TX = ['member', 'member-records', 'member-profile', 'member-favorites',
-               'member-notifications', 'login', 'register',
-               'artifact-apply', 'library-apply', 'event-apply', 'venue-apply'];
+  /* 筆畫轉場僅在「首頁」參與的導頁時播放：前往首頁或離開首頁保留筆畫，
+   * 其餘頁面間跳轉一律直接導頁、不播放覆蓋/退場動畫（淡入浮現動畫不受影響）。 */
   function pageKey(path) {
     var seg = (path || '').split('/').pop() || 'index';
     return seg.replace(/\.html$/, '') || 'index';
   }
-  function isNoTx(path) { return NO_TX.indexOf(pageKey(path)) !== -1; }
-  var HERE_NOTX = isNoTx(window.location.pathname);
+  function isIndex(path) { return pageKey(path) === 'index'; }
+  var HERE_IS_INDEX = isIndex(window.location.pathname);
+
+  /* 本頁進場是否該播放筆畫退場：抵達首頁、或由首頁導來時才播放。
+   * 來源頁以 document.referrer 判斷（leave 以 location 導頁會正常帶上 referrer）。 */
+  function enterShouldStroke() {
+    if (HERE_IS_INDEX) return true;
+    try {
+      var ref = document.referrer;
+      if (ref) {
+        var refUrl = new URL(ref);
+        if (refUrl.origin === window.location.origin && isIndex(refUrl.pathname)) return true;
+      }
+    } catch (_) {}
+    return false;
+  }
+  var ENTER_STROKE = enterShouldStroke();
 
   /* 參考 repo 的波浪路徑（viewBox 0 0 1316 664）*/
   var PATH_D = 'M13.4746 291.27C13.4746 291.27 100.646 -18.6724 255.617 16.8418C410.588 52.356 61.0296 431.197 233.017 546.326C431.659 679.299 444.494 21.0125 652.73 100.784C860.967 180.556 468.663 430.709 617.216 546.326C765.769 661.944 819.097 48.2722 988.501 120.156C1174.21 198.957 809.424 543.841 988.501 636.726C1189.37 740.915 1301.67 149.213 1301.67 149.213';
@@ -82,7 +94,7 @@
     path.style.strokeDashoffset = '0';
     path.style.strokeWidth = COVER_WIDTH;
   }
-  if (!REDUCED && !HERE_NOTX) setCovered();
+  if (!REDUCED && ENTER_STROKE) setCovered();
 
   var EASE = 'cubic-bezier(0.65, 0, 0.35, 1)';
 
@@ -125,7 +137,7 @@
 
   /* enter：覆蓋狀態下先等資源就緒（期間顯示 loader），再退場揭開 */
   function playEnter() {
-    if (REDUCED || HERE_NOTX) { markLoaded(); return; }
+    if (REDUCED || !ENTER_STROKE) { markLoaded(); return; }
     if (document.readyState === 'complete') { reveal(); return; }
 
     var done = false;
@@ -149,8 +161,8 @@
    * 筆畫以細線繪出運筆軌跡，接近填滿（offset 0.6 之後）才加粗成覆蓋面。*/
   var navigating = false;
   function playLeave(href) {
-    // 來源或目的頁不套用轉場 → 直接導頁
-    if (REDUCED || HERE_NOTX || isNoTx(href)) { window.location.href = href; return; }
+    // 非首頁參與的導頁不套用筆畫轉場 → 直接導頁（淡入浮現仍由目的頁觸發）
+    if (REDUCED || (!HERE_IS_INDEX && !isIndex(href))) { window.location.href = href; return; }
     if (navigating) return;
     navigating = true;
     overlay.classList.add('is-covering');
