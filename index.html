@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="zh-Hant" data-theme="light">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,9 +14,13 @@
   <!-- 字型：Inter + Noto Sans TC（對應 theme.css 的 --font-sans）-->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap"
+    rel="stylesheet" />
   <!-- Material Symbols Rounded（介面 icon）-->
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+    rel="stylesheet" />
 
   <!-- 輪播套件：Swiper -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -52,8 +57,8 @@
         </div>
 
         <!-- Hero 控制列 -->
-        <div class="flex items-center justify-between mt-6">
-          <div class="flex items-center gap-2">
+        <div class="flex items-center gap-4 mt-6">
+          <div class="flex items-center gap-2 shrink-0">
             <button class="btn btn-neutral btn-circle btn-outline hero-prev" aria-label="上一張">
               <span class="material-symbols-rounded text-[20px]">arrow_back_ios_new</span>
             </button>
@@ -64,12 +69,12 @@
               <span class="material-symbols-rounded text-[20px]">arrow_forward_ios</span>
             </button>
           </div>
-          <div class="flex items-center gap-3">
-            <span class="text-sm tabular-nums text-base-content/70 hero-current">01</span>
-            <div class="w-40 sm:w-52 h-2 rounded-full bg-base-300 overflow-hidden">
+          <div class="flex items-center gap-3 flex-1 min-w-0">
+            <span class="text-sm tabular-nums text-base-content/70 hero-current shrink-0">01</span>
+            <div class="flex-1 min-w-0 h-2 rounded-full bg-base-300 overflow-hidden">
               <div class="h-full bg-neutral hero-progress rounded-full" style="width:0%"></div>
             </div>
-            <span class="text-sm tabular-nums text-base-content/70 hero-total">02</span>
+            <span class="text-sm tabular-nums text-base-content/70 hero-total shrink-0">02</span>
           </div>
         </div>
       </div>
@@ -457,4 +462,5 @@
   <script src="./scripts/components.js"></script>
   <script src="./scripts/main.js"></script>
 </body>
+
 </html>
