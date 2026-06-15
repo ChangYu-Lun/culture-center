@@ -51,7 +51,7 @@
 
   var fab = document.createElement('button');
   fab.type = 'button';
-  fab.className = 'section-nav-fab btn btn-neutral btn-circle shadow-lg';
+  fab.className = 'section-nav-fab btn btn-neutral btn-circle btn-lg shadow-lg';
   fab.setAttribute('aria-label', '開啟章節選單');
   fab.setAttribute('aria-expanded', 'false');
   fab.innerHTML = '<span class="material-symbols-rounded text-[22px]">list</span>';

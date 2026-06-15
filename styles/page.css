@@ -1505,21 +1505,25 @@ member-nav {
   display: none;
 }
 
-/* 大斷點（≥1025px）：hover 橫條群組 → 自左滑入選單 */
+/* 大斷點（≥1025px）：hover「橫條群組」才觸發 → 自左滑入選單 */
 @media (min-width: 1025px) {
   .section-nav-menu {
-    margin-left: 8px;
+    /* 以 padding 取代 margin：橫條到選單之間不留 hover 死區，滑入選單時不會閃斷 */
+    padding-left: 8px;
     transform: translateX(-12px);
   }
-  .section-nav:hover .section-nav-rail {
+  .section-nav-rail:hover {
     background: color-mix(in oklab, var(--color-base-content) 10%, transparent);
   }
-  .section-nav:hover .section-nav-menu {
+  /* 觸發限於橫條群組；移入選單後由選單自身 hover 維持開啟 */
+  .section-nav-rail:hover ~ .section-nav-menu,
+  .section-nav-menu:hover {
     opacity: 1;
     transform: translateX(0);
     pointer-events: auto;
   }
-  .section-nav.is-dismissed:hover .section-nav-menu {
+  /* 點選項目後暫時收起，直到滑鼠離開（specificity 高於上方 hover 規則）*/
+  .section-nav.is-dismissed .section-nav-menu {
     opacity: 0;
     transform: translateX(-12px);
     pointer-events: none;
