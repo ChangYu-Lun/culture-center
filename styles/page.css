@@ -1438,7 +1438,7 @@ member-nav {
 /* ---- 首頁章節目錄（左側中央橫條 + 滑入選單；小斷點為左下浮動鈕）---------- */
 .section-nav {
   position: fixed;
-  left: 0;
+  left: 8px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 30;
@@ -1533,7 +1533,7 @@ member-nav {
     top: auto;
     bottom: 1.25rem;
     transform: none;
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
