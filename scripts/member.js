@@ -91,6 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   /* ---- FullCalendar ------------------------------------------------- */
+  const isMobile = () => window.matchMedia('(max-width: 767px)').matches;
+  const DESKTOP_RIGHT = 'dayGridMonth,timeGridWeek,timeGridDay,listMonth';
+
   const calendar = new FullCalendar.Calendar(el, {
     initialView: 'dayGridMonth',
     initialDate: '2026-06-13',
@@ -100,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
+      right: isMobile() ? '' : DESKTOP_RIGHT,
     },
     buttonText: { today: '今天', month: '月', week: '週', day: '天', list: '清單' },
     // 一天事件過多時收合為「+N 更多」，點擊切換到該日「日」視圖檢視全部
@@ -120,4 +123,33 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   });
   calendar.render();
+
+  /* ---- 行動版檢視切換 <select>（注入 legend 列右側）------------------ */
+  const legendEl = document.getElementById('member-calendar-legend');
+  if (legendEl) {
+    const sel = document.createElement('select');
+    sel.id = 'fc-view-select';
+    sel.setAttribute('aria-label', '切換視圖');
+    [['dayGridMonth','月'],['timeGridWeek','週'],['timeGridDay','天'],['listMonth','活動列表']]
+      .forEach(([v, t]) => {
+        const o = document.createElement('option');
+        o.value = v; o.textContent = t;
+        sel.appendChild(o);
+      });
+    sel.value = calendar.view.type;
+    sel.addEventListener('change', () => calendar.changeView(sel.value));
+    calendar.on('viewDidMount', ({ view }) => { sel.value = view.type; });
+    legendEl.appendChild(sel);
+  }
+
+  /* ---- 視口切換：headerToolbar.right ↔ 空字串 ----------------------- */
+  const mq = window.matchMedia('(max-width: 767px)');
+  const syncToolbar = () => {
+    calendar.setOption('headerToolbar', {
+      left: 'prev,next today',
+      center: 'title',
+      right: mq.matches ? '' : DESKTOP_RIGHT,
+    });
+  };
+  mq.addEventListener('change', syncToolbar);
 });

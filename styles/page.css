@@ -1272,11 +1272,11 @@ member-nav {
  * ------------------------------------------------------------------------- */
 #member-calendar {
   font-size: 0.875rem;
-  /* 工具列按鈕：neutral 底白字 */
+  /* 工具列按鈕：neutral 底白字，邊線 base-content/20 */
   --fc-classic-button: var(--color-neutral);
-  --fc-classic-button-border: var(--color-neutral);
+  --fc-classic-button-border: color-mix(in oklab, var(--color-base-content) 20%, transparent);
   --fc-classic-button-strong: color-mix(in oklab, var(--color-neutral) 78%, black);
-  --fc-classic-button-strong-border: color-mix(in oklab, var(--color-neutral) 68%, black);
+  --fc-classic-button-strong-border: color-mix(in oklab, var(--color-base-content) 30%, transparent);
   --fc-classic-button-foreground: var(--color-neutral-content);
   /* primary：選中的檢視鈕、連結、即時線 */
   --fc-classic-primary: var(--color-primary);
@@ -1302,7 +1302,7 @@ member-nav {
 #member-calendar button {
   background: transparent !important;
   color: var(--color-neutral) !important;
-  border: 1px solid var(--color-neutral) !important;
+  border: 1px solid color-mix(in oklab, var(--color-base-content) 20%, transparent) !important;
   box-shadow: none !important;
 }
 
@@ -1315,6 +1315,30 @@ member-nav {
 #member-calendar button:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+/* 行動版（≤767px）：檢視切換 <select>，注入於 legend 列右側 */
+#fc-view-select {
+  display: none;
+  margin-left: auto;
+  height: 2rem;
+  padding-inline: .625rem .5rem;
+  font-size: .8125rem;
+  font-weight: 500;
+  border: 1px solid color-mix(in oklab, var(--color-base-content) 20%, transparent);
+  border-radius: 999px;
+  background: var(--color-base-100);
+  color: var(--color-base-content);
+  cursor: pointer;
+  outline: none;
+  transition: border-color .15s ease;
+}
+#fc-view-select:hover,
+#fc-view-select:focus-visible {
+  border-color: color-mix(in oklab, var(--color-base-content) 40%, transparent);
+}
+@media (max-width: 767px) {
+  #fc-view-select { display: inline-block; }
 }
 
 /* ---- 評分 ----------------------------------------------------------------
