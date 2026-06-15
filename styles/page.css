@@ -1435,6 +1435,11 @@ member-nav {
   }
 }
 
+/* 暫時隱藏 quick-panel（待確認後再恢復；移除本規則即還原）*/
+.quick-panel {
+  display: none;
+}
+
 /* ---- 首頁章節目錄（左側中央橫條 + 滑入選單；小斷點為左下浮動鈕）---------- */
 .section-nav {
   position: fixed;
