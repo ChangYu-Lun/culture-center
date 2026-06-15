@@ -1304,6 +1304,10 @@ member-nav {
   color: var(--color-neutral) !important;
   border: 1px solid color-mix(in oklab, var(--color-base-content) 20%, transparent) !important;
   box-shadow: none !important;
+  font-size: 0.75rem !important;
+  padding-block: 0 !important;
+  padding-inline: 0.625rem !important;
+  height: 1.75rem !important;
 }
 
 #member-calendar button:hover:not(:disabled),
@@ -1317,28 +1321,25 @@ member-nav {
   cursor: not-allowed;
 }
 
-/* 行動版（≤767px）：檢視切換 <select>，注入於 legend 列右側 */
+/* 行動版（≤767px）：檢視切換 <select>，注入於 legend 列右側；樣式由 daisyUI select-sm 處理 */
 #fc-view-select {
   display: none;
+  width: auto;
   margin-left: auto;
-  height: 2rem;
-  padding-inline: .625rem .5rem;
-  font-size: .8125rem;
-  font-weight: 500;
-  border: 1px solid color-mix(in oklab, var(--color-base-content) 20%, transparent);
-  border-radius: 999px;
-  background: var(--color-base-100);
-  color: var(--color-base-content);
-  cursor: pointer;
-  outline: none;
-  transition: border-color .15s ease;
-}
-#fc-view-select:hover,
-#fc-view-select:focus-visible {
-  border-color: color-mix(in oklab, var(--color-base-content) 40%, transparent);
 }
 @media (max-width: 767px) {
   #fc-view-select { display: inline-block; }
+}
+
+/* 活動列表視圖不超出寬度；工具列允許月份標題在極窄螢幕換行 */
+#member-calendar {
+  overflow-x: hidden;
+}
+@media (max-width: 767px) {
+  #member-calendar .fc-toolbar {
+    flex-wrap: wrap;
+    row-gap: 0.375rem;
+  }
 }
 
 /* ---- 評分 ----------------------------------------------------------------

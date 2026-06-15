@@ -93,6 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---- FullCalendar ------------------------------------------------- */
   const isMobile = () => window.matchMedia('(max-width: 767px)').matches;
   const DESKTOP_RIGHT = 'dayGridMonth,timeGridWeek,timeGridDay,listMonth';
+  const mobileToolbar  = { left: 'prev,next', center: 'title', right: 'today' };
+  const desktopToolbar = { left: 'prev,next', center: 'title', right: 'today ' + DESKTOP_RIGHT };
 
   const calendar = new FullCalendar.Calendar(el, {
     initialView: 'dayGridMonth',
@@ -100,11 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     locale: 'zh-tw',
     height: 'auto',
     firstDay: 0,
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: isMobile() ? '' : DESKTOP_RIGHT,
-    },
+    headerToolbar: isMobile() ? mobileToolbar : desktopToolbar,
     buttonText: { today: '今天', month: '月', week: '週', day: '天', list: '清單' },
     // 一天事件過多時收合為「+N 更多」，點擊切換到該日「日」視圖檢視全部
     dayMaxEvents: 3,
@@ -129,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (legendEl) {
     const sel = document.createElement('select');
     sel.id = 'fc-view-select';
+    sel.className = 'select select-sm';
     sel.setAttribute('aria-label', '切換視圖');
     [['dayGridMonth','月'],['timeGridWeek','週'],['timeGridDay','天'],['listMonth','活動列表']]
       .forEach(([v, t]) => {
@@ -142,14 +141,10 @@ document.addEventListener('DOMContentLoaded', () => {
     legendEl.appendChild(sel);
   }
 
-  /* ---- 視口切換：headerToolbar.right ↔ 空字串 ----------------------- */
+  /* ---- 視口切換：mobile ↔ desktop toolbar -------------------------- */
   const mq = window.matchMedia('(max-width: 767px)');
   const syncToolbar = () => {
-    calendar.setOption('headerToolbar', {
-      left: 'prev,next today',
-      center: 'title',
-      right: mq.matches ? '' : DESKTOP_RIGHT,
-    });
+    calendar.setOption('headerToolbar', mq.matches ? mobileToolbar : desktopToolbar);
   };
   mq.addEventListener('change', syncToolbar);
 });
