@@ -5,6 +5,17 @@
  * 顏色一律取自 theme.css 的設計 Token（var(--color-*)），不寫死色值。
  * ========================================================================== */
 
+/* ---- 補充 Tailwind responsive utilities（動態 JS 字串，編譯器無法掃描到）---- */
+@media (min-width: 640px) {
+  .sm\:h-12 { height: 3rem; }
+}
+@media (min-width: 768px) {
+  .md\:flex         { display: flex; }
+  .md\:hidden       { display: none; }
+  .md\:px-5         { padding-inline: 1.25rem; }
+  .md\:h-\[58px\]   { height: 58px; }
+}
+
 /* Material Symbols Rounded 預設外觀 */
 .material-symbols-rounded {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;

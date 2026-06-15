@@ -53,17 +53,17 @@ class SiteHeader extends HTMLElement {
              <li><button type="button" data-logout>會員登出</button></li>
            </ul>
          </div>`
-      : `<a href="./login.html" class="btn btn-neutral ${btnSize} rounded-full px-6">登入</a>`;
+      : `<a href="./login.html" class="btn btn-neutral ${btnSize} rounded-full px-3 md:px-5">登入</a>`;
 
     this.innerHTML = `
       <header id="site-header" class="navbar-wrapper fixed top-0 left-0 right-0 z-40">
         <div class="page-container flex items-center justify-between gap-4 py-4">
-          <a href="./index.html" class="shrink-0">
-            <img src="./assets/image/Logo-light.svg" alt="中華民國僑務委員會 海外文教中心數位服務平台" class="h-12 md:h-[58px] w-auto" />
+          <a href="./index.html" class="min-w-0 shrink">
+            <img src="./assets/image/Logo-light.svg" alt="中華民國僑務委員會 海外文教中心數位服務平台" class="h-9 sm:h-12 md:h-[58px] w-auto" />
           </a>
 
-          <!-- 桌面選單（≥ lg）-->
-          <div class="hidden lg:flex flex-col items-end gap-2">
+          <!-- 桌面選單（≥ md）-->
+          <div class="hidden md:flex flex-col items-end gap-2">
             <div class="flex items-center gap-4 text-sm">
               <a href="./index.html#news" class="link link-hover text-base-content/70">最新消息</a>
               <a href="#" class="link link-hover text-base-content/70">網站導覽</a>
@@ -83,8 +83,8 @@ class SiteHeader extends HTMLElement {
             </nav>
           </div>
 
-          <!-- 右側：登入/頭像 + 漢堡（< lg）-->
-          <div class="flex items-center gap-2 lg:hidden">
+          <!-- 右側：登入/頭像 + 漢堡（< md）-->
+          <div class="flex items-center gap-2 md:hidden">
             ${authNode('btn-sm')}
             <button type="button" id="nav-toggle" class="btn btn-ghost btn-circle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobile-menu">
               <span class="material-symbols-rounded text-[28px]" id="nav-toggle-icon">menu</span>
@@ -92,8 +92,8 @@ class SiteHeader extends HTMLElement {
           </div>
         </div>
 
-        <!-- 行動版選單面板（< lg）：僅放主選單與工具連結，登入/頭像留在 navbar -->
-        <div id="mobile-menu" class="lg:hidden hidden border-t border-base-content/10 bg-base-100">
+        <!-- 行動版選單面板（< md）：僅放主選單與工具連結，登入/頭像留在 navbar -->
+        <div id="mobile-menu" class="md:hidden hidden border-t border-base-content/10 bg-base-100">
           <nav class="page-container flex flex-col py-3">
             ${mobileItem('library', './library.html', '圖書借閱')}
             ${mobileItem('folk', './artifact.html', '民俗文物')}
