@@ -90,7 +90,22 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.querySelector('.news-swiper')) makeSwiper('.news-swiper', '.news-prev', '.news-next', 3, 1.1);
   if (document.querySelector('.events-swiper')) makeSwiper('.events-swiper', '.events-prev', '.events-next', 3, 1.1);
   if (document.querySelector('.books-swiper')) makeSwiper('.books-swiper', '.books-prev', '.books-next', 4, 1.4);
+  if (document.querySelector('.folk-swiper')) makeSwiper('.folk-swiper', '.folk-prev', '.folk-next', 3, 1.1);
   if (document.querySelector('.venue-swiper')) makeSwiper('.venue-swiper', '.venue-prev', '.venue-next', 3, 1.1);
+
+  /* ---- 卡片收藏鈕（首頁文物卡，行為同民俗文物頁）---------------------- */
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.fav-btn');
+    if (!btn) return;
+    e.preventDefault();
+    const on = btn.getAttribute('aria-pressed') === 'true';
+    btn.setAttribute('aria-pressed', String(!on));
+    const icon = btn.querySelector('.material-symbols-rounded');
+    if (icon) {
+      icon.style.fontVariationSettings = on ? "'FILL' 0" : "'FILL' 1";
+      icon.style.color = on ? '' : 'var(--color-accent-alt, #845409)';
+    }
+  });
 
   /* ---- 進場動畫：卡片依序錯開 ----------------------------------------- */
   document.querySelectorAll('.swiper').forEach((sw) => {

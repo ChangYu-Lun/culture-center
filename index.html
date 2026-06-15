@@ -86,8 +86,8 @@
     <section id="news" class="py-24">
       <div class="page-container relative">
         <!-- 裝飾圖形 -->
-        <img src="./assets/image/shape.svg" alt="" class="deco hidden lg:block w-40 -top-16 right-16" />
-        <img src="./assets/image/shape-2.svg" alt="" class="deco hidden lg:block w-12 -top-10 right-52" />
+        <img src="./assets/image/shape.svg" alt="" class="deco hidden lg:block w-40 -top-24 right-16" />
+        <img src="./assets/image/shape-2.svg" alt="" class="deco hidden lg:block w-12 -top-16 right-50" />
 
         <div class="section-panel">
           <!-- 獨立背景：置中、較內容窄，使輪播超出其左右 -->
@@ -96,7 +96,7 @@
             <!-- header（標題＋操作，內縮於背景內）-->
             <div class="section-header-pad flex px-8 items-end justify-between gap-4">
               <div>
-                <p class="text-2xl font-medium text-neutral-alt reveal-clip">最新消息</p>
+                <p class="text-lg md:text-2xl font-medium text-neutral-alt reveal-clip">最新消息</p>
                 <h2 class="section-title reveal-clip reveal-delay-1">Latest News</h2>
               </div>
               <div class="flex items-center gap-6">
@@ -177,7 +177,7 @@
           <!-- 左側標題欄 -->
           <div class="lg:w-44 shrink-0 flex flex-col justify-between gap-8">
             <div>
-              <p class="text-2xl font-medium text-neutral-alt reveal-clip">活動公告</p>
+              <p class="text-lg md:text-2xl font-medium text-neutral-alt reveal-clip">活動公告</p>
               <h2 class="section-title reveal-clip reveal-delay-1">Events</h2>
               <div class="flex items-center gap-2 pt-6">
                 <button class="btn btn-circle btn-outline events-prev" aria-label="上一則">
@@ -188,7 +188,7 @@
                 </button>
               </div>
             </div>
-            <a href="#" class="btn btn-outline rounded-full gap-1 self-start">
+            <a href="./events.html" class="btn btn-outline rounded-full gap-1 self-start">
               所有活動 <span class="material-symbols-rounded text-[20px]">arrow_forward</span>
             </a>
           </div>
@@ -198,44 +198,52 @@
             <div class="swiper events-swiper">
               <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                  <article class="news-card reveal-up">
-                    <div class="thumb aspect-[4/3]"><img src="./assets/image/event-1.png" alt="" /></div>
-                    <div class="pt-5">
-                      <p class="text-base text-base-content/60">2026.06.06</p>
-                      <h3 class="news-card-title">115年海外數位華語文推廣計畫菲律賓暨大洋洲組初階班</h3>
-                      <span class="badge badge-soft badge-neutral">駐溫哥華辦事處僑務組</span>
-                    </div>
-                  </article>
+                  <a href="./event-detail.html" class="block h-full">
+                    <article class="news-card reveal-up">
+                      <div class="thumb aspect-[4/3]"><img src="./assets/image/event-1.png" alt="" /></div>
+                      <div class="pt-5">
+                        <p class="text-base text-base-content/60">2026.06.06</p>
+                        <h3 class="news-card-title">115年海外數位華語文推廣計畫菲律賓暨大洋洲組初階班</h3>
+                        <span class="badge badge-soft badge-neutral">駐溫哥華辦事處僑務組</span>
+                      </div>
+                    </article>
+                  </a>
                 </div>
                 <div class="swiper-slide">
-                  <article class="news-card reveal-up">
-                    <div class="thumb aspect-[4/3]"><img src="./assets/image/event-2.png" alt="" /></div>
-                    <div class="pt-5">
-                      <p class="text-base text-base-content/60">2026.06.06</p>
-                      <h3 class="news-card-title">2026年僑臺商智慧農業研習班開始報名！</h3>
-                      <span class="badge badge-soft badge-neutral">菲華文教服務中心</span>
-                    </div>
-                  </article>
+                  <a href="./event-detail.html" class="block h-full">
+                    <article class="news-card reveal-up">
+                      <div class="thumb aspect-[4/3]"><img src="./assets/image/event-2.png" alt="" /></div>
+                      <div class="pt-5">
+                        <p class="text-base text-base-content/60">2026.06.06</p>
+                        <h3 class="news-card-title">2026年僑臺商智慧農業研習班開始報名！</h3>
+                        <span class="badge badge-soft badge-neutral">菲華文教服務中心</span>
+                      </div>
+                    </article>
+                  </a>
                 </div>
                 <div class="swiper-slide">
-                  <article class="news-card reveal-up">
-                    <div class="thumb aspect-[4/3]"><img src="./assets/image/event-3.png" alt="" /></div>
-                    <div class="pt-5">
-                      <p class="text-base text-base-content/60">2026.06.06</p>
-                      <h3 class="news-card-title">2026海內外客家後生交流營</h3>
-                      <span class="badge badge-soft badge-neutral">全球僑社</span>
-                    </div>
-                  </article>
+                  <a href="./event-detail.html" class="block h-full">
+                    <article class="news-card reveal-up">
+                      <div class="thumb aspect-[4/3]"><img src="./assets/image/event-3.png" alt="" /></div>
+                      <div class="pt-5">
+                        <p class="text-base text-base-content/60">2026.06.06</p>
+                        <h3 class="news-card-title">2026海內外客家後生交流營</h3>
+                        <span class="badge badge-soft badge-neutral">全球僑社</span>
+                      </div>
+                    </article>
+                  </a>
                 </div>
                 <div class="swiper-slide">
-                  <article class="news-card reveal-up">
-                    <div class="thumb aspect-[4/3]"><img src="./assets/image/event-1.png" alt="" /></div>
-                    <div class="pt-5">
-                      <p class="text-base text-base-content/60">2026.05.20</p>
-                      <h3 class="news-card-title">海外華裔青年英語服務營 志工招募中</h3>
-                      <span class="badge badge-soft badge-neutral">全球僑社</span>
-                    </div>
-                  </article>
+                  <a href="./event-detail.html" class="block h-full">
+                    <article class="news-card reveal-up">
+                      <div class="thumb aspect-[4/3]"><img src="./assets/image/event-1.png" alt="" /></div>
+                      <div class="pt-5">
+                        <p class="text-base text-base-content/60">2026.05.20</p>
+                        <h3 class="news-card-title">海外華裔青年英語服務營 志工招募中</h3>
+                        <span class="badge badge-soft badge-neutral">全球僑社</span>
+                      </div>
+                    </article>
+                  </a>
                 </div>
               </div>
             </div>
@@ -257,7 +265,7 @@
 
         <div class="flex items-end justify-between gap-4 pb-6">
           <div>
-            <p class="text-2xl font-medium text-neutral-alt reveal-clip">精選藏書</p>
+            <p class="text-lg md:text-2xl font-medium text-neutral-alt reveal-clip">精選藏書</p>
             <h2 class="section-title reveal-clip reveal-delay-1">Curated Books</h2>
           </div>
           <div class="flex items-center gap-6">
@@ -269,7 +277,7 @@
                 <span class="material-symbols-rounded text-[20px]">arrow_forward_ios</span>
               </button>
             </div>
-            <a href="#" class="btn btn-outline rounded-full gap-1 hidden sm:inline-flex">
+            <a href="./library.html" class="btn btn-outline rounded-full gap-1 hidden sm:inline-flex">
               所有藏書 <span class="material-symbols-rounded text-[20px]">arrow_forward</span>
             </a>
           </div>
@@ -283,58 +291,196 @@
             <div class="swiper-wrapper">
               <!-- Book 1 -->
               <div class="swiper-slide">
-                <article class="book-card reveal-up">
-                  <div class="book-thumb"><img src="./assets/image/book-1.png" alt="台灣光華雜誌 2025 9月號" /></div>
-                  <div>
-                    <span class="badge badge-soft badge-neutral">外語教材</span>
-                    <h3 class="book-title">台灣光華雜誌 2025 9月號</h3>
-                    <div class="rating-hearts" data-rating="4.5"></div>
-                  </div>
-                </article>
+                <a href="./library-detail.html" class="block h-full">
+                  <article class="book-card reveal-up">
+                    <div class="book-thumb"><img src="./assets/image/book-1.png" alt="台灣光華雜誌 2025 9月號" /></div>
+                    <div>
+                      <span class="badge badge-soft badge-neutral">外語教材</span>
+                      <h3 class="book-title">台灣光華雜誌 2025 9月號</h3>
+                      <div class="rating-hearts" data-rating="4.5"></div>
+                    </div>
+                  </article>
+                </a>
               </div>
               <!-- Book 2 -->
               <div class="swiper-slide">
-                <article class="book-card reveal-up">
-                  <div class="book-thumb"><img src="./assets/image/book-2.png" alt="來學華語(法文版)第一冊" /></div>
-                  <div>
-                    <span class="badge badge-soft badge-neutral">外語教材</span>
-                    <h3 class="book-title">來學華語(法文版)第一冊</h3>
-                    <div class="rating-hearts" data-rating="4.5"></div>
-                  </div>
-                </article>
+                <a href="./library-detail.html" class="block h-full">
+                  <article class="book-card reveal-up">
+                    <div class="book-thumb"><img src="./assets/image/book-2.png" alt="來學華語(法文版)第一冊" /></div>
+                    <div>
+                      <span class="badge badge-soft badge-neutral">外語教材</span>
+                      <h3 class="book-title">來學華語(法文版)第一冊</h3>
+                      <div class="rating-hearts" data-rating="4.5"></div>
+                    </div>
+                  </article>
+                </a>
               </div>
               <!-- Book 3 -->
               <div class="swiper-slide">
-                <article class="book-card reveal-up">
-                  <div class="book-thumb"><img src="./assets/image/book-3.png" alt="老師的話" /></div>
-                  <div>
-                    <span class="badge badge-soft badge-neutral">文化輔助</span>
-                    <h3 class="book-title">老師的話</h3>
-                    <div class="rating-hearts" data-rating="4.5"></div>
-                  </div>
-                </article>
+                <a href="./library-detail.html" class="block h-full">
+                  <article class="book-card reveal-up">
+                    <div class="book-thumb"><img src="./assets/image/book-3.png" alt="老師的話" /></div>
+                    <div>
+                      <span class="badge badge-soft badge-neutral">文化輔助</span>
+                      <h3 class="book-title">老師的話</h3>
+                      <div class="rating-hearts" data-rating="4.5"></div>
+                    </div>
+                  </article>
+                </a>
               </div>
               <!-- Book 4 -->
               <div class="swiper-slide">
-                <article class="book-card reveal-up">
-                  <div class="book-thumb"><img src="./assets/image/book-4.png" alt="台灣光華雜誌 2025 10月號" /></div>
-                  <div>
-                    <span class="badge badge-soft badge-neutral">外語教材</span>
-                    <h3 class="book-title">台灣光華雜誌 2025 10月號</h3>
-                    <div class="rating-hearts" data-rating="4"></div>
-                  </div>
-                </article>
+                <a href="./library-detail.html" class="block h-full">
+                  <article class="book-card reveal-up">
+                    <div class="book-thumb"><img src="./assets/image/book-4.png" alt="台灣光華雜誌 2025 10月號" /></div>
+                    <div>
+                      <span class="badge badge-soft badge-neutral">外語教材</span>
+                      <h3 class="book-title">台灣光華雜誌 2025 10月號</h3>
+                      <div class="rating-hearts" data-rating="4"></div>
+                    </div>
+                  </article>
+                </a>
               </div>
               <!-- Book 5 -->
               <div class="swiper-slide">
-                <article class="book-card reveal-up">
-                  <div class="book-thumb"><img src="./assets/image/book-1.png" alt="" /></div>
-                  <div>
-                    <span class="badge badge-soft badge-neutral">外語教材</span>
-                    <h3 class="book-title">台灣光華雜誌 2025 11月號</h3>
-                    <div class="rating-hearts" data-rating="5"></div>
-                  </div>
-                </article>
+                <a href="./library-detail.html" class="block h-full">
+                  <article class="book-card reveal-up">
+                    <div class="book-thumb"><img src="./assets/image/book-1.png" alt="" /></div>
+                    <div>
+                      <span class="badge badge-soft badge-neutral">外語教材</span>
+                      <h3 class="book-title">台灣光華雜誌 2025 11月號</h3>
+                      <div class="rating-hearts" data-rating="5"></div>
+                    </div>
+                  </article>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- Folk Artifacts（民俗文物，版型同活動公告、卡片同民俗文物頁）   -->
+    <!-- ============================================================= -->
+    <section id="folk" class="py-24">
+      <div class="page-container">
+        <div class="flex flex-col lg:flex-row gap-11">
+          <!-- 左側標題欄 -->
+          <div class="lg:w-44 shrink-0 flex flex-col justify-between gap-8">
+            <div>
+              <p class="text-lg md:text-2xl font-medium text-neutral-alt reveal-clip">民俗文物</p>
+              <h2 class="section-title reveal-clip reveal-delay-1">Folk Artifacts</h2>
+              <div class="flex items-center gap-2 pt-6">
+                <button class="btn btn-circle btn-outline folk-prev" aria-label="上一件">
+                  <span class="material-symbols-rounded text-[20px]">arrow_back_ios_new</span>
+                </button>
+                <button class="btn btn-circle btn-outline folk-next" aria-label="下一件">
+                  <span class="material-symbols-rounded text-[20px]">arrow_forward_ios</span>
+                </button>
+              </div>
+            </div>
+            <a href="./artifact.html" class="btn btn-outline rounded-full gap-1 self-start">
+              所有文物 <span class="material-symbols-rounded text-[20px]">arrow_forward</span>
+            </a>
+          </div>
+
+          <!-- 右側文物輪播 -->
+          <div class="flex-1 min-w-0">
+            <div class="swiper folk-swiper">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <article class="venue-card reveal-up">
+                    <a href="./artifact-detail.html" class="venue-link" aria-label="查看「兒童款民俗功夫裝」詳情"></a>
+                    <div class="venue-thumb aspect-square">
+                      <img src="https://www.figma.com/api/mcp/asset/4cf252a5-ba41-4abe-ae1f-a1cf01d733b6"
+                        alt="兒童款民俗功夫裝" loading="lazy" />
+                    </div>
+                    <div class="venue-card-body pt-4">
+                      <div class="flex items-start gap-1">
+                        <h3 class="venue-title flex-1 text-base">兒童款民俗功夫裝</h3>
+                        <button class="btn btn-ghost btn-circle btn-sm fav-btn shrink-0" aria-label="加入收藏"
+                          aria-pressed="false">
+                          <span class="material-symbols-rounded text-[20px]">star</span>
+                        </button>
+                      </div>
+                      <p class="text-sm text-base-content/60 mt-0.5">洛杉磯華僑文教服務中心</p>
+                      <div class="flex items-center gap-2 mt-1 flex-wrap">
+                        <p class="text-sm font-medium">保證金 $500.00 USD</p>
+                        <span class="badge badge-outline text-xs">傳統服飾</span>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+                <div class="swiper-slide">
+                  <article class="venue-card reveal-up">
+                    <a href="./artifact-detail.html" class="venue-link" aria-label="查看「節慶專業舞獅頭」詳情"></a>
+                    <div class="venue-thumb aspect-square">
+                      <img src="https://www.figma.com/api/mcp/asset/d9bc1085-c45e-4d57-ae38-a99bdb1b9c3e"
+                        alt="節慶專業舞獅頭" loading="lazy" />
+                    </div>
+                    <div class="venue-card-body pt-4">
+                      <div class="flex items-start gap-1">
+                        <h3 class="venue-title flex-1 text-base">節慶專業舞獅頭</h3>
+                        <button class="btn btn-ghost btn-circle btn-sm fav-btn shrink-0" aria-label="加入收藏"
+                          aria-pressed="false">
+                          <span class="material-symbols-rounded text-[20px]">star</span>
+                        </button>
+                      </div>
+                      <p class="text-sm text-base-content/60 mt-0.5">洛杉磯華僑文教服務中心</p>
+                      <div class="flex items-center gap-2 mt-1 flex-wrap">
+                        <p class="text-sm font-medium">保證金 $300.00 USD</p>
+                        <span class="badge badge-outline text-xs">表演道具</span>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+                <div class="swiper-slide">
+                  <article class="venue-card reveal-up">
+                    <a href="./artifact-detail.html" class="venue-link" aria-label="查看「成人漢服典藏款」詳情"></a>
+                    <div class="venue-thumb aspect-square">
+                      <img src="https://www.figma.com/api/mcp/asset/8e4ce087-a91d-4c39-b501-c0d0cdbc5741"
+                        alt="成人漢服典藏款" loading="lazy" />
+                    </div>
+                    <div class="venue-card-body pt-4">
+                      <div class="flex items-start gap-1">
+                        <h3 class="venue-title flex-1 text-base">成人漢服典藏款</h3>
+                        <button class="btn btn-ghost btn-circle btn-sm fav-btn shrink-0" aria-label="加入收藏"
+                          aria-pressed="false">
+                          <span class="material-symbols-rounded text-[20px]">star</span>
+                        </button>
+                      </div>
+                      <p class="text-sm text-base-content/60 mt-0.5">洛杉磯華僑文教服務中心</p>
+                      <div class="flex items-center gap-2 mt-1 flex-wrap">
+                        <p class="text-sm font-medium">保證金 $300.00 USD</p>
+                        <span class="badge badge-outline text-xs">傳統服飾</span>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+                <div class="swiper-slide">
+                  <article class="venue-card reveal-up">
+                    <a href="./artifact-detail.html" class="venue-link" aria-label="查看「二胡（傳統弦樂）」詳情"></a>
+                    <div class="venue-thumb aspect-square">
+                      <img src="https://www.figma.com/api/mcp/asset/1f1ad746-2967-49b8-b449-f0e0f3c72b06"
+                        alt="二胡（傳統弦樂）" loading="lazy" />
+                    </div>
+                    <div class="venue-card-body pt-4">
+                      <div class="flex items-start gap-1">
+                        <h3 class="venue-title flex-1 text-base">二胡（傳統弦樂）</h3>
+                        <button class="btn btn-ghost btn-circle btn-sm fav-btn shrink-0" aria-label="加入收藏"
+                          aria-pressed="false">
+                          <span class="material-symbols-rounded text-[20px]">star</span>
+                        </button>
+                      </div>
+                      <p class="text-sm text-base-content/60 mt-0.5">舊金山華僑文教服務中心</p>
+                      <div class="flex items-center gap-2 mt-1 flex-wrap">
+                        <p class="text-sm font-medium">保證金 $250.00 USD</p>
+                        <span class="badge badge-outline text-xs">傳統樂器</span>
+                      </div>
+                    </div>
+                  </article>
+                </div>
               </div>
             </div>
           </div>
@@ -357,7 +503,7 @@
             <!-- header（標題＋操作，內縮於背景內）-->
             <div class="section-header-pad flex items-end justify-between gap-4">
               <div>
-                <p class="text-2xl font-medium text-neutral-alt reveal-clip">場地預約</p>
+                <p class="text-lg md:text-2xl font-medium text-neutral-alt reveal-clip">場地預約</p>
                 <h2 class="section-title reveal-clip reveal-delay-1">Venue Booking</h2>
               </div>
               <div class="flex items-center gap-6">
