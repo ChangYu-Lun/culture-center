@@ -96,22 +96,47 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---- 卡片 Hover CTA：注入縮圖中央的白底按鈕（樣式見 page.css）---------
    * 整卡已是 stretched link，CTA 純為視覺（pointer-events:none），點擊仍走整卡連結。*/
   (function injectCardCTA() {
-    // 最新消息卡用「查看詳情」，其餘（場地 / 文物 / 圖書 / 活動）用「前往預約」；皆 ≤ 6 字
-    const groups = [
-      { sel: '.venue-card > .venue-thumb',       label: '前往預約' },
-      { sel: '.book-card > .book-thumb',         label: '前往預約' },
-      { sel: '.event-card > .news-card-thumb',   label: '前往預約' },
-      { sel: '.news-card > .thumb',              label: '查看詳情' },
-    ];
-    groups.forEach(({ sel, label }) => {
-      document.querySelectorAll(sel).forEach((thumb) => {
-        if (thumb.querySelector('.card-cta-layer')) return;
-        const layer = document.createElement('span');
-        layer.className = 'card-cta-layer';
+    // 是否首頁：首頁的「前往預約」CTA 直接連到對應申請表單第一步
+    const onIndex = (() => { const s = location.pathname.split('/').pop(); return s === '' || s === 'index.html'; })();
+    // 明細頁 → 申請表單第一步
+    const APPLY = {
+      'artifact-detail.html': './artifact-apply.html',
+      'venue-detail.html':    './venue-apply.html',
+      'library-detail.html':  './library-apply.html',
+      'event-detail.html':    './event-apply.html',
+    };
+    const thumbSel = '.venue-card > .venue-thumb, .book-card > .book-thumb, .news-card > .thumb, .event-card > .news-card-thumb';
+    const cardSel  = '.venue-card, .book-card, .news-card, .event-card';
+
+    // 取得卡片的明細連結（子層 stretched link 或外層包覆的連結）
+    const detailFile = (card) => {
+      const a = card.querySelector('a[href*="-detail.html"]') || card.closest('a[href*="-detail.html"]');
+      return a ? a.getAttribute('href').split('/').pop() : null;
+    };
+
+    document.querySelectorAll(thumbSel).forEach((thumb) => {
+      if (thumb.querySelector('.card-cta-layer')) return;
+      const card = thumb.closest(cardSel);
+      const file = card ? detailFile(card) : null;
+      const applyHref = file ? APPLY[file] : null;
+      // 有對應申請表單者標「前往預約」，否則（如最新消息）標「查看詳情」；皆 ≤ 6 字
+      const label = applyHref ? '前往預約' : '查看詳情';
+
+      const layer = document.createElement('span');
+      layer.className = 'card-cta-layer';
+
+      if (onIndex && applyHref) {
+        // 首頁：CTA 為真連結直達申請表單；點擊卡片其他處仍連到明細頁
+        const a = document.createElement('a');
+        a.className = 'card-cta-btn';
+        a.href = applyHref;
+        a.textContent = label;
+        layer.appendChild(a);
+      } else {
         layer.setAttribute('aria-hidden', 'true');
         layer.innerHTML = '<span class="card-cta-btn">' + label + '</span>';
-        thumb.appendChild(layer);
-      });
+      }
+      thumb.appendChild(layer);
     });
   })();
 

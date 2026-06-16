@@ -395,6 +395,19 @@ member-nav {
   transition: transform .3s ease;
 }
 
+/* 連結型 CTA（首頁直達申請表單）：靜止時不可點，避免隱形按鈕攔截卡片點擊；
+ * hover 顯示時才可點，點它走申請表單、點卡片其他處走明細頁 */
+a.card-cta-btn {
+  text-decoration: none;
+  pointer-events: none;
+}
+.venue-card:hover a.card-cta-btn,
+.book-card:hover a.card-cta-btn,
+.news-card:hover a.card-cta-btn,
+.event-card:hover a.card-cta-btn {
+  pointer-events: auto;
+}
+
 /* hover：浮層淡入、按鈕由下而上浮現 */
 .venue-card:hover .card-cta-layer,
 .book-card:hover .card-cta-layer,
