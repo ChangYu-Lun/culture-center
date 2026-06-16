@@ -45,16 +45,7 @@
 
   grid.innerHTML = items.map(cardHTML).join('');
 
-  /* ---- 收藏鈕 ----------------------------------------------------------- */
-  grid.addEventListener('click', (e) => {
-    const btn = e.target.closest('.fav-btn');
-    if (!btn) return;
-    const on = btn.getAttribute('aria-pressed') === 'true';
-    btn.setAttribute('aria-pressed', String(!on));
-    const icon = btn.querySelector('.material-symbols-rounded');
-    icon.style.fontVariationSettings = on ? "'FILL' 0" : "'FILL' 1";
-    icon.style.color = on ? '' : 'var(--color-accent-alt, #845409)';
-  });
+  /* 收藏鈕由 main.js 的全站統一處理器負責（星星 + amber-500） */
 
   /* ---- 格狀 / 列表切換 -------------------------------------------------- */
   const toggle = document.getElementById('view-toggle');

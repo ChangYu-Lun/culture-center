@@ -30,15 +30,17 @@
       <a href="./library-detail.html" class="venue-link" aria-label="查看「${title}」詳情"></a>
       <div class="book-thumb relative">
         <img src="${img}" alt="${title}" loading="lazy" />
-        <button class="btn btn-ghost btn-circle btn-sm fav-btn absolute top-2 right-2 z-[2] bg-base-100/80 hover:bg-base-100" aria-label="加入藏書點" aria-pressed="false">
-          <span class="material-symbols-rounded text-[18px]">bookmark</span>
-        </button>
       </div>
       <div>
         <div class="flex items-center gap-1.5 flex-wrap">
           ${tags.map(t => `<span class="badge badge-soft badge-neutral">${t}</span>`).join('')}
         </div>
-        <h3 class="book-title">${title}</h3>
+        <div class="flex items-start gap-1">
+          <h3 class="book-title flex-1">${title}</h3>
+          <button class="btn btn-ghost btn-circle btn-sm fav-btn shrink-0 z-[2]" aria-label="加入收藏" aria-pressed="false">
+            <span class="material-symbols-rounded text-[20px]">star</span>
+          </button>
+        </div>
         <p class="text-sm text-base-content/60 -mt-1 mb-2">${author}</p>
         <div class="rating-hearts rating-sm" data-rating="${rating}"></div>
       </div>
@@ -46,16 +48,7 @@
 
   grid.innerHTML = books.map(cardHTML).join('');
 
-  /* ---- 收藏鈕 ----------------------------------------------------------- */
-  grid.addEventListener('click', (e) => {
-    const btn = e.target.closest('.fav-btn');
-    if (!btn) return;
-    const on = btn.getAttribute('aria-pressed') === 'true';
-    btn.setAttribute('aria-pressed', String(!on));
-    const icon = btn.querySelector('.material-symbols-rounded');
-    icon.style.fontVariationSettings = on ? "'FILL' 0" : "'FILL' 1";
-    icon.style.color = on ? '' : 'var(--color-accent-alt, #845409)';
-  });
+  /* 收藏鈕由 main.js 的全站統一處理器負責（星星 + amber-500） */
 
   /* ---- 格狀 / 列表切換 -------------------------------------------------- */
   const toggle = document.getElementById('view-toggle');

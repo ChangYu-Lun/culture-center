@@ -41,16 +41,7 @@
 
   grid.innerHTML = Array.from({ length: 16 }, (_, i) => cardHTML(i)).join('');
 
-  /* ---- 收藏鈕：點擊切換填色 ------------------------------------------- */
-  grid.addEventListener('click', (e) => {
-    const btn = e.target.closest('.fav-btn');
-    if (!btn) return;
-    const on = btn.getAttribute('aria-pressed') === 'true';
-    btn.setAttribute('aria-pressed', String(!on));
-    const icon = btn.querySelector('.material-symbols-rounded');
-    icon.style.fontVariationSettings = !on ? '"FILL" 1' : '"FILL" 0';
-    icon.classList.toggle('text-amber-500', !on);
-  });
+  /* 收藏鈕由 main.js 的全站統一處理器負責（星星 + amber-500） */
 
   /* ---- 格狀 / 列表 檢視切換 ------------------------------------------- */
   const toggle = document.getElementById('view-toggle');

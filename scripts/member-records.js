@@ -95,12 +95,31 @@ document.addEventListener('DOMContentLoaded', () => {
     list.innerHTML = cfg.items.map((it) => cardHTML(cfg, it)).join('');
   };
 
+  /* ---- 分頁路由：每個 Tab 有獨立網址（hash）------------------------------
+   * 例：member-records.html#artifact 直接開啟「文物出借」分頁；
+   * 申請完成頁的「檢視申請進度」CTA 即以此 hash 導引到對應分頁。*/
+  const DEFAULT_TAB = 'book';
+  const tabFromHash = () => {
+    const key = (location.hash || '').replace('#', '');
+    return TABS[key] ? key : DEFAULT_TAB;
+  };
+
+  const activate = (key, writeHash) => {
+    if (!TABS[key]) key = DEFAULT_TAB;
+    tabs.querySelectorAll('[data-tab]').forEach((t) => t.classList.toggle('tab-active', t.dataset.tab === key));
+    render(key);
+    // replaceState 不會觸發捲動或 hashchange，僅更新網址列
+    if (writeHash) history.replaceState(null, '', '#' + key);
+  };
+
   tabs.addEventListener('click', (e) => {
     const tab = e.target.closest('[data-tab]');
     if (!tab) return;
-    tabs.querySelectorAll('[data-tab]').forEach((t) => t.classList.toggle('tab-active', t === tab));
-    render(tab.dataset.tab);
+    activate(tab.dataset.tab, true);
   });
 
-  render('book');
+  // 上一頁／下一頁或手動改 hash 時同步分頁
+  window.addEventListener('hashchange', () => activate(tabFromHash(), false));
+
+  activate(tabFromHash(), false);
 });

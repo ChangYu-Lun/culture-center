@@ -93,7 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.querySelector('.folk-swiper')) makeSwiper('.folk-swiper', '.folk-prev', '.folk-next', 3, 1.1);
   if (document.querySelector('.venue-swiper')) makeSwiper('.venue-swiper', '.venue-prev', '.venue-next', 3, 1.1);
 
-  /* ---- 卡片收藏鈕（首頁文物卡，行為同民俗文物頁）---------------------- */
+  /* ---- 卡片收藏鈕（全站統一：星星 icon，點擊後填色 amber-500）----------
+   * 此為全站唯一的 .fav-btn 處理器；圖書 / 民俗文物 / 場地列表頁不再各自綁定，
+   * 避免重複監聽互相抵銷。*/
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('.fav-btn');
     if (!btn) return;
@@ -103,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const icon = btn.querySelector('.material-symbols-rounded');
     if (icon) {
       icon.style.fontVariationSettings = on ? "'FILL' 0" : "'FILL' 1";
-      icon.style.color = on ? '' : 'var(--color-accent-alt, #845409)';
+      icon.style.color = on ? '' : 'var(--color-amber-500)';
     }
   });
 

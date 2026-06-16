@@ -392,6 +392,11 @@ member-nav {
   }
 }
 
+/* 圖書借閱列表頁：縮圖底色用 base-300（首頁精選藏書維持 base-100）*/
+#library-grid .book-thumb {
+  background: var(--color-base-300);
+}
+
 /* 圖書列表頁：列表檢視（book-card 橫向）*/
 #library-grid.is-list {
   grid-template-columns: 1fr;
