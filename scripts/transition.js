@@ -17,8 +17,11 @@
 
   var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* 筆畫轉場僅在「首頁」參與的導頁時播放：前往首頁或離開首頁保留筆畫，
-   * 其餘頁面間跳轉一律直接導頁、不播放覆蓋/退場動畫（淡入浮現動畫不受影響）。 */
+  /* 筆畫轉場僅在「離開首頁」時播放：
+   *   - 從首頁前往其他頁  → 播放筆畫（離場覆蓋 + 目的頁退場揭開）
+   *   - 前往首頁          → 不播放筆畫，直接導頁（首頁只走內容淡入浮現）
+   *   - 其餘頁面之間       → 直接導頁
+   * 任何情況下，目的頁的 .intro 淡入浮現動畫都會照常觸發。 */
   function pageKey(path) {
     var seg = (path || '').split('/').pop() || 'index';
     return seg.replace(/\.html$/, '') || 'index';
@@ -26,10 +29,10 @@
   function isIndex(path) { return pageKey(path) === 'index'; }
   var HERE_IS_INDEX = isIndex(window.location.pathname);
 
-  /* 本頁進場是否該播放筆畫退場：抵達首頁、或由首頁導來時才播放。
-   * 來源頁以 document.referrer 判斷（leave 以 location 導頁會正常帶上 referrer）。 */
+  /* 本頁進場是否該播放筆畫退場：僅當「由首頁導來的非首頁」才播放。
+   * 抵達首頁本身不播筆畫（只浮現）；來源頁以 document.referrer 判斷。 */
   function enterShouldStroke() {
-    if (HERE_IS_INDEX) return true;
+    if (HERE_IS_INDEX) return false;
     try {
       var ref = document.referrer;
       if (ref) {
@@ -161,8 +164,8 @@
    * 筆畫以細線繪出運筆軌跡，接近填滿（offset 0.6 之後）才加粗成覆蓋面。*/
   var navigating = false;
   function playLeave(href) {
-    // 非首頁參與的導頁不套用筆畫轉場 → 直接導頁（淡入浮現仍由目的頁觸發）
-    if (REDUCED || (!HERE_IS_INDEX && !isIndex(href))) { window.location.href = href; return; }
+    // 僅「離開首頁」時播放筆畫；前往首頁或其餘頁面間 → 直接導頁（淡入浮現仍由目的頁觸發）
+    if (REDUCED || !HERE_IS_INDEX) { window.location.href = href; return; }
     if (navigating) return;
     navigating = true;
     overlay.classList.add('is-covering');

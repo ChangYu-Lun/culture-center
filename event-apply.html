@@ -331,12 +331,27 @@
               </tbody>
             </table>
 
-            <!-- QR Code 示意 -->
-            <div class="flex flex-col items-center gap-2 py-4 border border-base-content/10 rounded-xl bg-base-200/50">
-              <div class="size-28 bg-base-content/10 rounded-lg flex items-center justify-center">
-                <span class="material-symbols-rounded text-[56px] text-base-content/30">qr_code_2</span>
-              </div>
+            <!-- QR Code（入場憑證）-->
+            <div class="flex flex-col items-center gap-2 py-4">
+              <span class="material-symbols-rounded text-base-content leading-none" style="font-size:140px">qr_code_2</span>
               <p class="text-xs text-base-content/50">入場 QR Code（請截圖備用）</p>
+            </div>
+
+            <!-- 加入行事曆 / 數位票證（暫時隱藏）-->
+            <div class="hidden flex-col gap-2.5 pt-1">
+              <p class="text-sm font-medium text-base-content/70">加入行事曆 / 數位票證</p>
+              <div class="flex flex-wrap gap-2">
+                <a id="ev-gcal" href="#" target="_blank" rel="noopener" class="btn btn-outline btn-sm rounded-full gap-1.5">
+                  <span class="material-symbols-rounded text-[18px]">calendar_add_on</span>Google 日曆
+                </a>
+                <button type="button" id="ev-gwallet" class="btn btn-outline btn-sm rounded-full gap-1.5">
+                  <span class="material-symbols-rounded text-[18px]">wallet</span>Google Wallet
+                </button>
+                <button type="button" id="ev-awallet" class="btn btn-outline btn-sm rounded-full gap-1.5">
+                  <span class="material-symbols-rounded text-[18px]">account_balance_wallet</span>Apple Wallet
+                </button>
+              </div>
+              <p id="ev-pass-hint" class="text-xs text-base-content/55 hidden"></p>
             </div>
 
             <!-- 操作按鈕 -->
@@ -450,6 +465,29 @@
         if (checked.length > 2) { cb.checked = false; }
       });
     });
+
+    /* ---- 加入行事曆 / 數位票證 -------------------------------------------- */
+    (function () {
+      const title = '2026年台灣文化節海外巡迴 — 洛杉磯場';
+      const loc = '洛杉磯華僑文教服務中心';
+      const details = '台灣文化節海外巡迴活動。請攜帶報名確認信或入場 QR Code 至現場核驗身份。';
+      const dates = '20260815T090000/20260815T170000';   // 2026/08/15 09:00–17:00
+      const gcal = document.getElementById('ev-gcal');
+      if (gcal) {
+        gcal.href = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+          + '&text=' + encodeURIComponent(title)
+          + '&dates=' + dates
+          + '&details=' + encodeURIComponent(details)
+          + '&location=' + encodeURIComponent(loc);
+      }
+      // Google / Apple Wallet 票證需由後端簽發 pass，雛形階段以提示說明取代
+      const hint = document.getElementById('ev-pass-hint');
+      const showHint = (msg) => { if (hint) { hint.textContent = msg; hint.classList.remove('hidden'); } };
+      document.getElementById('ev-gwallet')?.addEventListener('click', () =>
+        showHint('數位票證將於報名審核確認後產生，屆時可一鍵加入 Google Wallet。（雛形示意）'));
+      document.getElementById('ev-awallet')?.addEventListener('click', () =>
+        showHint('數位票證將於報名審核確認後產生，屆時可一鍵加入 Apple Wallet。（雛形示意）'));
+    })();
   </script>
 </body>
 </html>
