@@ -358,6 +358,57 @@ member-nav {
   transform: scale(1.05);
 }
 
+/* ---- 卡片 Hover CTA：縮圖壓 20% base-content + 由下而上浮現的白底按鈕 ------
+ * 套用於首頁與各單元頁的卡片（場地 / 文物 / 圖書 / 消息 / 活動）。
+ * CTA 元素由 main.js 注入（.card-cta-layer > .card-cta-btn）。 */
+.venue-thumb,
+.book-thumb,
+.news-card > .thumb {
+  position: relative;
+}
+
+.card-cta-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  background: color-mix(in oklab, var(--color-base-content) 20%, transparent);
+  opacity: 0;
+  pointer-events: none;          /* 不攔截點擊：整卡連結照常可點 */
+  transition: opacity .3s ease;
+}
+
+.card-cta-btn {
+  background: #fff;              /* 白底 */
+  color: var(--color-base-content);
+  font-size: .875rem;
+  font-weight: 600;
+  line-height: 1.4;
+  padding: .5rem 1.1rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px -4px rgb(0 0 0 / .28);   /* 陰影 */
+  transform: translateY(16px);
+  transition: transform .3s ease;
+}
+
+/* hover：浮層淡入、按鈕由下而上浮現 */
+.venue-card:hover .card-cta-layer,
+.book-card:hover .card-cta-layer,
+.news-card:hover .card-cta-layer,
+.event-card:hover .card-cta-layer {
+  opacity: 1;
+}
+.venue-card:hover .card-cta-btn,
+.book-card:hover .card-cta-btn,
+.news-card:hover .card-cta-btn,
+.event-card:hover .card-cta-btn {
+  transform: translateY(0);
+}
+
 /* 場地預約頁：列表檢視（單欄、卡片改水平排列）*/
 #venue-grid.is-list {
   grid-template-columns: 1fr;

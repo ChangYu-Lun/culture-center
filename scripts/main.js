@@ -93,6 +93,28 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.querySelector('.folk-swiper')) makeSwiper('.folk-swiper', '.folk-prev', '.folk-next', 3, 1.1);
   if (document.querySelector('.venue-swiper')) makeSwiper('.venue-swiper', '.venue-prev', '.venue-next', 3, 1.1);
 
+  /* ---- 卡片 Hover CTA：注入縮圖中央的白底按鈕（樣式見 page.css）---------
+   * 整卡已是 stretched link，CTA 純為視覺（pointer-events:none），點擊仍走整卡連結。*/
+  (function injectCardCTA() {
+    // 最新消息卡用「查看詳情」，其餘（場地 / 文物 / 圖書 / 活動）用「前往預約」；皆 ≤ 6 字
+    const groups = [
+      { sel: '.venue-card > .venue-thumb',       label: '前往預約' },
+      { sel: '.book-card > .book-thumb',         label: '前往預約' },
+      { sel: '.event-card > .news-card-thumb',   label: '前往預約' },
+      { sel: '.news-card > .thumb',              label: '查看詳情' },
+    ];
+    groups.forEach(({ sel, label }) => {
+      document.querySelectorAll(sel).forEach((thumb) => {
+        if (thumb.querySelector('.card-cta-layer')) return;
+        const layer = document.createElement('span');
+        layer.className = 'card-cta-layer';
+        layer.setAttribute('aria-hidden', 'true');
+        layer.innerHTML = '<span class="card-cta-btn">' + label + '</span>';
+        thumb.appendChild(layer);
+      });
+    });
+  })();
+
   /* ---- 卡片收藏鈕（全站統一：星星 icon，點擊後填色 amber-500）----------
    * 此為全站唯一的 .fav-btn 處理器；圖書 / 民俗文物 / 場地列表頁不再各自綁定，
    * 避免重複監聽互相抵銷。*/
