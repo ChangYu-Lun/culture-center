@@ -73,23 +73,26 @@
             <!-- 主圖 -->
             <div class="aspect-square border border-base-content/15 rounded-field overflow-hidden">
               <img id="art-main-img"
-                src="https://www.figma.com/api/mcp/asset/4cf252a5-ba41-4abe-ae1f-a1cf01d733b6"
-                alt="兒童款民俗功夫裝"
+                src="./assets/image/artifact-detail-1-1.png"
+                alt="文物主圖"
                 class="w-full h-full object-cover" />
             </div>
-            <!-- 縮圖列 -->
-            <div class="flex gap-2">
-              <button type="button" class="artifact-thumb is-active flex-1" onclick="setMainImg(this, 'https://www.figma.com/api/mcp/asset/8e4ce087-a91d-4c39-b501-c0d0cdbc5741')" aria-label="縮圖 1">
-                <img src="https://www.figma.com/api/mcp/asset/8e4ce087-a91d-4c39-b501-c0d0cdbc5741" alt="" />
+            <!-- 縮圖列（依右側顏色選單切換）-->
+            <div class="flex gap-2" id="art-thumb-row">
+              <button type="button" class="artifact-thumb is-active flex-1" onclick="setMainImg(this, './assets/image/artifact-detail-1-1.png')" aria-label="縮圖 1">
+                <img src="./assets/image/artifact-detail-1-1.png" alt="" />
               </button>
-              <button type="button" class="artifact-thumb flex-1" onclick="setMainImg(this, 'https://www.figma.com/api/mcp/asset/4d962eab-5cf6-4c97-8228-4be0197354c0')" aria-label="縮圖 2">
-                <img src="https://www.figma.com/api/mcp/asset/4d962eab-5cf6-4c97-8228-4be0197354c0" alt="" />
+              <button type="button" class="artifact-thumb flex-1" onclick="setMainImg(this, './assets/image/artifact-detail-1-2.png')" aria-label="縮圖 2">
+                <img src="./assets/image/artifact-detail-1-2.png" alt="" />
               </button>
-              <button type="button" class="artifact-thumb flex-1" onclick="setMainImg(this, 'https://www.figma.com/api/mcp/asset/13f70b89-4a1a-4c0d-aac3-3356ef9e200a')" aria-label="縮圖 3">
-                <img src="https://www.figma.com/api/mcp/asset/13f70b89-4a1a-4c0d-aac3-3356ef9e200a" alt="" />
+              <button type="button" class="artifact-thumb flex-1" onclick="setMainImg(this, './assets/image/artifact-detail-1-3.png')" aria-label="縮圖 3">
+                <img src="./assets/image/artifact-detail-1-3.png" alt="" />
               </button>
-              <button type="button" class="artifact-thumb flex-1" onclick="setMainImg(this, 'https://www.figma.com/api/mcp/asset/4cf252a5-ba41-4abe-ae1f-a1cf01d733b6')" aria-label="縮圖 4">
-                <img src="https://www.figma.com/api/mcp/asset/4cf252a5-ba41-4abe-ae1f-a1cf01d733b6" alt="" />
+              <button type="button" class="artifact-thumb flex-1" onclick="setMainImg(this, './assets/image/artifact-detail-1-4.png')" aria-label="縮圖 4">
+                <img src="./assets/image/artifact-detail-1-4.png" alt="" />
+              </button>
+              <button type="button" class="artifact-thumb flex-1" onclick="setMainImg(this, './assets/image/artifact-detail-1-5.png')" aria-label="縮圖 5">
+                <img src="./assets/image/artifact-detail-1-5.png" alt="" />
               </button>
             </div>
             <!-- 分享按鈕 -->
@@ -216,17 +219,17 @@
             <div class="flex items-start gap-4">
               <span class="w-24 shrink-0 text-base text-base-content/80 pt-2">顏色</span>
               <div class="flex-1 grid grid-cols-2 gap-3">
-                <button type="button" class="color-tile is-active" onclick="selectColor(this)">
-                  <img src="https://www.figma.com/api/mcp/asset/5b1170e8-aeaa-435f-850e-41ecea18a180" alt="藍色" />
+                <button type="button" class="color-tile is-active" onclick="selectColor(this, 1)">
+                  <img src="./assets/image/artifact-detail-1-1.png" alt="藍色" />
                   <span>藍色</span>
                 </button>
-                <button type="button" class="color-tile" onclick="selectColor(this)">
-                  <img src="https://www.figma.com/api/mcp/asset/1f1ad746-2967-49b8-b449-f0e0f3c72b06" alt="黃色" />
+                <button type="button" class="color-tile" onclick="selectColor(this, 2)">
+                  <img src="./assets/image/artifact-detail-2-1.png" alt="黃色" />
                   <span>黃色</span>
                 </button>
-                <button type="button" class="color-tile" onclick="selectColor(this)">
-                  <img src="https://www.figma.com/api/mcp/asset/181752e1-8081-4d82-825e-91603752a19a" alt="黃色（深）" />
-                  <span>黃色（深）</span>
+                <button type="button" class="color-tile" onclick="selectColor(this, 3)">
+                  <img src="./assets/image/artifact-detail-3-1.png" alt="紅色" />
+                  <span>紅色</span>
                 </button>
               </div>
             </div>
@@ -327,9 +330,27 @@
       document.querySelectorAll('.artifact-thumb').forEach(t => t.classList.remove('is-active'));
       btn.classList.add('is-active');
     }
-    function selectColor(btn) {
+    // 依顏色切換左側文物圖（1=藍 / 2=黃 / 3=紅 → artifact-detail-{set}-X.png）
+    function buildGallery(set) {
+      const main = document.getElementById('art-main-img');
+      const row = document.getElementById('art-thumb-row');
+      main.src = `./assets/image/artifact-detail-${set}-1.png`;
+      row.innerHTML = '';
+      for (let i = 1; i <= 5; i++) {
+        const src = `./assets/image/artifact-detail-${set}-${i}.png`;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'artifact-thumb flex-1' + (i === 1 ? ' is-active' : '');
+        btn.setAttribute('aria-label', '縮圖 ' + i);
+        btn.addEventListener('click', () => setMainImg(btn, src));
+        btn.innerHTML = `<img src="${src}" alt="" />`;
+        row.appendChild(btn);
+      }
+    }
+    function selectColor(btn, set) {
       document.querySelectorAll('.color-tile').forEach(t => t.classList.remove('is-active'));
       btn.classList.add('is-active');
+      buildGallery(set);
     }
     function selectSize(btn) {
       document.querySelectorAll('.size-tile').forEach(t => t.classList.remove('is-active'));

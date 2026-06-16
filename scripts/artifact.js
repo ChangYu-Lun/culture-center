@@ -8,18 +8,18 @@
   if (!grid) return;
 
   const items = [
-    { img: 'https://www.figma.com/api/mcp/asset/4cf252a5-ba41-4abe-ae1f-a1cf01d733b6', name: '兒童款民俗功夫裝', center: '洛杉磯華僑文教服務中心', deposit: '$500.00 USD', badge: '傳統服飾' },
-    { img: 'https://www.figma.com/api/mcp/asset/d9bc1085-c45e-4d57-ae38-a99bdb1b9c3e', name: '節慶專業舞獅頭',   center: '洛杉磯華僑文教服務中心', deposit: '$300.00 USD', badge: '表演道具' },
-    { img: 'https://www.figma.com/api/mcp/asset/8e4ce087-a91d-4c39-b501-c0d0cdbc5741', name: '成人漢服典藏款',   center: '洛杉磯華僑文教服務中心', deposit: '$300.00 USD', badge: '傳統服飾' },
-    { img: 'https://www.figma.com/api/mcp/asset/4d962eab-5cf6-4c97-8228-4be0197354c0', name: '民族舞蹈服（黃）', center: '橙縣華僑文教服務中心',   deposit: '$100.00 USD', badge: '舞蹈服裝' },
-    { img: 'https://www.figma.com/api/mcp/asset/13f70b89-4a1a-4c0d-aac3-3356ef9e200a', name: '成人旗袍（藍）',   center: '橙縣華僑文教服務中心',   deposit: '$150.00 USD', badge: '傳統服飾' },
-    { img: 'https://www.figma.com/api/mcp/asset/5b1170e8-aeaa-435f-850e-41ecea18a180', name: '傳統武術道具組',   center: '舊金山華僑文教服務中心', deposit: '$200.00 USD', badge: '表演道具' },
-    { img: 'https://www.figma.com/api/mcp/asset/1f1ad746-2967-49b8-b449-f0e0f3c72b06', name: '二胡（傳統弦樂）', center: '舊金山華僑文教服務中心', deposit: '$250.00 USD', badge: '傳統樂器' },
-    { img: 'https://www.figma.com/api/mcp/asset/181752e1-8081-4d82-825e-91603752a19a', name: '鑼鼓組（打擊樂）', center: '洛杉磯華僑文教服務中心', deposit: '$180.00 USD', badge: '傳統樂器' },
-    { img: 'https://www.figma.com/api/mcp/asset/4cf252a5-ba41-4abe-ae1f-a1cf01d733b6', name: '成人武術功夫裝',   center: '橙縣華僑文教服務中心',   deposit: '$500.00 USD', badge: '傳統服飾' },
-    { img: 'https://www.figma.com/api/mcp/asset/8e4ce087-a91d-4c39-b501-c0d0cdbc5741', name: '兒童漢服（紅）',   center: '舊金山華僑文教服務中心', deposit: '$200.00 USD', badge: '傳統服飾' },
-    { img: 'https://www.figma.com/api/mcp/asset/4d962eab-5cf6-4c97-8228-4be0197354c0', name: '舞龍龍頭套組',     center: '洛杉磯華僑文教服務中心', deposit: '$400.00 USD', badge: '表演道具' },
-    { img: 'https://www.figma.com/api/mcp/asset/d9bc1085-c45e-4d57-ae38-a99bdb1b9c3e', name: '傳統戲曲頭冠',     center: '橙縣華僑文教服務中心',   deposit: '$350.00 USD', badge: '表演道具' },
+    { img: './assets/image/artifact01.png', name: '節慶專業舞獅頭',           center: '洛杉磯華僑文教服務中心', deposit: '$300.00 USD', badge: '表演道具' },
+    { img: './assets/image/artifact02.png', name: '二十四節令鼓',             center: '洛杉磯華僑文教服務中心', deposit: '$350.00 USD', badge: '傳統樂器' },
+    { img: './assets/image/artifact03.png', name: '改良式典雅女款旗袍',       center: '橙縣華僑文教服務中心',   deposit: '$150.00 USD', badge: '傳統服飾' },
+    { img: './assets/image/artifact04.png', name: '兒童款民俗功夫裝',         center: '洛杉磯華僑文教服務中心', deposit: '$500.00 USD', badge: '傳統服飾' },
+    { img: './assets/image/artifact05.png', name: '傳統木雕布袋戲偶',         center: '舊金山華僑文教服務中心', deposit: '$400.00 USD', badge: '表演道具' },
+    { img: './assets/image/artifact06.png', name: '校園培訓專用扯鈴（培鈴款）', center: '橙縣華僑文教服務中心',   deposit: '$120.00 USD', badge: '表演道具' },
+    { img: './assets/image/artifact07.png', name: '台灣原住民服飾套組（阿美族）', center: '舊金山華僑文教服務中心', deposit: '$300.00 USD', badge: '傳統服飾' },
+    { img: './assets/image/artifact08.png', name: '客家油紙傘',               center: '洛杉磯華僑文教服務中心', deposit: '$180.00 USD', badge: '民俗工藝' },
+    { img: './assets/image/artifact09.png', name: '電音三太子神偶服',         center: '橙縣華僑文教服務中心',   deposit: '$450.00 USD', badge: '表演道具' },
+    { img: './assets/image/artifact10.png', name: '古典中式大型大紅燈籠',     center: '舊金山華僑文教服務中心', deposit: '$200.00 USD', badge: '民俗工藝' },
+    { img: './assets/image/artifact01.png', name: '節慶專業舞獅頭',           center: '橙縣華僑文教服務中心',   deposit: '$300.00 USD', badge: '表演道具' },
+    { img: './assets/image/artifact02.png', name: '二十四節令鼓',             center: '舊金山華僑文教服務中心', deposit: '$350.00 USD', badge: '傳統樂器' },
   ];
 
   const cardHTML = ({ img, name, center, deposit, badge }) => `
