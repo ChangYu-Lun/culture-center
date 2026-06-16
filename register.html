@@ -50,13 +50,11 @@
         <h1 class="intro intro-d1 text-3xl font-medium">會員註冊</h1>
         <p class="text-sm text-base-content/60 mt-2">綁定 i僑卡會員後，系統將自動帶入您的會籍資料</p>
 
-        <nav id="apply-stepper" class="apply-stepper mt-8 mb-2" aria-label="註冊步驟">
-          <div class="apply-step is-active" data-step="1"><div class="apply-step-circle">1</div><span class="apply-step-label">綁定 i僑卡</span></div>
-          <div class="apply-step-line"></div>
-          <div class="apply-step" data-step="2"><div class="apply-step-circle">2</div><span class="apply-step-label">確認會籍資料</span></div>
-          <div class="apply-step-line"></div>
-          <div class="apply-step" data-step="3"><div class="apply-step-circle">3</div><span class="apply-step-label">註冊完成</span></div>
-        </nav>
+        <ul id="apply-stepper" class="steps w-full max-w-[460px] mt-8 mb-2" aria-label="註冊步驟">
+          <li class="step step-neutral" data-step="1">綁定 i僑卡</li>
+          <li class="step" data-step="2">確認會籍資料</li>
+          <li class="step" data-step="3">註冊完成</li>
+        </ul>
       </div>
 
       <!-- ============================= -->
@@ -192,34 +190,18 @@
     }
 
     function updateStepper(active) {
-      const steps = document.querySelectorAll('.apply-step');
-      const lines = document.querySelectorAll('.apply-step-line');
-      steps.forEach((s, i) => {
-        const k = i + 1;
-        s.classList.remove('is-active', 'is-done');
-        if (k < active) s.classList.add('is-done');
-        if (k === active) s.classList.add('is-active');
+      document.querySelectorAll('#apply-stepper .step').forEach((s, i) => {
+        s.classList.toggle('step-neutral', i + 1 <= active);
       });
-      lines.forEach((l, i) => l.classList.toggle('is-done', i + 1 < active));
     }
 
     // Step 1：綁定 i僑卡（模擬查詢，帶入會籍資料）
     function bindCard() {
       const card = document.getElementById('iq-card').value.trim();
-      const id = document.getElementById('iq-id').value.trim();
-      const agree = document.getElementById('iq-agree').checked;
-      const err = document.getElementById('iq-error');
+      document.getElementById('iq-error').classList.add('hidden');
 
-      if (!card || !id || !agree) {
-        err.classList.remove('hidden');
-        err.querySelector('span:last-child').textContent =
-          !agree ? '請先勾選同意查詢會籍資料。' : '請完整填寫 i僑卡卡號與驗證資訊。';
-        return;
-      }
-      err.classList.add('hidden');
-
-      // 模擬：將輸入卡號 / 生日帶入確認頁
-      document.getElementById('c-card').textContent = card;
+      // 模擬：將輸入卡號 / 生日帶入確認頁（雛形：未填亦可繼續）
+      document.getElementById('c-card').textContent = card || '1234-5678-9012';
       const birth = document.getElementById('iq-birth').value;
       if (birth) document.getElementById('c-birth').textContent = birth.replaceAll('-', '/');
 
@@ -236,10 +218,6 @@
 
     // Step 2 → 3：送出申請，建立帳號並登入
     function submitReg() {
-      if (!document.getElementById('confirm-agree').checked) {
-        alert('請先確認會籍資料正確無誤。');
-        return;
-      }
       try {
         localStorage.setItem('cc-logged-in', '1');
         localStorage.setItem('cc-user-name', '陳○○');

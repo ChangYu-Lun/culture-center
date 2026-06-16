@@ -25,18 +25,26 @@
 
   var rail = document.createElement('div');
   rail.className = 'section-nav-rail';
+  /* 無障礙：rail 為可聚焦的展開鈕（鍵盤可 Tab 進入並開啟選單）*/
+  rail.tabIndex = 0;
+  rail.setAttribute('role', 'button');
+  rail.setAttribute('aria-label', '章節導覽選單');
+  rail.setAttribute('aria-haspopup', 'true');
+  rail.setAttribute('aria-expanded', 'false');
+  rail.setAttribute('aria-controls', 'section-nav-menu');
 
   var menuWrap = document.createElement('div');
   menuWrap.className = 'section-nav-menu';
+  menuWrap.id = 'section-nav-menu';
   var ul = document.createElement('ul');
   ul.className = 'menu';
 
   SECTIONS.forEach(function (s) {
-    var bar = document.createElement('button');
-    bar.type = 'button';
+    /* 橫條僅為章節指示（不可互動）；實際導覽由選單項目負責 */
+    var bar = document.createElement('div');
     bar.className = 'section-nav-bar';
     bar.dataset.target = s.id;
-    bar.setAttribute('aria-label', s.label);
+    bar.setAttribute('aria-hidden', 'true');
     rail.appendChild(bar);
 
     var li = document.createElement('li');
@@ -93,17 +101,48 @@
     fab.setAttribute('aria-expanded', 'false');
     if (fromEl && fromEl.blur) fromEl.blur();
   }
-  rail.addEventListener('click', function (e) {
-    var b = e.target.closest('.section-nav-bar');
-    if (b) onPick(b.dataset.target, b);
-  });
   ul.addEventListener('click', function (e) {
     var a = e.target.closest('a[data-target]');
     if (!a) return;
     e.preventDefault();
     onPick(a.dataset.target, a);
   });
-  nav.addEventListener('mouseleave', function () { nav.classList.remove('is-dismissed'); });
+  /* 點選後 is-dismissed 暫時收起選單；再次懸停 rail 即恢復可展開。
+     （.section-nav 容器為 pointer-events:none，mouseleave 不會觸發，故改綁在 rail/menu）*/
+  rail.addEventListener('mouseenter', function () { nav.classList.remove('is-dismissed'); });
+  menuWrap.addEventListener('mouseleave', function () { nav.classList.remove('is-dismissed'); });
+
+  /* ---- 鍵盤無障礙 ----------------------------------------------------- */
+  /* 聚焦 rail（Tab 進入）即展開選單；:focus-within 由 CSS 維持開啟 */
+  rail.addEventListener('focus', function () {
+    nav.classList.remove('is-dismissed');
+    rail.setAttribute('aria-expanded', 'true');
+  });
+  /* Enter / Space / ↓：把焦點帶進選單第一個項目 */
+  rail.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      nav.classList.remove('is-dismissed');
+      var first = ul.querySelector('a');
+      if (first) first.focus();
+    } else if (e.key === 'Escape') {
+      nav.classList.add('is-dismissed');           // 收起但保留焦點於 rail（WCAG 1.4.13 可關閉）
+      rail.setAttribute('aria-expanded', 'false');
+    }
+  });
+  /* 選單內 Esc：收起並把焦點送回 rail */
+  ul.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      nav.classList.add('is-dismissed');
+      rail.setAttribute('aria-expanded', 'false');
+      rail.focus();
+    }
+  });
+  /* 焦點完全離開導覽列時，更新 aria-expanded */
+  nav.addEventListener('focusout', function (e) {
+    if (!nav.contains(e.relatedTarget)) rail.setAttribute('aria-expanded', 'false');
+  });
 
   /* ---- 小斷點：浮動按鈕開合 ------------------------------------------ */
   fab.addEventListener('click', function () {

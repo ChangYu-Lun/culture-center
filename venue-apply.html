@@ -51,22 +51,11 @@
         <p id="apply-subtitle" class="text-base-content/60 mt-1 hidden">洛杉磯華僑文教服務中心・第二教室</p>
 
         <!-- 步驟條 -->
-        <nav id="apply-stepper" class="apply-stepper hidden mt-8 mb-2" aria-label="申請步驟">
-          <div class="apply-step" data-step="1">
-            <div class="apply-step-circle">1</div>
-            <span class="apply-step-label">申請資訊</span>
-          </div>
-          <div class="apply-step-line"></div>
-          <div class="apply-step" data-step="2">
-            <div class="apply-step-circle">2</div>
-            <span class="apply-step-label">活動資訊</span>
-          </div>
-          <div class="apply-step-line"></div>
-          <div class="apply-step" data-step="3">
-            <div class="apply-step-circle">3</div>
-            <span class="apply-step-label">申請完成</span>
-          </div>
-        </nav>
+        <ul id="apply-stepper" class="steps hidden w-full max-w-[460px] mt-8 mb-2" aria-label="申請步驟">
+          <li class="step" data-step="1">申請資訊</li>
+          <li class="step" data-step="2">活動資訊</li>
+          <li class="step" data-step="3">申請完成</li>
+        </ul>
       </div>
 
       <!-- ============================= -->
@@ -131,7 +120,13 @@
       <div id="step-1" class="apply-step-panel max-w-3xl mx-auto hidden">
         <div class="card bg-base-100 rounded-box shadow-md">
           <div class="card-body gap-6 p-8">
-            <h2 class="text-xl font-semibold">申請人與團體資料</h2>
+            <div class="flex items-center justify-between gap-4">
+              <h2 class="text-xl font-semibold">申請人與團體資料</h2>
+              <label class="flex items-center gap-2 cursor-pointer shrink-0">
+                <span class="text-sm text-base-content/70">帶入會員資料</span>
+                <input type="checkbox" class="toggle toggle-neutral toggle-sm" id="autofill-toggle" checked />
+              </label>
+            </div>
 
             <div class="apply-form-section">
               <label class="apply-label" for="f-org">借用團體/社團名稱<span class="apply-req">*</span></label>

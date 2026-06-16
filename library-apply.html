@@ -60,17 +60,13 @@
       <div class="text-center mb-10">
         <h1 class="intro intro-d1 text-3xl font-medium">圖書借閱申請</h1>
 
-        <nav id="apply-stepper" class="apply-stepper mt-8 mb-2" aria-label="申請步驟">
-          <div class="apply-step is-active" data-step="1"><div class="apply-step-circle">1</div><span class="apply-step-label">借閱清單</span></div>
-          <div class="apply-step-line"></div>
-          <div class="apply-step" data-step="2"><div class="apply-step-circle">2</div><span class="apply-step-label">同意規範</span></div>
-          <div class="apply-step-line"></div>
-          <div class="apply-step" data-step="3"><div class="apply-step-circle">3</div><span class="apply-step-label">申請資料</span></div>
-          <div class="apply-step-line"></div>
-          <div class="apply-step" data-step="4"><div class="apply-step-circle">4</div><span class="apply-step-label">確認送出</span></div>
-          <div class="apply-step-line"></div>
-          <div class="apply-step" data-step="5"><div class="apply-step-circle">5</div><span class="apply-step-label">預約完成</span></div>
-        </nav>
+        <ul id="apply-stepper" class="steps w-full max-w-[640px] mt-8 mb-2" aria-label="申請步驟">
+          <li class="step step-neutral" data-step="1">借閱清單</li>
+          <li class="step" data-step="2">同意規範</li>
+          <li class="step" data-step="3">申請資料</li>
+          <li class="step" data-step="4">確認送出</li>
+          <li class="step" data-step="5">預約完成</li>
+        </ul>
       </div>
 
       <!-- ============================= -->
@@ -184,12 +180,18 @@
       <div id="lib-step-3" class="apply-step-panel max-w-3xl mx-auto hidden">
         <div class="card bg-base-100 rounded-box shadow-md">
           <div class="card-body gap-6 p-8">
-            <div>
-              <h2 class="text-2xl font-medium">申請人基本資料</h2>
-              <p class="text-sm text-base-content/60 mt-1 flex items-center gap-1">
-                <span class="material-symbols-rounded text-[16px]">info</span>
-                基本資料已自動帶入會員資訊，若有變更可於此修改並同步更新會員資料。
-              </p>
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-2xl font-medium">申請人基本資料</h2>
+                <p class="text-sm text-base-content/60 mt-1 flex items-center gap-1">
+                  <span class="material-symbols-rounded text-[16px]">info</span>
+                  基本資料已自動帶入會員資訊，若有變更可於此修改並同步更新會員資料。
+                </p>
+              </div>
+              <label class="flex items-center gap-2 cursor-pointer shrink-0 pt-1">
+                <span class="text-sm text-base-content/70 whitespace-nowrap">帶入會員資料</span>
+                <input type="checkbox" class="toggle toggle-neutral toggle-sm" id="autofill-toggle" checked />
+              </label>
             </div>
 
             <!-- 基本資料 -->
@@ -441,15 +443,25 @@
     }
 
     function updateStepper(active) {
-      const steps = document.querySelectorAll('.apply-step');
-      const lines = document.querySelectorAll('.apply-step-line');
-      steps.forEach((s, i) => {
-        const k = i + 1;
-        s.classList.remove('is-active', 'is-done');
-        if (k < active) s.classList.add('is-done');
-        if (k === active) s.classList.add('is-active');
+      document.querySelectorAll('#apply-stepper .step').forEach((s, i) => {
+        s.classList.toggle('step-neutral', i + 1 <= active);
       });
-      lines.forEach((l, i) => l.classList.toggle('is-done', i + 1 < active));
+    }
+
+    /* ---- 會員資料自動帶入（預設帶入；關閉則清空可編輯欄位）---- */
+    const autofillIds = ['f-name', 'f-ename', 'f-birth', 'f-phone', 'f-email'];
+    const memberData = {};
+    autofillIds.forEach(id => { const el = document.getElementById(id); if (el) memberData[id] = el.value; });
+    function applyAutofill(on) {
+      autofillIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = on ? memberData[id] : '';
+      });
+      checkAge();
+    }
+    const autofillToggle = document.getElementById('autofill-toggle');
+    if (autofillToggle) {
+      autofillToggle.addEventListener('change', () => applyAutofill(autofillToggle.checked));
     }
 
     /* ---- Step 1：清單勾選 / 上限邏輯 ---- */
@@ -457,14 +469,12 @@
     const allBox = document.getElementById('cart-all');
     const warn = document.getElementById('cart-warn');
     const countEl = document.getElementById('cart-count');
-    const step1Next = document.getElementById('step1-next');
 
     function refreshCart() {
       const checked = items().filter(i => i.checked).length;
       countEl.textContent = checked;
-      const over = checked > MAX_BOOKS;
-      warn.classList.toggle('hidden', !over);
-      step1Next.disabled = over || checked === 0;
+      // 雛形：僅提示超過上限，不阻擋進入下一步
+      warn.classList.toggle('hidden', checked <= MAX_BOOKS);
     }
     items().forEach(i => i.addEventListener('change', refreshCart));
     allBox.addEventListener('change', () => {
@@ -475,14 +485,7 @@
 
     /* ---- Step 2：同意必填 ---- */
     function tryStep3() {
-      const ok = document.getElementById('agree-check').checked;
-      const label = document.getElementById('agree-label');
-      if (!ok) {
-        label.classList.add('ring-2', 'ring-error');
-        label.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return;
-      }
-      label.classList.remove('ring-2', 'ring-error');
+      // 雛形：不強制勾選同意，直接進入下一步
       goToStep(3);
     }
 

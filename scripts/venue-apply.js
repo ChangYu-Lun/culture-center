@@ -14,8 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const panels    = [0,1,2,3].map(i => document.getElementById(`step-${i}`));
   const stepper   = document.getElementById('apply-stepper');
   const subtitle  = document.getElementById('apply-subtitle');
-  const stepDots  = [...document.querySelectorAll('.apply-step')];
-  const lines     = [...document.querySelectorAll('.apply-step-line')];
+  const stepDots  = [...document.querySelectorAll('#apply-stepper .step')];
 
   /* ---- 步驟切換 ------------------------------------------------------- */
   const showStep = (n) => {
@@ -28,16 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     subtitle.classList.toggle('hidden', !showStepper);
 
     if (showStepper) {
-      stepDots.forEach((dot, i) => {
-        const num = i + 1;          // dots are 1-indexed
-        const circle = dot.querySelector('.apply-step-circle');
-        const isDone = num < n;
-        const isActive = num === n;
-        circle.classList.toggle('is-active', isActive);
-        circle.classList.toggle('is-done', isDone);
-      });
-      // progress lines: fill up to (n-1) steps
-      lines.forEach((l, i) => l.classList.toggle('is-filled', i < n - 1));
+      stepDots.forEach((s, i) => s.classList.toggle('step-neutral', i + 1 <= n));
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -48,15 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const agreeHint = document.getElementById('agree-hint');
   const btn0      = document.getElementById('btn-step0');
 
-  btn0.addEventListener('click', () => {
-    if (!agreeCb.checked) {
-      agreeHint.classList.add('text-error');
-      agreeHint.textContent = '請先勾選同意條款才能繼續';
-      agreeCb.focus();
-      return;
-    }
-    showStep(1);
-  });
+  btn0.addEventListener('click', () => showStep(1));
   agreeCb.addEventListener('change', () => {
     if (agreeCb.checked) {
       agreeHint.classList.remove('text-error');
@@ -64,20 +46,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  /* ---- 會員資料自動帶入 ---------------------------------------------- */
+  const MEMBER = { org: '金山灣區華僑文教服務中心', name: '陳○○', phone: '(408) 555-0199', email: 'example@mail.com' };
+  const autofillMap = { 'f-org': MEMBER.org, 'f-name': MEMBER.name, 'f-phone': MEMBER.phone, 'f-email': MEMBER.email };
+  const applyAutofill = (on) => {
+    Object.entries(autofillMap).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (el) el.value = on ? val : '';
+    });
+  };
+  const autofillToggle = document.getElementById('autofill-toggle');
+  if (autofillToggle) {
+    applyAutofill(autofillToggle.checked);
+    autofillToggle.addEventListener('change', () => applyAutofill(autofillToggle.checked));
+  }
+
   /* ---- Step 1：申請資訊 ---------------------------------------------- */
   const s1Fields = ['f-org', 'f-name', 'f-title', 'f-phone', 'f-email'].map(id => document.getElementById(id));
 
-  const validateStep1 = () => s1Fields.every(f => f.value.trim() !== '');
-
-  document.getElementById('btn-step1').addEventListener('click', () => {
-    if (!validateStep1()) {
-      s1Fields.forEach(f => {
-        if (!f.value.trim()) f.classList.add('input-error');
-      });
-      return;
-    }
-    showStep(2);
-  });
+  document.getElementById('btn-step1').addEventListener('click', () => showStep(2));
   document.getElementById('btn-step1-back').addEventListener('click', () => showStep(0));
   s1Fields.forEach(f => f.addEventListener('input', () => f.classList.remove('input-error')));
 
@@ -111,19 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  const validateStep2 = () => {
-    const typeChecked = !!document.querySelector('input[name="ev-type"]:checked');
-    const foodChecked = !!document.querySelector('input[name="ev-food"]:checked');
-    return evName.value.trim() && evDesc.value.trim() && typeChecked
-      && attendees > 0 && evPhone.value.trim() && evEmail.value.trim() && foodChecked;
-  };
-
   document.getElementById('btn-step2').addEventListener('click', () => {
-    if (!validateStep2()) {
-      if (!evName.value.trim()) evName.classList.add('input-error');
-      if (!evDesc.value.trim()) evDesc.classList.add('textarea-error');
-      return;
-    }
     // 生成申請編號（示範用）
     const d = new Date();
     const code = `#BR-${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}-${String(Math.floor(Math.random()*999)+1).padStart(3,'0')}`;

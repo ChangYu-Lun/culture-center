@@ -56,22 +56,11 @@
       <div class="text-center mb-10">
         <h1 class="intro intro-d1 text-3xl font-medium">活動報名</h1>
 
-        <nav id="apply-stepper" class="apply-stepper mt-8 mb-2" aria-label="報名步驟">
-          <div class="apply-step is-active" data-step="1">
-            <div class="apply-step-circle">1</div>
-            <span class="apply-step-label">基本資料</span>
-          </div>
-          <div class="apply-step-line" id="line-1-2"></div>
-          <div class="apply-step" data-step="2" id="step-nav-2">
-            <div class="apply-step-circle">2</div>
-            <span class="apply-step-label">確認報名</span>
-          </div>
-          <div class="apply-step-line" id="line-2-3"></div>
-          <div class="apply-step" data-step="3" id="step-nav-3">
-            <div class="apply-step-circle">3</div>
-            <span class="apply-step-label">報名完成</span>
-          </div>
-        </nav>
+        <ul id="apply-stepper" class="steps w-full max-w-[460px] mt-8 mb-2" aria-label="報名步驟">
+          <li class="step step-neutral" data-step="1">基本資料</li>
+          <li class="step" data-step="2">確認報名</li>
+          <li class="step" data-step="3">報名完成</li>
+        </ul>
       </div>
 
       <!-- ============================= -->
@@ -144,7 +133,13 @@
       <div id="ev-step-1" class="apply-step-panel max-w-3xl mx-auto hidden">
         <div class="card bg-base-100 rounded-box shadow-md">
           <div class="card-body gap-6 p-8">
-            <h2 class="text-2xl font-semibold">報名人基本資料</h2>
+            <div class="flex items-center justify-between gap-4">
+              <h2 class="text-2xl font-semibold">報名人基本資料</h2>
+              <label class="flex items-center gap-2 cursor-pointer shrink-0">
+                <span class="text-sm text-base-content/70">帶入會員資料</span>
+                <input type="checkbox" class="toggle toggle-neutral toggle-sm" id="autofill-toggle" checked />
+              </label>
+            </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div class="apply-form-section">
@@ -378,27 +373,28 @@
     }
 
     function updateStepper(active) {
-      document.querySelectorAll('.apply-step').forEach((s, i) => {
-        s.classList.remove('is-active', 'is-done');
-        if (i + 1 < active) s.classList.add('is-done');
-        if (i + 1 === active) s.classList.add('is-active');
-      });
-      document.querySelectorAll('.apply-step-line').forEach((l, i) => {
-        l.classList.toggle('is-done', i + 1 < active);
+      document.querySelectorAll('#apply-stepper .step').forEach((s, i) => {
+        s.classList.toggle('step-neutral', i + 1 <= active);
       });
     }
 
+    /* ---- 會員資料自動帶入 ------------------------------------------------- */
+    const MEMBER = { name: '陳○○', ename: 'CHEN, ○○', phone: '(408) 555-0199', email: 'example@mail.com', org: '金山灣區華僑文教服務中心' };
+    const autofillMap = { 'f-name': MEMBER.name, 'f-eng-name': MEMBER.ename, 'f-phone': MEMBER.phone, 'f-email': MEMBER.email, 'f-affiliation': MEMBER.org };
+    function applyAutofill(on) {
+      Object.entries(autofillMap).forEach(([id, val]) => {
+        const el = document.getElementById(id);
+        if (el) el.value = on ? val : '';
+      });
+    }
+    const autofillToggle = document.getElementById('autofill-toggle');
+    if (autofillToggle) {
+      applyAutofill(autofillToggle.checked);
+      autofillToggle.addEventListener('change', () => applyAutofill(autofillToggle.checked));
+    }
+
     /* ---- Step 0：報名須知同意 --------------------------------------------- */
-    document.getElementById('btn-step0').addEventListener('click', () => {
-      const cb = document.getElementById('agree-terms');
-      if (!cb.checked) {
-        cb.closest('label').classList.add('ring-2', 'ring-error', 'ring-offset-1', 'rounded');
-        document.getElementById('agree-hint').classList.add('text-error');
-        document.getElementById('agree-hint').textContent = '請先勾選同意';
-        return;
-      }
-      goToStep(0);
-    });
+    document.getElementById('btn-step0').addEventListener('click', () => goToStep(0));
 
     /* ---- 人數控制 ---------------------------------------------------------- */
     let peopleCount = 1;
@@ -437,8 +433,7 @@
       document.getElementById('s-name').textContent   = document.getElementById('f-name').value || '—';
       document.getElementById('s-people').textContent = peopleCount + ' 人';
 
-      document.querySelectorAll('.apply-step').forEach(s => { s.classList.remove('is-active', 'is-done'); s.classList.add('is-done'); });
-      document.querySelectorAll('.apply-step-line').forEach(l => l.classList.add('is-done'));
+      document.querySelectorAll('#apply-stepper .step').forEach(s => s.classList.add('step-neutral'));
 
       ['ev-step-0','ev-step-1','ev-step-2'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
       document.getElementById('ev-step-3').classList.remove('hidden');

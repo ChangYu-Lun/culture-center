@@ -64,22 +64,11 @@
       <div class="text-center mb-10">
         <h1 class="intro intro-d1 text-3xl font-medium">文物借用申請</h1>
 
-        <nav id="apply-stepper" class="apply-stepper mt-8 mb-2" aria-label="申請步驟">
-          <div class="apply-step is-active" data-step="1">
-            <div class="apply-step-circle">1</div>
-            <span class="apply-step-label">查看清單</span>
-          </div>
-          <div class="apply-step-line" id="line-1-2"></div>
-          <div class="apply-step" data-step="2" id="step-nav-2">
-            <div class="apply-step-circle">2</div>
-            <span class="apply-step-label">申請資料</span>
-          </div>
-          <div class="apply-step-line" id="line-2-3"></div>
-          <div class="apply-step" data-step="3" id="step-nav-3">
-            <div class="apply-step-circle">3</div>
-            <span class="apply-step-label">申請完成</span>
-          </div>
-        </nav>
+        <ul id="apply-stepper" class="steps w-full max-w-[460px] mt-8 mb-2" aria-label="申請步驟">
+          <li class="step step-neutral" data-step="1">查看清單</li>
+          <li class="step" data-step="2">申請資料</li>
+          <li class="step" data-step="3">申請完成</li>
+        </ul>
       </div>
 
       <!-- ============================= -->
@@ -177,7 +166,13 @@
       <div id="art-step-2" class="apply-step-panel max-w-3xl mx-auto hidden">
         <div class="card bg-base-100 rounded-box shadow-md">
           <div class="card-body gap-6 p-8">
-            <h2 class="text-2xl font-medium">申請人與團體資料</h2>
+            <div class="flex items-center justify-between gap-4">
+              <h2 class="text-2xl font-medium">申請人與團體資料</h2>
+              <label class="flex items-center gap-2 cursor-pointer shrink-0">
+                <span class="text-sm text-base-content/70">帶入會員資料</span>
+                <input type="checkbox" class="toggle toggle-neutral toggle-sm" id="autofill-toggle" checked />
+              </label>
+            </div>
 
             <div class="apply-form-section">
               <label class="apply-label" for="f-org">借用團體/社團名稱<span class="apply-req">*</span></label>
@@ -286,17 +281,24 @@
     }
 
     function updateStepper(active) {
-      const steps = document.querySelectorAll('.apply-step');
-      const lines = document.querySelectorAll('.apply-step-line');
-      steps.forEach((s, i) => {
-        const n = i + 1;
-        s.classList.remove('is-active', 'is-done');
-        if (n < active) s.classList.add('is-done');
-        if (n === active) s.classList.add('is-active');
+      document.querySelectorAll('#apply-stepper .step').forEach((s, i) => {
+        s.classList.toggle('step-neutral', i + 1 <= active);
       });
-      lines.forEach((l, i) => {
-        l.classList.toggle('is-done', i + 1 < active);
+    }
+
+    /* ---- 會員資料自動帶入 ---- */
+    const MEMBER = { org: '金山灣區華僑文教服務中心', name: '陳○○', addr: '100 S. Milpitas Blvd., Milpitas, CA 95035', phone: '(408) 555-0199', email: 'example@mail.com' };
+    const autofillMap = { 'f-org': MEMBER.org, 'f-name': MEMBER.name, 'f-addr': MEMBER.addr, 'f-liaison': MEMBER.name, 'f-phone': MEMBER.phone, 'f-email': MEMBER.email };
+    function applyAutofill(on) {
+      Object.entries(autofillMap).forEach(([id, val]) => {
+        const el = document.getElementById(id);
+        if (el) el.value = on ? val : '';
       });
+    }
+    const autofillToggle = document.getElementById('autofill-toggle');
+    if (autofillToggle) {
+      applyAutofill(autofillToggle.checked);
+      autofillToggle.addEventListener('change', () => applyAutofill(autofillToggle.checked));
     }
 
     // 產生申請編號
