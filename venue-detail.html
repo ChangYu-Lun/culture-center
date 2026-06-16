@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="zh-Hant" data-theme="light">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,9 +14,13 @@
   <!-- 字型：Inter + Noto Sans TC -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap"
+    rel="stylesheet" />
   <!-- Material Symbols Rounded -->
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+    rel="stylesheet" />
 
   <!-- Cally 日曆 Web Component（由 daisyUI 自動套用 .cally 樣式）-->
   <script type="module" src="https://unpkg.com/cally"></script>
@@ -35,9 +40,11 @@
     <!-- ============================================================= -->
     <section class="page-hero relative bg-accent overflow-x-clip h-[270px]">
       <!-- 裝飾圖形（右上，避開頁首區域）-->
-      <img src="./assets/image/title-graphic.png" alt="" class="pointer-events-none select-none absolute top-[90px] right-0 w-[460px] max-w-[55%] opacity-90" />
+      <img src="./assets/image/title-graphic.png" alt=""
+        class="pointer-events-none select-none absolute top-[90px] right-0 w-[460px] max-w-[55%] opacity-90" />
       <!-- 底部波浪 -->
-      <img src="./assets/image/pt-graphic.svg" alt="" class="pointer-events-none absolute bottom-0 left-0 w-full h-[52px] object-cover" />
+      <img src="./assets/image/pt-graphic.svg" alt=""
+        class="pointer-events-none absolute bottom-0 left-0 w-full h-[52px] object-cover" />
     </section>
 
     <!-- ============================================================= -->
@@ -52,12 +59,13 @@
         <!-- 圖片藝廊 -->
         <div class="intro intro-d1 relative">
           <div class="vd-gallery">
-            <div class="vd-cell vd-main"><img src="./assets/image/venue-detail-1.png" alt="第二教室主視覺 — 沙發休憩區" /></div>
-            <div class="vd-cell"><img src="./assets/image/venue-detail-2.png" alt="第二教室 — 採光與座位" /></div>
-            <div class="vd-cell"><img src="./assets/image/venue-detail-2.png" alt="第二教室 — 落地窗視野" /></div>
+            <div class="vd-cell vd-main"><img src="./assets/image/venue-detail-1.jpeg" alt="第二教室主視覺 — 沙發休憩區" /></div>
+            <div class="vd-cell"><img src="./assets/image/venue-detail-2.jpeg" alt="第二教室 — 採光與座位" /></div>
+            <div class="vd-cell"><img src="./assets/image/venue-detail-3.jpeg" alt="第二教室 — 落地窗視野" /></div>
           </div>
           <!-- 顯示所有圖片 -->
-          <button type="button" class="btn btn-sm md:btn-md rounded-field bg-base-100 border-0 shadow-md absolute bottom-2 right-2 gap-2">
+          <button type="button"
+            class="btn btn-sm md:btn-md rounded-field bg-base-100 border-0 shadow-md absolute bottom-2 right-2 gap-2">
             <span class="material-symbols-rounded text-[18px]">grid_view</span>
             <span class="font-semibold text-neutral">顯示所有圖片</span>
           </button>
@@ -77,7 +85,8 @@
                   <button type="button" class="btn btn-ghost btn-sm md:btn-md rounded-full gap-1.5">
                     <span class="material-symbols-rounded text-[20px]">ios_share</span>分享
                   </button>
-                  <button type="button" id="vd-save" class="btn btn-ghost btn-sm md:btn-md rounded-full gap-1.5" aria-pressed="false">
+                  <button type="button" id="vd-save" class="btn btn-ghost btn-sm md:btn-md rounded-full gap-1.5"
+                    aria-pressed="false">
                     <span class="material-symbols-rounded text-[20px]" data-save-icon>star</span>儲存
                   </button>
                 </div>
@@ -115,7 +124,9 @@
             <section class="flex flex-col gap-6">
               <h2 class="reveal-clip text-3xl font-medium text-accent-alt">空間介紹</h2>
               <div id="vd-intro" class="vd-collapsible flex flex-col gap-2 text-base text-base-content/80 leading-7">
-                <p>本空間打破傳統教室的生硬框架，以工業風清水混凝土牆搭配溫潤木質調設計，營造出既現代洗練又不失溫度的美學氛圍。室內擁有大面落地窗，引進充足的自然採光，並精心配置高質感的莫蘭迪橘與燕麥色現代沙發椅、造型茶几，搭配綠意盎然的闊葉植栽，營造出富有包容感且能放鬆交流的舒適環境，讓每位與會者都能在最具靈感的氛圍下互動。</p>
+                <p>
+                  本空間打破傳統教室的生硬框架，以工業風清水混凝土牆搭配溫潤木質調設計，營造出既現代洗練又不失溫度的美學氛圍。室內擁有大面落地窗，引進充足的自然採光，並精心配置高質感的莫蘭迪橘與燕麥色現代沙發椅、造型茶几，搭配綠意盎然的闊葉植栽，營造出富有包容感且能放鬆交流的舒適環境，讓每位與會者都能在最具靈感的氛圍下互動。
+                </p>
                 <p>第二教室具備高度靈活的空間配置特性，能完美契合民眾多元的場地租借需求：</p>
                 <ul class="list-disc ps-6 flex flex-col gap-1">
                   <li>各類課程： 適合舉辦小型文化沙龍、藝術手作、專題講座或互動型教學活動。</li>
@@ -123,7 +134,8 @@
                   <li>社群聚會： 溫馨舒適的沙發區，極適合辦理僑團聯誼、青年交流、讀書會或溫暖的私密談話。</li>
                 </ul>
               </div>
-              <button type="button" id="vd-more" class="btn btn-outline btn-sm w-fit rounded-full" aria-expanded="false">顯示更多內容</button>
+              <button type="button" id="vd-more" class="btn btn-outline btn-sm w-fit rounded-full"
+                aria-expanded="false">顯示更多內容</button>
             </section>
 
           </div>
@@ -140,20 +152,30 @@
                     <span class="text-sm text-base-content/60" id="vd-unit-label">/小時</span>
                   </div>
                   <div class="inline-flex bg-base-200 rounded-field p-1" id="vd-rate-toggle" role="tablist">
-                    <button type="button" class="px-3 h-9 rounded-[4px] text-sm bg-base-100 shadow-sm is-active" data-rate="hour" role="tab" aria-selected="true">時租</button>
-                    <button type="button" class="px-3 h-9 rounded-[4px] text-sm text-base-content/50" data-rate="day" role="tab" aria-selected="false">日租</button>
+                    <button type="button" class="px-3 h-9 rounded-[4px] text-sm bg-base-100 shadow-sm is-active"
+                      data-rate="hour" role="tab" aria-selected="true">時租</button>
+                    <button type="button" class="px-3 h-9 rounded-[4px] text-sm text-base-content/50" data-rate="day"
+                      role="tab" aria-selected="false">日租</button>
                   </div>
                 </div>
 
                 <!-- 日期（daisyUI Cally 日曆 datepicker）-->
-                <button type="button" popovertarget="vd-cal-popover" id="vd-date-btn" class="input input-border w-full justify-between" style="anchor-name:--vd-cal" aria-label="預約日期">
+                <button type="button" popovertarget="vd-cal-popover" id="vd-date-btn"
+                  class="input input-border w-full justify-between" style="anchor-name:--vd-cal" aria-label="預約日期">
                   <span id="vd-date-label">2026/06/06</span>
                   <span class="material-symbols-rounded text-[18px] text-base-content/70">calendar_today</span>
                 </button>
-                <div popover id="vd-cal-popover" class="dropdown bg-base-100 rounded-box shadow-lg" style="position-anchor:--vd-cal">
+                <div popover id="vd-cal-popover" class="dropdown bg-base-100 rounded-box shadow-lg"
+                  style="position-anchor:--vd-cal">
                   <calendar-date id="vd-cal" class="cally p-3" value="2026-06-06">
-                    <svg aria-label="上一月" class="fill-current size-4" slot="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.75 19.5 8.25 12l7.5-7.5"></path></svg>
-                    <svg aria-label="下一月" class="fill-current size-4" slot="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path></svg>
+                    <svg aria-label="上一月" class="fill-current size-4" slot="previous" xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24">
+                      <path d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+                    </svg>
+                    <svg aria-label="下一月" class="fill-current size-4" slot="next" xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24">
+                      <path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+                    </svg>
                     <calendar-month></calendar-month>
                   </calendar-date>
                 </div>
@@ -167,14 +189,18 @@
                 <!-- 可預約時段時間軸（外框 20% base-content；內容由 JS 依日期/時間更新）-->
                 <div class="flex flex-col gap-10">
                   <div class="relative w-full">
-                    <div id="vd-timeline" class="vd-timeline h-7 rounded-field overflow-hidden border border-base-content/20"></div>
+                    <div id="vd-timeline"
+                      class="vd-timeline h-7 rounded-field overflow-hidden border border-base-content/20"></div>
                     <div id="vd-ticks"></div>
                   </div>
                   <!-- 圖例 -->
                   <div class="flex items-center gap-4 text-sm text-base-content/60">
-                    <span class="flex items-center gap-1.5"><span class="size-3 rounded-[4px] bg-primary border border-base-content/20"></span>已選擇</span>
-                    <span class="flex items-center gap-1.5"><span class="size-3 rounded-[4px] bg-base-300 border border-base-content/20"></span>可預約</span>
-                    <span class="flex items-center gap-1.5"><span class="size-3 rounded-[4px] bg-base-100 border border-base-content/20"></span>不可預約</span>
+                    <span class="flex items-center gap-1.5"><span
+                        class="size-3 rounded-[4px] bg-primary border border-base-content/20"></span>已選擇</span>
+                    <span class="flex items-center gap-1.5"><span
+                        class="size-3 rounded-[4px] bg-base-300 border border-base-content/20"></span>可預約</span>
+                    <span class="flex items-center gap-1.5"><span
+                        class="size-3 rounded-[4px] bg-base-100 border border-base-content/20"></span>不可預約</span>
                   </div>
                 </div>
 
@@ -211,11 +237,7 @@
             洛杉磯華僑文教服務中心
           </p>
           <div class="rounded-field border border-base-content/20 overflow-hidden aspect-[1149/601]">
-            <iframe
-              title="洛杉磯華僑文教服務中心地圖"
-              class="w-full h-full"
-              style="border:0"
-              loading="lazy"
+            <iframe title="洛杉磯華僑文教服務中心地圖" class="w-full h-full" style="border:0" loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
               src="https://www.google.com/maps?q=9443%20Telstar%20Ave%2C%20El%20Monte%2C%20CA%2091731&output=embed"></iframe>
           </div>
@@ -229,12 +251,22 @@
         <h2 class="reveal-clip text-3xl font-medium text-accent-alt">使用規範</h2>
         <div class="flex flex-col gap-2 text-base text-base-content/80 leading-7">
           <p>為維護全球海外文教中心之場地品質與使用秩序，請借用民眾與團體務必詳閱並配合以下規定：</p>
-          <p><strong class="font-bold">非營利與中立原則</strong><br />本中心屬非營利機構，場地設施僅供非營利性之文教及聯誼活動使用。嚴禁從事販賣、交易等任何商業行為，且辦理之活動不得涉及政黨、選舉造勢或其他政治與宗教活動。</p>
-          <p><strong class="font-bold">環境布置與復原</strong><br />申請單位須自行布置場地。為維護政府行政中立立場，現有設施與既有布置（如國旗、元首玉照等）一律不得任意移動、變更或掩蓋。活動結束時，請務必將全部器材撤離、確實完成垃圾分類並帶走，將場地恢復原狀。</p>
-          <p><strong class="font-bold">出借時間與超時規範</strong><br />請嚴格遵守各中心核准之出借時段，並準時結束。若有活動當日提早入場佈置或逾期超時之情形，將依各中心規範加計場地維護費。</p>
-          <p><strong class="font-bold">費用與保證金繳納</strong><br />經中心核准借用後，申請人最遲須於活動前 3 日（或依各中心規定時間）前繳清場地清潔維護費與保證金。活動結束後經中心同仁確認場地回復原狀且無污損，將全數退還保證金；如有毀損或污損，費用將自保證金中扣抵或由借用單位負賠償責任。</p>
-          <p><strong class="font-bold">中心優先使用權</strong><br />本中心對於場地保有優先使用權。場地核准出借後如因必要情形，中心得通知申請單位更改使用日期及時間，申請單位不得異議。若因此無法配合而取消，中心將無息全數退還已繳費用。</p>
-          <p><strong class="font-bold">免責與意外保險</strong><br />借用單位必須自行購買各項意外保險，並確實遵守場地容納人數限制。對於使用期間所發生之任何意外、傷亡、偷竊或疾病等情形，均由借用單位自行負責處理，本中心概不負任何賠償與法律責任。</p>
+          <p><strong
+              class="font-bold">非營利與中立原則</strong><br />本中心屬非營利機構，場地設施僅供非營利性之文教及聯誼活動使用。嚴禁從事販賣、交易等任何商業行為，且辦理之活動不得涉及政黨、選舉造勢或其他政治與宗教活動。
+          </p>
+          <p><strong
+              class="font-bold">環境布置與復原</strong><br />申請單位須自行布置場地。為維護政府行政中立立場，現有設施與既有布置（如國旗、元首玉照等）一律不得任意移動、變更或掩蓋。活動結束時，請務必將全部器材撤離、確實完成垃圾分類並帶走，將場地恢復原狀。
+          </p>
+          <p><strong
+              class="font-bold">出借時間與超時規範</strong><br />請嚴格遵守各中心核准之出借時段，並準時結束。若有活動當日提早入場佈置或逾期超時之情形，將依各中心規範加計場地維護費。</p>
+          <p><strong class="font-bold">費用與保證金繳納</strong><br />經中心核准借用後，申請人最遲須於活動前 3
+            日（或依各中心規定時間）前繳清場地清潔維護費與保證金。活動結束後經中心同仁確認場地回復原狀且無污損，將全數退還保證金；如有毀損或污損，費用將自保證金中扣抵或由借用單位負賠償責任。</p>
+          <p><strong
+              class="font-bold">中心優先使用權</strong><br />本中心對於場地保有優先使用權。場地核准出借後如因必要情形，中心得通知申請單位更改使用日期及時間，申請單位不得異議。若因此無法配合而取消，中心將無息全數退還已繳費用。
+          </p>
+          <p><strong
+              class="font-bold">免責與意外保險</strong><br />借用單位必須自行購買各項意外保險，並確實遵守場地容納人數限制。對於使用期間所發生之任何意外、傷亡、偷竊或疾病等情形，均由借用單位自行負責處理，本中心概不負任何賠償與法律責任。
+          </p>
         </div>
       </section>
 
@@ -252,4 +284,5 @@
   <script src="./scripts/main.js"></script>
   <script src="./scripts/venue-detail.js"></script>
 </body>
+
 </html>
