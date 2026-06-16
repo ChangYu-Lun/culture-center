@@ -35,7 +35,7 @@ class SiteHeader extends HTMLElement {
     try {
       loggedIn = localStorage.getItem('cc-logged-in') === '1';
       userName = localStorage.getItem('cc-user-name') || '會員';
-    } catch (_) {}
+    } catch (_) { }
     const initial = userName.slice(0, 1);
 
     const authNode = (btnSize) => loggedIn
@@ -49,7 +49,7 @@ class SiteHeader extends HTMLElement {
              <li><a href="./member-favorites.html">我的收藏</a></li>
              <li><a href="./member-notifications.html">會員通知</a></li>
              <li><a href="./member-profile.html">會員資料</a></li>
-             <li class="menu-disabled my-1"><div class="h-px bg-base-content/10 mx-2"></div></li>
+             <li class="menu-disabled my-1"><div class="h-px bg-base-content/10 p-0 mx-2"></div></li>
              <li><button type="button" data-logout>會員登出</button></li>
            </ul>
          </div>`
@@ -126,7 +126,7 @@ class SiteHeader extends HTMLElement {
     /* 登出 */
     this.addEventListener('click', (e) => {
       if (e.target.closest('[data-logout]')) {
-        try { localStorage.removeItem('cc-logged-in'); } catch (_) {}
+        try { localStorage.removeItem('cc-logged-in'); } catch (_) { }
         window.location.href = './index.html';
       }
     });
@@ -200,17 +200,17 @@ class MemberNav extends HTMLElement {
   connectedCallback() {
     const active = this.getAttribute('active') || '';
     let unread = true;
-    try { unread = localStorage.getItem('cc-unread') !== '0'; } catch (_) {}
+    try { unread = localStorage.getItem('cc-unread') !== '0'; } catch (_) { }
     const dot = unread
       ? '<span class="inline-block size-2 rounded-full bg-error" aria-label="有未讀通知"></span>'
       : '';
 
     const items = [
-      { key: 'overview',      href: './member.html',               icon: 'grid_view',    label: '會員總覽', short: '總覽' },
-      { key: 'records',       href: './member-records.html',       icon: 'receipt_long', label: '申請紀錄', short: '紀錄' },
-      { key: 'favorites',     href: './member-favorites.html',     icon: 'favorite',     label: '我的收藏', short: '收藏' },
+      { key: 'overview', href: './member.html', icon: 'grid_view', label: '會員總覽', short: '總覽' },
+      { key: 'records', href: './member-records.html', icon: 'receipt_long', label: '申請紀錄', short: '紀錄' },
+      { key: 'favorites', href: './member-favorites.html', icon: 'favorite', label: '我的收藏', short: '收藏' },
       { key: 'notifications', href: './member-notifications.html', icon: 'notifications', label: '會員通知', short: '通知', badge: true },
-      { key: 'profile',       href: './member-profile.html',       icon: 'person',       label: '會員資料', short: '資料' },
+      { key: 'profile', href: './member-profile.html', icon: 'person', label: '會員資料', short: '資料' },
     ];
 
     const menu = items.map((it) => {
