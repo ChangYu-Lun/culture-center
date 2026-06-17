@@ -96,8 +96,10 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---- 卡片 Hover CTA：注入縮圖中央的白底按鈕（樣式見 page.css）---------
    * 整卡已是 stretched link，CTA 純為視覺（pointer-events:none），點擊仍走整卡連結。*/
   (function injectCardCTA() {
-    // 是否首頁：首頁的「前往預約」CTA 直接連到對應申請表單第一步
-    const onIndex = (() => { const s = location.pathname.split('/').pop(); return s === '' || s === 'index.html'; })();
+    // 這些頁面（首頁、會員總覽推薦區）的「前往預約」CTA 直接連到對應申請表單第一步
+    // （去掉 .html 以同時相容 /member 與 /member.html 等乾淨網址）
+    const page = (location.pathname.split('/').pop() || '').replace(/\.html$/, '');
+    const ctaToApply = page === '' || page === 'index' || page === 'member';
     // 明細頁 → 申請表單第一步
     const APPLY = {
       'artifact-detail.html': './artifact-apply.html',
@@ -125,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const layer = document.createElement('span');
       layer.className = 'card-cta-layer';
 
-      if (onIndex && applyHref) {
+      if (ctaToApply && applyHref) {
         // 首頁：CTA 為真連結直達申請表單；點擊卡片其他處仍連到明細頁
         const a = document.createElement('a');
         a.className = 'card-cta-btn';
